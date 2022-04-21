@@ -17,15 +17,18 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan (basePackages = {
+@ComponentScan(basePackages = {
         "com.ou.admin.controllers",
         "com.ou.admin.repositories",
         "com.ou.admin.services",
         "com.ou.customer.controllers",
         "com.ou.customer.repositories",
-        "com.ou.customer.services"
+        "com.ou.customer.services",
+        "com.ou.common.controllers",
+        "com.ou.common.repositories",
+        "com.ou.common.services"
 })
-public class    WebApplicationContextConfig implements WebMvcConfigurer {
+public class WebApplicationContextConfig implements WebMvcConfigurer {
 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
@@ -41,7 +44,7 @@ public class    WebApplicationContextConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public InternalResourceViewResolver getInternalResourceViewResolver(){
+    public InternalResourceViewResolver getInternalResourceViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setViewClass(JstlView.class);
         resolver.setPrefix("/WEB-INF/**/jsp/");
@@ -50,7 +53,7 @@ public class    WebApplicationContextConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public Cloudinary cloudinary(){
+    public Cloudinary cloudinary() {
         Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
                 "cloud_name", "ou-project",
                 "api_key", "421955351642924",
@@ -60,7 +63,7 @@ public class    WebApplicationContextConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public CommonsMultipartResolver multipartResolver(){
+    public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
         resolver.setDefaultEncoding("UTF-8");
         return resolver;
