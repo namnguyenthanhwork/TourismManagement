@@ -10,19 +10,19 @@ public class DispatcherServletInitializer extends
         return new Class[]{
                 HibernateConfig.class,
                 TileConfig.class,
-                // SpringSecurityConfig.class
+                SpringSecurityConfig.class
         };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] {
+        return new Class[]{
                 WebApplicationContextConfig.class
         };
     }
 
     @Override
     protected String[] getServletMappings() {
-        return new String[] {"/"};
+        return new String[]{"/"};
     }
 }

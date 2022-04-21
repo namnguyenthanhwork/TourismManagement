@@ -19,21 +19,21 @@ import static org.hibernate.cfg.AvailableSettings.SHOW_SQL;
 
 @Configuration
 @PropertySource("classpath:database.properties")
-public class HibernateConfig{
+public class HibernateConfig {
     @Autowired
     private Environment env;
 
     @Bean
-    public LocalSessionFactoryBean getLocalSessionFactoryBean(){
+    public LocalSessionFactoryBean getLocalSessionFactoryBean() {
         LocalSessionFactoryBean factory = new LocalSessionFactoryBean();
-        factory.setPackagesToScan("com.ou.pojo");
+        factory.setPackagesToScan("com.ou.pojos");
         factory.setDataSource(getDataSource());
         factory.setHibernateProperties(getHibernateProperties());
         return factory;
     }
 
     @Bean
-    public DataSource getDataSource(){
+    public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("hibernate.connection.driverClass")));
         dataSource.setUrl(env.getProperty("hibernate.connection.url"));
@@ -42,7 +42,7 @@ public class HibernateConfig{
         return dataSource;
     }
 
-    private Properties getHibernateProperties(){
+    private Properties getHibernateProperties() {
         Properties properties = new Properties();
         properties.setProperty(SHOW_SQL, env.getProperty("hibernate.showSQL"));
         properties.setProperty(DIALECT, env.getProperty("hibernate.dialect"));
@@ -50,7 +50,7 @@ public class HibernateConfig{
     }
 
     @Bean
-    public HibernateTransactionManager transactionManager(){
+    public HibernateTransactionManager transactionManager() {
         HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager();
         hibernateTransactionManager.setSessionFactory(getLocalSessionFactoryBean().getObject());
         return hibernateTransactionManager;

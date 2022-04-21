@@ -3,11 +3,28 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-    <definition name = "a-base" template="/WEB-INF/admin/layout/base.jsp">
-            <put-attribute name="title" value="a-base"/>
-            <put-attribute name="header" value="/WEB-INF/admin/layout/header.jsp"/>
-            <put-attribute name="sidebar" value="/WEB-INF/admin/layout/sidebar.jsp"/>
-            <put-attribute name="content" value="/WEB-INF/admin/layout/content.jsp"/>
-            <put-attribute name="footer" value="/WEB-INF/admin/layout/footer.jsp"/>
+
+    <!-- Bases -->
+    <definition name="a-base" template="/WEB-INF/admin/layout/a-base.jsp">
+        <put-attribute name="a-title" value="a-base"/>
+        <put-attribute name="a-header" value="/WEB-INF/admin/layout/a-header.jsp"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/layout/a-blank.jsp"/>
+        <put-attribute name="a-sidebar" value="/WEB-INF/admin/layout/a-sidebar.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/layout/a-content.jsp"/>
+        <put-attribute name="a-footer" value="/WEB-INF/admin/layout/a-footer.jsp"/>
     </definition>
+
+    <!-- Homepage -->
+    <definition name="a-homepage" extends="a-base">
+        <put-attribute name="a-title" value="a-base"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-homepage.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-homepage.jsp"/>
+    </definition>
+
+    <definition name="s-homepage" extends="a-base">
+        <put-attribute name="a-title" value="s-base"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/s-homepage.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/s-homepage.jsp"/>
+    </definition>
+
 </tiles-definitions>

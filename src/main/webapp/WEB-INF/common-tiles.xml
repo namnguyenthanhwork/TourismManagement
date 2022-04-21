@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//ApacheSoftware Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+    <definition name="cm-base" template="/WEB-INF/common/layout/cm-base.jsp">
+        <put-attribute name="cm-title" value="cm-base"/>
+        <put-attribute name="cm-ref" value="/WEB-INF/common/layout/cm-blank.jsp"/>
+        <put-attribute name="cm-content" value="/WEB-INF/common/layout/cm-blank.jsp"/>
+    </definition>
+
+    <!-- Sign in -->
+    <definition name="cm-sign-in" extends="cm-base">
+        <put-attribute name="cm-ref" value="/WEB-INF/common/ref/cm-sign-in.jsp"/>
+        <put-attribute name="cm-content" value="/WEB-INF/common/jsp/cm-sign-in.jsp"/>
+    </definition>
+
+</tiles-definitions>

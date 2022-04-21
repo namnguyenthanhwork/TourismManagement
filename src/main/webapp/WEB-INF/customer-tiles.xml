@@ -3,11 +3,20 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-    <definition name = "c-base" template="/WEB-INF/customer/layout/base.jsp">
-        <put-attribute name="title" value="c-base"/>
-        <put-attribute name="header" value="/WEB-INF/customer/layout/header.jsp"/>
-        <put-attribute name="sidebar" value="/WEB-INF/customer/layout/sidebar.jsp"/>
-        <put-attribute name="content" value="/WEB-INF/customer/layout/content.jsp"/>
-        <put-attribute name="footer" value="/WEB-INF/customer/layout/footer.jsp"/>
+    <!-- base -->
+    <definition name="c-base" template="/WEB-INF/customer/layout/c-base.jsp">
+        <put-attribute name="c-title" value="c-base"/>
+        <put-attribute name="c-header" value="/WEB-INF/customer/layout/c-header.jsp"/>
+        <put-attribute name="c-ref" value="/WEB-INF/customer/layout/c-blank.jsp"/>
+        <put-attribute name="c-sidebar" value="/WEB-INF/customer/layout/c-sidebar.jsp"/>
+        <put-attribute name="c-content" value="/WEB-INF/customer/layout/c-content.jsp"/>
+        <put-attribute name="c-footer" value="/WEB-INF/customer/layout/c-footer.jsp"/>
+    </definition>
+
+    <!-- homepage -->
+    <definition name="c-homepage" extends="c-base">
+        <put-attribute name="c-title" value="c-base"/>
+        <put-attribute name="c-ref" value="/WEB-INF/customer/ref/c-homepage.jsp"/>
+        <put-attribute name="c-content" value="/WEB-INF/customer/jsp/c-homepage.jsp"/>
     </definition>
 </tiles-definitions>
