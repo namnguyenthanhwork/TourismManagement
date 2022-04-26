@@ -86,7 +86,6 @@ public class ARoleController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         role.setRoleName(httpServletRequest.getParameter("roleName"));
         boolean updateResult=cMRoleService.updateRole(role);
-
         return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 

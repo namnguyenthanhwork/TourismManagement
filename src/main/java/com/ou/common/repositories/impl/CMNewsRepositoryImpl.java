@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.*;
 import java.sql.Timestamp;
 import java.util.List;
@@ -74,12 +75,17 @@ public class CMNewsRepositoryImpl implements CMNewsRepository {
                 criteriaBuilder.equal(postEntityRoot.get("postSlug").as(String.class), newsSlug))
                 .multiselect( newsEntityRoot.get("newsId"), newsEntityRoot.get("newsCreatedDate"),
                         newsEntityRoot.get("newsLikeAmount"));
-        Object[] result = session.createQuery(criteriaQuery).getSingleResult();
-        NewsEntity news = pojoBeanFactory.getApplicationContext().getBean(NewsEntity.class);
-        news.setNewsId((Integer) result[0]);
-        news.setNewsCreatedDate(Timestamp.valueOf(result[1].toString()));
-        news.setNewsLikeAmount((Integer) result[2]);
-        return news;
+        try {
+            Object[] result = session.createQuery(criteriaQuery).getSingleResult();
+            NewsEntity news = pojoBeanFactory.getApplicationContext().getBean(NewsEntity.class);
+            news.setNewsId((Integer) result[0]);
+            news.setNewsCreatedDate(Timestamp.valueOf(result[1].toString()));
+            news.setNewsLikeAmount((Integer) result[2]);
+            return news;
+        }catch (NoResultException noResultException){
+            return null;
+        }
+
     }
 
     @Override
@@ -89,7 +95,11 @@ public class CMNewsRepositoryImpl implements CMNewsRepository {
         CriteriaQuery<NewsEntity> criteriaQuery = criteriaBuilder.createQuery(NewsEntity.class);
         Root<NewsEntity> newsEntityRoot = criteriaQuery.from(NewsEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(newsEntityRoot.get("newsId").as(Integer.class), newsId));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override

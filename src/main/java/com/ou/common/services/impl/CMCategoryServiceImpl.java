@@ -80,7 +80,15 @@ public class CMCategoryServiceImpl implements CMCategoryService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(categoryEntity.getCatName());
         categoryEntity.setCatSlug(slugUtil.getSlug());
-        return cMCategoryRepository.createCategory(categoryEntity);
+        if (cMCategoryRepository.getCategory(categoryEntity.getCatSlug()) != null)
+            return false;
+        boolean addResult;
+        try {
+            addResult = cMCategoryRepository.createCategory(categoryEntity);
+        } catch (Exception e) {
+            addResult = false;
+        }
+        return addResult;
     }
 
     @Override
@@ -88,7 +96,15 @@ public class CMCategoryServiceImpl implements CMCategoryService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(categoryEntity.getCatName());
         categoryEntity.setCatSlug(slugUtil.getSlug());
-        return cMCategoryRepository.updateCategory(categoryEntity);
+        if (cMCategoryRepository.getCategory(categoryEntity.getCatSlug()) != null)
+            return false;
+        boolean updateResult;
+        try {
+            updateResult = cMCategoryRepository.updateCategory(categoryEntity);
+        } catch (Exception e) {
+            updateResult = false;
+        }
+        return updateResult;
     }
 
     @Override

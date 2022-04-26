@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -50,7 +51,11 @@ public class CMNoteRepositoryImpl implements CMNoteRepository {
         CriteriaQuery<NoteEntity> criteriaQuery = criteriaBuilder.createQuery(NoteEntity.class);
         Root<NoteEntity> noteEntityRoot = criteriaQuery.from(NoteEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(noteEntityRoot.get("noteSlug").as(String.class), noteSlug));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override
@@ -60,7 +65,11 @@ public class CMNoteRepositoryImpl implements CMNoteRepository {
         CriteriaQuery<NoteEntity> criteriaQuery = criteriaBuilder.createQuery(NoteEntity.class);
         Root<NoteEntity> noteEntityRoot = criteriaQuery.from(NoteEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(noteEntityRoot.get("noteId").as(Integer.class), noteId));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -54,7 +55,11 @@ public class CMDepartureDateRepositoryImpl implements CMDepartureDateRepository 
         CriteriaQuery<DepartureDateEntity> criteriaQuery = criteriaBuilder.createQuery(DepartureDateEntity.class);
         Root<DepartureDateEntity> departureDateEntityRoot = criteriaQuery.from(DepartureDateEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(departureDateEntityRoot.get("dptId").as(Integer.class), dptId));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override

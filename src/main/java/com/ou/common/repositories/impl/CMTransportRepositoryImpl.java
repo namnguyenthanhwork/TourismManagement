@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -52,7 +53,11 @@ public class CMTransportRepositoryImpl implements CMTransportRepository {
         CriteriaQuery<TransportEntity> criteriaQuery = criteriaBuilder.createQuery(TransportEntity.class);
         Root<TransportEntity> transportEntityRoot = criteriaQuery.from(TransportEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(transportEntityRoot.get("tranSlug").as(String.class), tranSlug));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override
@@ -62,7 +67,11 @@ public class CMTransportRepositoryImpl implements CMTransportRepository {
         CriteriaQuery<TransportEntity> criteriaQuery = criteriaBuilder.createQuery(TransportEntity.class);
         Root<TransportEntity> transportEntityRoot = criteriaQuery.from(TransportEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(transportEntityRoot.get("tranId").as(Integer.class), tranId));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override

@@ -59,7 +59,15 @@ public class CMPaymentTypeServiceImpl implements CMPaymentTypeService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(paymentTypeEntity.getPaytName());
         paymentTypeEntity.setPaytSlug(slugUtil.getSlug());
-        return cMPaymentTypeRepository.createPaymentType(paymentTypeEntity);
+        if (cMPaymentTypeRepository.getPaymentType(paymentTypeEntity.getPaytSlug()) != null)
+            return false;
+        boolean addResult;
+        try {
+            addResult =  cMPaymentTypeRepository.createPaymentType(paymentTypeEntity);
+        } catch (Exception e) {
+            addResult = false;
+        }
+        return addResult;
     }
 
     @Override
@@ -67,7 +75,15 @@ public class CMPaymentTypeServiceImpl implements CMPaymentTypeService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(paymentTypeEntity.getPaytName());
         paymentTypeEntity.setPaytSlug(slugUtil.getSlug());
-        return cMPaymentTypeRepository.updatePaymentType(paymentTypeEntity);
+        if (cMPaymentTypeRepository.getPaymentType(paymentTypeEntity.getPaytSlug()) != null)
+            return false;
+        boolean updateResult;
+        try {
+            updateResult = cMPaymentTypeRepository.updatePaymentType(paymentTypeEntity);
+        } catch (Exception e) {
+            updateResult = false;
+        }
+        return updateResult;
     }
 
     @Override

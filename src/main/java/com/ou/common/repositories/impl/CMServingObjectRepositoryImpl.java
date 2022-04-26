@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -52,7 +53,11 @@ public class CMServingObjectRepositoryImpl implements CMServingObjectRepository 
         CriteriaQuery<ServingObjectEntity> criteriaQuery = criteriaBuilder.createQuery(ServingObjectEntity.class);
         Root<ServingObjectEntity> servingObjectEntityRoot = criteriaQuery.from(ServingObjectEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(servingObjectEntityRoot.get("svoSlug").as(String.class), svoSlug));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override
@@ -62,7 +67,11 @@ public class CMServingObjectRepositoryImpl implements CMServingObjectRepository 
         CriteriaQuery<ServingObjectEntity> criteriaQuery = criteriaBuilder.createQuery(ServingObjectEntity.class);
         Root<ServingObjectEntity> servingObjectEntityRoot = criteriaQuery.from(ServingObjectEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(servingObjectEntityRoot.get("svoId").as(Integer.class), svoId));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override

@@ -60,7 +60,15 @@ public class CMStorageServiceImpl implements CMStorageService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(storageEntity.getStorName());
         storageEntity.setStorSlug(slugUtil.getSlug());
-        return cMStorageRepository.createStorage(storageEntity);
+        if (cMStorageRepository.getStorage(storageEntity.getStorSlug()) != null)
+            return false;
+        boolean addResult;
+        try {
+            addResult = cMStorageRepository.createStorage(storageEntity);
+        } catch (Exception e) {
+            addResult = false;
+        }
+        return addResult;
     }
 
     @Override
@@ -68,7 +76,15 @@ public class CMStorageServiceImpl implements CMStorageService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(storageEntity.getStorName());
         storageEntity.setStorSlug(slugUtil.getSlug());
-        return cMStorageRepository.updateStorage(storageEntity);
+        if (cMStorageRepository.getStorage(storageEntity.getStorSlug()) != null)
+            return false;
+        boolean updateResult;
+        try {
+            updateResult = cMStorageRepository.updateStorage(storageEntity);
+        } catch (Exception e) {
+            updateResult = false;
+        }
+        return updateResult;
     }
 
     @Override

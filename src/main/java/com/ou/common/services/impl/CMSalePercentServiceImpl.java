@@ -60,7 +60,7 @@ public class CMSalePercentServiceImpl implements CMSalePercentService {
 
     @Override
     public boolean updateSalePercent(SalePercentEntity salePercentEntity) {
-        return cMSalePercentRepository.updateSalePercent(salePercentEntity);
+        return  cMSalePercentRepository.updateSalePercent(salePercentEntity);
     }
 
     @Override
