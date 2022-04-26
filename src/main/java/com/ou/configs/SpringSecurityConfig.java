@@ -21,9 +21,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
         "com.ou.common.repositories",
-        "com.ou.common.services"
+        "com.ou.common.services",
+        "com.ou.admin.repositories"
 })
-public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
+public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public UserDetailsService userDetailsService;
 
@@ -33,7 +34,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
     }
 
     @Bean
-    public RedirectStrategy redirectStrategy(){
+    public RedirectStrategy redirectStrategy() {
         return new DefaultRedirectStrategy();
     }
 

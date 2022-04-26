@@ -1,11 +1,12 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Category", schema = "TourismManagement")
-public class CategoryEntity {
+public class CategoryEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "cat_id")
@@ -16,9 +17,6 @@ public class CategoryEntity {
     @Basic
     @Column(name = "cat_slug")
     private String catSlug;
-    @Basic
-    @Column(name = "cat_is_active")
-    private byte catIsActive;
     @Basic
     @Column(name = "stor_id")
     private int storId;
@@ -47,13 +45,6 @@ public class CategoryEntity {
         this.catSlug = catSlug;
     }
 
-    public byte getCatIsActive() {
-        return catIsActive;
-    }
-
-    public void setCatIsActive(byte catIsActive) {
-        this.catIsActive = catIsActive;
-    }
 
     public int getStorId() {
         return storId;
@@ -68,11 +59,11 @@ public class CategoryEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CategoryEntity that = (CategoryEntity) o;
-        return catId == that.catId && catIsActive == that.catIsActive && storId == that.storId && Objects.equals(catName, that.catName) && Objects.equals(catSlug, that.catSlug);
+        return catId == that.catId && storId == that.storId && Objects.equals(catName, that.catName) && Objects.equals(catSlug, that.catSlug);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(catId, catName, catSlug, catIsActive, storId);
+        return Objects.hash(catId, catName, catSlug, storId);
     }
 }

@@ -1,23 +1,23 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @Table(name = "TourServingObject", schema = "TourismManagement")
 @IdClass(TourServingObjectEntityPK.class)
-public class TourServingObjectEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TourServingObjectEntity implements Serializable {
     @Id
     @Column(name = "tour_id")
     private int tourId;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "svo_id")
     private int svoId;
     @Basic
     @Column(name = "tour_price")
-    private Integer tourPrice;
+    private BigDecimal tourPrice = BigDecimal.ZERO;;
 
     public int getTourId() {
         return tourId;
@@ -35,11 +35,11 @@ public class TourServingObjectEntity {
         this.svoId = svoId;
     }
 
-    public Integer getTourPrice() {
+    public BigDecimal getTourPrice() {
         return tourPrice;
     }
 
-    public void setTourPrice(Integer tourPrice) {
+    public void setTourPrice(BigDecimal tourPrice) {
         this.tourPrice = tourPrice;
     }
 

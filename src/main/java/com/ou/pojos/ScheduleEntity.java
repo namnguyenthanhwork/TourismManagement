@@ -1,11 +1,12 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Schedule", schema = "TourismManagement")
-public class ScheduleEntity {
+public class ScheduleEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "sche_id")
@@ -19,9 +20,6 @@ public class ScheduleEntity {
     @Basic
     @Column(name = "sche_content")
     private String scheContent;
-    @Basic
-    @Column(name = "sche_is_active")
-    private byte scheIsActive;
     @Basic
     @Column(name = "tour_id")
     private int tourId;
@@ -58,13 +56,6 @@ public class ScheduleEntity {
         this.scheContent = scheContent;
     }
 
-    public byte getScheIsActive() {
-        return scheIsActive;
-    }
-
-    public void setScheIsActive(byte scheIsActive) {
-        this.scheIsActive = scheIsActive;
-    }
 
     public int getTourId() {
         return tourId;
@@ -79,11 +70,11 @@ public class ScheduleEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ScheduleEntity that = (ScheduleEntity) o;
-        return scheId == that.scheId && scheIsActive == that.scheIsActive && tourId == that.tourId && Objects.equals(scheTitle, that.scheTitle) && Objects.equals(scheSlug, that.scheSlug) && Objects.equals(scheContent, that.scheContent);
+        return scheId == that.scheId && tourId == that.tourId && Objects.equals(scheTitle, that.scheTitle) && Objects.equals(scheSlug, that.scheSlug) && Objects.equals(scheContent, that.scheContent);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(scheId, scheTitle, scheSlug, scheContent, scheIsActive, tourId);
+        return Objects.hash(scheId, scheTitle, scheSlug, scheContent, tourId);
     }
 }

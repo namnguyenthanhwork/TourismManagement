@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SHomePageController {
 
     @GetMapping("/trang-chu")
-    public String getStaffHomePage(){
+    public String getStaffHomePage() {
         return "s-homepage";
     }
 }

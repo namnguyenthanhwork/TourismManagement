@@ -1,11 +1,12 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Role", schema = "TourismManagement")
-public class RoleEntity {
+public class RoleEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "role_id")
@@ -16,9 +17,6 @@ public class RoleEntity {
     @Basic
     @Column(name = "role_slug")
     private String roleSlug;
-    @Basic
-    @Column(name = "role_is_active")
-    private byte roleIsActive;
 
     public int getRoleId() {
         return roleId;
@@ -44,24 +42,16 @@ public class RoleEntity {
         this.roleSlug = roleSlug;
     }
 
-    public byte getRoleIsActive() {
-        return roleIsActive;
-    }
-
-    public void setRoleIsActive(byte roleIsActive) {
-        this.roleIsActive = roleIsActive;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RoleEntity that = (RoleEntity) o;
-        return roleId == that.roleId && roleIsActive == that.roleIsActive && Objects.equals(roleName, that.roleName) && Objects.equals(roleSlug, that.roleSlug);
+        return roleId == that.roleId && Objects.equals(roleName, that.roleName) && Objects.equals(roleSlug, that.roleSlug);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(roleId, roleName, roleSlug, roleIsActive);
+        return Objects.hash(roleId, roleName, roleSlug);
     }
 }

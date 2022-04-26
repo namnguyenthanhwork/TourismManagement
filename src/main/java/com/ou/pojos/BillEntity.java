@@ -1,12 +1,14 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Bill", schema = "TourismManagement")
-public class BillEntity {
+public class BillEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "bill_id")
@@ -16,10 +18,10 @@ public class BillEntity {
     private Timestamp billCreatedDate;
     @Basic
     @Column(name = "bill_total_money")
-    private Integer billTotalMoney;
+    private BigDecimal billTotalMoney  = BigDecimal.ZERO;
     @Basic
     @Column(name = "bill_total_sale_money")
-    private Integer billTotalSaleMoney;
+    private BigDecimal billTotalSaleMoney= BigDecimal.ZERO;;
     @Basic
     @Column(name = "bill_ship_date")
     private Timestamp billShipDate;
@@ -58,19 +60,19 @@ public class BillEntity {
         this.billCreatedDate = billCreatedDate;
     }
 
-    public Integer getBillTotalMoney() {
+    public BigDecimal getBillTotalMoney() {
         return billTotalMoney;
     }
 
-    public void setBillTotalMoney(Integer billTotalMoney) {
+    public void setBillTotalMoney(BigDecimal billTotalMoney) {
         this.billTotalMoney = billTotalMoney;
     }
 
-    public Integer getBillTotalSaleMoney() {
+    public BigDecimal getBillTotalSaleMoney() {
         return billTotalSaleMoney;
     }
 
-    public void setBillTotalSaleMoney(Integer billTotalSaleMoney) {
+    public void setBillTotalSaleMoney(BigDecimal billTotalSaleMoney) {
         this.billTotalSaleMoney = billTotalSaleMoney;
     }
 

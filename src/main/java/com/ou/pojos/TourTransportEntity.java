@@ -1,17 +1,16 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "TourTransport", schema = "TourismManagement")
 @IdClass(TourTransportEntityPK.class)
-public class TourTransportEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TourTransportEntity implements Serializable {
     @Id
     @Column(name = "tour_id")
     private int tourId;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "tran_id")
     private int tranId;

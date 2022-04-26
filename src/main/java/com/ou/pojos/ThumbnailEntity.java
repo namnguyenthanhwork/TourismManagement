@@ -1,11 +1,12 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Thumbnail", schema = "TourismManagement")
-public class ThumbnailEntity {
+public class ThumbnailEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "thum_id")
@@ -13,9 +14,6 @@ public class ThumbnailEntity {
     @Basic
     @Column(name = "thum_image")
     private String thumImage;
-    @Basic
-    @Column(name = "thum_is_active")
-    private byte thumIsActive;
     @Basic
     @Column(name = "tour_id")
     private int tourId;
@@ -36,14 +34,6 @@ public class ThumbnailEntity {
         this.thumImage = thumImage;
     }
 
-    public byte getThumIsActive() {
-        return thumIsActive;
-    }
-
-    public void setThumIsActive(byte thumIsActive) {
-        this.thumIsActive = thumIsActive;
-    }
-
     public int getTourId() {
         return tourId;
     }
@@ -57,11 +47,11 @@ public class ThumbnailEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ThumbnailEntity that = (ThumbnailEntity) o;
-        return thumId == that.thumId && thumIsActive == that.thumIsActive && tourId == that.tourId && Objects.equals(thumImage, that.thumImage);
+        return thumId == that.thumId && tourId == that.tourId && Objects.equals(thumImage, that.thumImage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(thumId, thumImage, thumIsActive, tourId);
+        return Objects.hash(thumId, thumImage, tourId);
     }
 }

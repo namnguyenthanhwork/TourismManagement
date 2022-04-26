@@ -1,21 +1,19 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Tour", schema = "TourismManagement")
-public class TourEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TourEntity implements Serializable {
+
     @Id
     @Column(name = "tour_id")
     private int tourId;
     @Basic
     @Column(name = "tour_average_rating")
     private Integer tourAverageRating;
-    @Basic
-    @Column(name = "tour_is_active")
-    private byte tourIsActive;
     @Basic
     @Column(name = "sale_id")
     private Integer saleId;
@@ -39,14 +37,6 @@ public class TourEntity {
         this.tourAverageRating = tourAverageRating;
     }
 
-    public byte getTourIsActive() {
-        return tourIsActive;
-    }
-
-    public void setTourIsActive(byte tourIsActive) {
-        this.tourIsActive = tourIsActive;
-    }
-
     public Integer getSaleId() {
         return saleId;
     }
@@ -68,11 +58,11 @@ public class TourEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TourEntity that = (TourEntity) o;
-        return tourId == that.tourId && tourIsActive == that.tourIsActive && catId == that.catId && Objects.equals(tourAverageRating, that.tourAverageRating) && Objects.equals(saleId, that.saleId);
+        return tourId == that.tourId && catId == that.catId && Objects.equals(tourAverageRating, that.tourAverageRating) && Objects.equals(saleId, that.saleId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tourId, tourAverageRating, tourIsActive, saleId, catId);
+        return Objects.hash(tourId, tourAverageRating, saleId, catId);
     }
 }

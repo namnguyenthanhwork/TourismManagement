@@ -216,6 +216,7 @@
 <script src="<c:url value = '/resources/common/js/plugins/choices.min.js'/>"></script>
 <script src="<c:url value = '/resources/common/js/plugins/fullcalendar.min.js'/>"></script>
 <script src="<c:url value ='/resources/admin/js/admin.js'/>"></script>
+
 </body>
 
 </html>

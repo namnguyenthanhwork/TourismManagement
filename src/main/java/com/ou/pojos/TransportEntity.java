@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "Transport", schema = "TourismManagement")
-public class TransportEntity {
+public class TransportEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "tran_id")
@@ -16,9 +16,6 @@ public class TransportEntity {
     @Basic
     @Column(name = "tran_slug")
     private String tranSlug;
-    @Basic
-    @Column(name = "tran_is_active")
-    private byte tranIsActive;
 
     public int getTranId() {
         return tranId;
@@ -44,24 +41,17 @@ public class TransportEntity {
         this.tranSlug = tranSlug;
     }
 
-    public byte getTranIsActive() {
-        return tranIsActive;
-    }
-
-    public void setTranIsActive(byte tranIsActive) {
-        this.tranIsActive = tranIsActive;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TransportEntity that = (TransportEntity) o;
-        return tranId == that.tranId && tranIsActive == that.tranIsActive && Objects.equals(tranName, that.tranName) && Objects.equals(tranSlug, that.tranSlug);
+        return tranId == that.tranId && Objects.equals(tranName, that.tranName) && Objects.equals(tranSlug, that.tranSlug);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tranId, tranName, tranSlug, tranIsActive);
+        return Objects.hash(tranId, tranName, tranSlug);
     }
 }

@@ -19,9 +19,6 @@ public class ServiceEntity {
     @Basic
     @Column(name = "serv_content")
     private String servContent;
-    @Basic
-    @Column(name = "serv_is_active")
-    private byte servIsActive;
 
     public int getServId() {
         return servId;
@@ -55,24 +52,16 @@ public class ServiceEntity {
         this.servContent = servContent;
     }
 
-    public byte getServIsActive() {
-        return servIsActive;
-    }
-
-    public void setServIsActive(byte servIsActive) {
-        this.servIsActive = servIsActive;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ServiceEntity that = (ServiceEntity) o;
-        return servId == that.servId && servIsActive == that.servIsActive && Objects.equals(servTitle, that.servTitle) && Objects.equals(servSlug, that.servSlug) && Objects.equals(servContent, that.servContent);
+        return servId == that.servId && Objects.equals(servTitle, that.servTitle) && Objects.equals(servSlug, that.servSlug) && Objects.equals(servContent, that.servContent);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(servId, servTitle, servSlug, servContent, servIsActive);
+        return Objects.hash(servId, servTitle, servSlug, servContent);
     }
 }

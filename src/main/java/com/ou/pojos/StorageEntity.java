@@ -1,11 +1,12 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Storage", schema = "TourismManagement")
-public class StorageEntity {
+public class StorageEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "stor_id")
@@ -16,9 +17,6 @@ public class StorageEntity {
     @Basic
     @Column(name = "stor_slug")
     private String storSlug;
-    @Basic
-    @Column(name = "stor_is_active")
-    private byte storIsActive;
 
     public int getStorId() {
         return storId;
@@ -44,24 +42,16 @@ public class StorageEntity {
         this.storSlug = storSlug;
     }
 
-    public byte getStorIsActive() {
-        return storIsActive;
-    }
-
-    public void setStorIsActive(byte storIsActive) {
-        this.storIsActive = storIsActive;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StorageEntity that = (StorageEntity) o;
-        return storId == that.storId && storIsActive == that.storIsActive && Objects.equals(storName, that.storName) && Objects.equals(storSlug, that.storSlug);
+        return storId == that.storId && Objects.equals(storName, that.storName) && Objects.equals(storSlug, that.storSlug);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(storId, storName, storSlug, storIsActive);
+        return Objects.hash(storId, storName, storSlug);
     }
 }

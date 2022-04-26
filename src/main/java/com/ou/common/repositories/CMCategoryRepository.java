@@ -1,0 +1,19 @@
+package com.ou.common.repositories;
+
+import com.ou.pojos.CategoryEntity;
+
+import java.util.List;
+
+public interface CMCategoryRepository {
+    List<Object[]> getCategories(Integer pageIndex);
+
+    CategoryEntity getCategory(String catSlug);
+
+    CategoryEntity getCategory(Integer catId);
+
+    boolean createCategory(CategoryEntity categoryEntity);
+
+    boolean updateCategory(CategoryEntity categoryEntity);
+
+    boolean deleteCategory(CategoryEntity categoryEntity);
+}

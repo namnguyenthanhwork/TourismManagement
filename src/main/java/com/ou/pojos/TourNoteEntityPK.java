@@ -1,8 +1,6 @@
 package com.ou.pojos;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,11 +8,9 @@ import java.util.Objects;
 public class TourNoteEntityPK implements Serializable {
     @Column(name = "tour_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int tourId;
     @Column(name = "note_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int noteId;
 
     public int getTourId() {
