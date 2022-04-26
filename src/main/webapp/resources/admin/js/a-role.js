@@ -29,6 +29,7 @@ function getRoleInfo() {
 
 
 function deleteRole(roleSlug) {
+    alert("Bạn có thực sự muốn xóa?")
     fetch(`/TourismManagement/quan-tri-vien/vai-tro/${roleSlug}`, {
         method: 'delete'
     }).then(res => {
@@ -42,8 +43,7 @@ function deleteRole(roleSlug) {
         getRoleInfo()
     })
 }
-getRoleInfo()
 
-
-
-// fetch("http://localhost:8080/TourismManagement/quan-tri-vien/tour-du-lich/thong-tin?page=1").then(res=>res.json()).then(data=>console.info(data))
+$(document).ready(function (){
+    getRoleInfo()
+})

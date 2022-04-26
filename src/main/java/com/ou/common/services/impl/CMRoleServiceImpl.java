@@ -69,7 +69,15 @@ public class CMRoleServiceImpl implements CMRoleService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(roleEntity.getRoleName());
         roleEntity.setRoleSlug(slugUtil.getSlug());
-        return cMRoleRepository.updateRole(roleEntity);
+        if(getRoleAsJsonObj(roleEntity.getRoleSlug())!=null)
+            return false;
+        boolean updateResult;
+        try {
+            updateResult = cMRoleRepository.updateRole(roleEntity);
+        } catch (Exception e) {
+            updateResult = false;
+        }
+        return updateResult;
     }
 
     @Override

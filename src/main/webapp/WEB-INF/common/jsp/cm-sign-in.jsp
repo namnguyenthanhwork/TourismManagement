@@ -17,11 +17,11 @@
                                 <label for="username">Tên đăng nhập</label>
                                 <div class="mb-3">
                                     <input type="text" class="form-control" name="username" id="username"
-                                           placeholder="Nhập tài khoản"></div>
+                                           placeholder="Nhập tài khoản" value="username1"></div>
                                 <label for="password">Mật khẩu</label>
                                 <div class="mb-3 position-relative">
                                     <input type="password" class="form-control" name="password" id="password"
-                                           placeholder="Nhập mật khẩu">
+                                           placeholder="Nhập mật khẩu" value="12345678">
                                     <div class="show-password">
                                         <i class="far fa-eye"></i>
                                     </div>
