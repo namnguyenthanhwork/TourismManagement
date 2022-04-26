@@ -27,4 +27,314 @@
         <put-attribute name="a-content" value="/WEB-INF/admin/jsp/s-homepage.jsp"/>
     </definition>
 
+    <!-- Role management -->
+    <definition name="a-role" extends="a-base">
+        <put-attribute name="a-title" value="a-role"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-role.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-role.jsp"/>
+    </definition>
+    <definition name="a-role-created" extends="a-base">
+        <put-attribute name="a-title" value="a-role"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-role-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-role-created.jsp"/>
+    </definition>
+    <definition name="a-role-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-role"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-role-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-role-updated.jsp"/>
+    </definition>
+
+
+    <!-- Account management -->
+    <definition name="a-account" extends="a-base">
+        <put-attribute name="a-title" value="a-account"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-account.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-account.jsp"/>
+    </definition>
+    <definition name="a-account-created" extends="a-base">
+        <put-attribute name="a-title" value="a-account"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-account-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-account-created.jsp"/>
+    </definition>
+    <definition name="a-account-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-account"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-account-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-account-updated.jsp"/>
+    </definition>
+    <definition name="a-account-search" extends="a-base">
+        <put-attribute name="a-title" value="a-account"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-account-search.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-account-search.jsp"/>
+    </definition>
+
+    <!-- Sale percent management -->
+    <definition name="a-sale-percent" extends="a-base">
+        <put-attribute name="a-title" value="a-sale-percent"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-sale-percent.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-sale-percent.jsp"/>
+    </definition>
+    <definition name="a-sale-percent-created" extends="a-base">
+        <put-attribute name="a-title" value="a-sale-percent"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-sale-percent-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-sale-percent-created.jsp"/>
+    </definition>
+    <definition name="a-sale-percent-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-sale-percent"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-sale-percent-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-sale-percent-updated.jsp"/>
+    </definition>
+
+    <!-- Payment type management -->
+    <definition name="a-payment-type" extends="a-base">
+        <put-attribute name="a-title" value="a-payment-type"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-payment-type.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-payment-type.jsp"/>
+    </definition>
+    <definition name="a-payment-type-created" extends="a-base">
+        <put-attribute name="a-title" value="a-payment-type"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-payment-type-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-payment-type-created.jsp"/>
+    </definition>
+    <definition name="a-payment-type-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-payment-type"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-payment-type-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-payment-type-updated.jsp"/>
+    </definition>
+
+    <!-- Service management -->
+    <definition name="a-service" extends="a-base">
+        <put-attribute name="a-title" value="a-service"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-service.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-service.jsp"/>
+    </definition>
+    <definition name="a-service-created" extends="a-base">
+        <put-attribute name="a-title" value="a-service"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-service-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-service-created.jsp"/>
+    </definition>
+    <definition name="a-service-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-service"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-service-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-service-updated.jsp"/>
+    </definition>
+
+    <!-- Schedule management -->
+    <definition name="a-schedule" extends="a-base">
+        <put-attribute name="a-title" value="a-schedule"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-schedule.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-schedule.jsp"/>
+    </definition>
+    <definition name="a-schedule-created" extends="a-base">
+        <put-attribute name="a-title" value="a-schedule"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-schedule-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-schedule-created.jsp"/>
+    </definition>
+    <definition name="a-schedule-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-schedule"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-schedule-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-schedule-updated.jsp"/>
+    </definition>
+
+    <!-- Note management -->
+    <definition name="a-note" extends="a-base">
+        <put-attribute name="a-title" value="a-note"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-note.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-note.jsp"/>
+    </definition>
+    <definition name="a-note-created" extends="a-base">
+        <put-attribute name="a-title" value="a-note"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-note-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-note-created.jsp"/>
+    </definition>
+    <definition name="a-note-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-note"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-note-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-note-updated.jsp"/>
+    </definition>
+
+    <!-- Serving Object management -->
+    <definition name="a-serving-object" extends="a-base">
+        <put-attribute name="a-title" value="a-serving-object"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-serving-object.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-serving-object.jsp"/>
+    </definition>
+    <definition name="a-serving-object-created" extends="a-base">
+        <put-attribute name="a-title" value="a-serving-object"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-serving-object-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-serving-object-created.jsp"/>
+    </definition>
+    <definition name="a-serving-object-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-serving-object"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-serving-object-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-serving-object-updated.jsp"/>
+    </definition>
+
+    <!-- Feature management -->
+    <definition name="a-feature" extends="a-base">
+        <put-attribute name="a-title" value="a-feature"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-feature.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-feature.jsp"/>
+    </definition>
+    <definition name="a-feature-created" extends="a-base">
+        <put-attribute name="a-title" value="a-feature"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-feature-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-feature-created.jsp"/>
+    </definition>
+    <definition name="a-feature-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-feature"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-feature-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-feature-updated.jsp"/>
+    </definition>
+
+    <!-- Storage management -->
+    <definition name="a-storage" extends="a-base">
+        <put-attribute name="a-title" value="a-storage"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-storage.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-storage.jsp"/>
+    </definition>
+    <definition name="a-storage-created" extends="a-base">
+        <put-attribute name="a-title" value="a-storage"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-storage-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-storage-created.jsp"/>
+    </definition>
+    <definition name="a-storage-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-storage"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-storage-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-storage-updated.jsp"/>
+    </definition>
+
+    <!-- Transport management -->
+    <definition name="a-transport" extends="a-base">
+        <put-attribute name="a-title" value="a-transport"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-transport.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-transport.jsp"/>
+    </definition>
+    <definition name="a-transport-created" extends="a-base">
+        <put-attribute name="a-title" value="a-transport"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-transport-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-transport-created.jsp"/>
+    </definition>
+    <definition name="a-transport-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-transport"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-transport-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-transport-updated.jsp"/>
+    </definition>
+
+    <!-- Sale management -->
+    <definition name="a-sale" extends="a-base">
+        <put-attribute name="a-title" value="a-sale"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-sale.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-sale.jsp"/>
+    </definition>
+    <definition name="a-sale-created" extends="a-base">
+        <put-attribute name="a-title" value="a-sale"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-sale-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-sale-created.jsp"/>
+    </definition>
+    <definition name="a-sale-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-sale"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-sale-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-sale-updated.jsp"/>
+    </definition>
+
+
+    <!-- Departure date management -->
+    <definition name="a-departure-date" extends="a-base">
+        <put-attribute name="a-title" value="a-departure-date"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-departure-date.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-departure-date.jsp"/>
+    </definition>
+    <definition name="a-departure-date-created" extends="a-base">
+        <put-attribute name="a-title" value="a-departure-date"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-departure-date-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-departure-date-created.jsp"/>
+    </definition>
+    <definition name="a-departure-date-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-departure-date"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-departure-date-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-departure-date-updated.jsp"/>
+    </definition>
+
+
+    <!-- Category management -->
+    <definition name="a-category" extends="a-base">
+        <put-attribute name="a-title" value="a-category"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-category.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-category.jsp"/>
+    </definition>
+    <definition name="a-category-created" extends="a-base">
+        <put-attribute name="a-title" value="a-category"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-category-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-category-created.jsp"/>
+    </definition>
+    <definition name="a-category-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-category"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-category-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-category-updated.jsp"/>
+    </definition>
+
+    <!-- Bill management -->
+    <definition name="a-bill" extends="a-base">
+        <put-attribute name="a-title" value="a-bill"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-bill.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-bill.jsp"/>
+    </definition>
+
+    <!-- News management -->
+    <definition name="a-news" extends="a-base">
+        <put-attribute name="a-title" value="a-news"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-news.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-news.jsp"/>
+    </definition>
+    <definition name="a-news-created" extends="a-base">
+        <put-attribute name="a-title" value="a-news"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-news-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-news-created.jsp"/>
+    </definition>
+    <definition name="a-news-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-news"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-news-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-news-updated.jsp"/>
+    </definition>
+
+
+    <!-- Tour management -->
+    <definition name="a-tour" extends="a-base">
+        <put-attribute name="a-title" value="a-tour"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-tour.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-tour.jsp"/>
+    </definition>
+    <definition name="a-tour-created" extends="a-base">
+        <put-attribute name="a-title" value="a-tour"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-tour-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-tour-created.jsp"/>
+    </definition>
+    <definition name="a-tour-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-tour"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-tour-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-tour-updated.jsp"/>
+    </definition>
+    <definition name="a-tour-search" extends="a-base">
+        <put-attribute name="a-title" value="a-tour"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-tour-search.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-tour-search.jsp"/>
+    </definition>
+
+    <!-- Thumbnail management -->
+    <definition name="a-thumbnail" extends="a-base">
+        <put-attribute name="a-title" value="a-thumbnail"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-thumbnail.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-thumbnail.jsp"/>
+    </definition>
+    <definition name="a-thumbnail-created" extends="a-base">
+        <put-attribute name="a-title" value="a-thumbnail"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-thumbnail-created.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-thumbnail-created.jsp"/>
+    </definition>
+    <definition name="a-thumbnail-updated" extends="a-base">
+        <put-attribute name="a-title" value="a-thumbnail"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-thumbnail-updated.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-thumbnail-updated.jsp"/>
+    </definition>
+
 </tiles-definitions>

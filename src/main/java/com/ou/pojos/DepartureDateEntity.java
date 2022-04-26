@@ -1,12 +1,13 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "DepartureDate", schema = "TourismManagement")
-public class DepartureDateEntity {
+public class DepartureDateEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "dpt_id")
@@ -14,9 +15,6 @@ public class DepartureDateEntity {
     @Basic
     @Column(name = "dpt_date")
     private Timestamp dptDate;
-    @Basic
-    @Column(name = "dpt_is_active")
-    private byte dptIsActive;
     @Basic
     @Column(name = "fea_id")
     private int feaId;
@@ -37,14 +35,6 @@ public class DepartureDateEntity {
         this.dptDate = dptDate;
     }
 
-    public byte getDptIsActive() {
-        return dptIsActive;
-    }
-
-    public void setDptIsActive(byte dptIsActive) {
-        this.dptIsActive = dptIsActive;
-    }
-
     public int getFeaId() {
         return feaId;
     }
@@ -58,11 +48,11 @@ public class DepartureDateEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DepartureDateEntity that = (DepartureDateEntity) o;
-        return dptId == that.dptId && dptIsActive == that.dptIsActive && feaId == that.feaId && Objects.equals(dptDate, that.dptDate);
+        return dptId == that.dptId && feaId == that.feaId && Objects.equals(dptDate, that.dptDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(dptId, dptDate, dptIsActive, feaId);
+        return Objects.hash(dptId, dptDate, feaId);
     }
 }

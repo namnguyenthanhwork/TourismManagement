@@ -1,11 +1,12 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Note", schema = "TourismManagement")
-public class NoteEntity {
+public class NoteEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "note_id")
@@ -19,9 +20,6 @@ public class NoteEntity {
     @Basic
     @Column(name = "note_content")
     private String noteContent;
-    @Basic
-    @Column(name = "note_is_active")
-    private byte noteIsActive;
 
     public int getNoteId() {
         return noteId;
@@ -55,24 +53,16 @@ public class NoteEntity {
         this.noteContent = noteContent;
     }
 
-    public byte getNoteIsActive() {
-        return noteIsActive;
-    }
-
-    public void setNoteIsActive(byte noteIsActive) {
-        this.noteIsActive = noteIsActive;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NoteEntity that = (NoteEntity) o;
-        return noteId == that.noteId && noteIsActive == that.noteIsActive && Objects.equals(noteTitle, that.noteTitle) && Objects.equals(noteSlug, that.noteSlug) && Objects.equals(noteContent, that.noteContent);
+        return noteId == that.noteId && Objects.equals(noteTitle, that.noteTitle) && Objects.equals(noteSlug, that.noteSlug) && Objects.equals(noteContent, that.noteContent);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(noteId, noteTitle, noteSlug, noteContent, noteIsActive);
+        return Objects.hash(noteId, noteTitle, noteSlug, noteContent);
     }
 }

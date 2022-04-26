@@ -1,12 +1,13 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Sale", schema = "TourismManagement")
-public class SaleEntity {
+public class SaleEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "sale_id")
@@ -17,9 +18,6 @@ public class SaleEntity {
     @Basic
     @Column(name = "sale_to_date")
     private Timestamp saleToDate;
-    @Basic
-    @Column(name = "sale_is_active")
-    private byte saleIsActive;
     @Basic
     @Column(name = "sper_id")
     private int sperId;
@@ -48,13 +46,6 @@ public class SaleEntity {
         this.saleToDate = saleToDate;
     }
 
-    public byte getSaleIsActive() {
-        return saleIsActive;
-    }
-
-    public void setSaleIsActive(byte saleIsActive) {
-        this.saleIsActive = saleIsActive;
-    }
 
     public int getSperId() {
         return sperId;
@@ -69,11 +60,11 @@ public class SaleEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SaleEntity that = (SaleEntity) o;
-        return saleId == that.saleId && saleIsActive == that.saleIsActive && sperId == that.sperId && Objects.equals(saleFromDate, that.saleFromDate) && Objects.equals(saleToDate, that.saleToDate);
+        return saleId == that.saleId && sperId == that.sperId && Objects.equals(saleFromDate, that.saleFromDate) && Objects.equals(saleToDate, that.saleToDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(saleId, saleFromDate, saleToDate, saleIsActive, sperId);
+        return Objects.hash(saleId, saleFromDate, saleToDate, sperId);
     }
 }

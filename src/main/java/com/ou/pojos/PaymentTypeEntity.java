@@ -1,11 +1,12 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "PaymentType", schema = "TourismManagement")
-public class PaymentTypeEntity {
+public class PaymentTypeEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "payt_id")
@@ -16,9 +17,6 @@ public class PaymentTypeEntity {
     @Basic
     @Column(name = "payt_slug")
     private String paytSlug;
-    @Basic
-    @Column(name = "payt_is_active")
-    private byte paytIsActive;
 
     public int getPaytId() {
         return paytId;
@@ -44,24 +42,17 @@ public class PaymentTypeEntity {
         this.paytSlug = paytSlug;
     }
 
-    public byte getPaytIsActive() {
-        return paytIsActive;
-    }
-
-    public void setPaytIsActive(byte paytIsActive) {
-        this.paytIsActive = paytIsActive;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PaymentTypeEntity that = (PaymentTypeEntity) o;
-        return paytId == that.paytId && paytIsActive == that.paytIsActive && Objects.equals(paytName, that.paytName) && Objects.equals(paytSlug, that.paytSlug);
+        return paytId == that.paytId && Objects.equals(paytName, that.paytName) && Objects.equals(paytSlug, that.paytSlug);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(paytId, paytName, paytSlug, paytIsActive);
+        return Objects.hash(paytId, paytName, paytSlug);
     }
 }

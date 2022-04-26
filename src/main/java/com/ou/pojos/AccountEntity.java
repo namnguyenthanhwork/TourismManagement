@@ -1,14 +1,15 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Account", schema = "TourismManagement")
-public class AccountEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class AccountEntity implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "acc_id")
     private int accId;
     @Basic
@@ -44,9 +45,6 @@ public class AccountEntity {
     @Basic
     @Column(name = "acc_last_access")
     private Timestamp accLastAccess;
-    @Basic
-    @Column(name = "acc_is_active")
-    private byte accIsActive;
     @Basic
     @Column(name = "role_id")
     private int roleId;
@@ -147,14 +145,6 @@ public class AccountEntity {
         this.accLastAccess = accLastAccess;
     }
 
-    public byte getAccIsActive() {
-        return accIsActive;
-    }
-
-    public void setAccIsActive(byte accIsActive) {
-        this.accIsActive = accIsActive;
-    }
-
     public int getRoleId() {
         return roleId;
     }
@@ -168,11 +158,11 @@ public class AccountEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountEntity that = (AccountEntity) o;
-        return accId == that.accId && accIsActive == that.accIsActive && roleId == that.roleId && Objects.equals(accUsername, that.accUsername) && Objects.equals(accPassword, that.accPassword) && Objects.equals(accFirstName, that.accFirstName) && Objects.equals(accLastName, that.accLastName) && Objects.equals(accSex, that.accSex) && Objects.equals(accIdCard, that.accIdCard) && Objects.equals(accPhoneNumber, that.accPhoneNumber) && Objects.equals(accDateOfBirth, that.accDateOfBirth) && Objects.equals(accJoinedDate, that.accJoinedDate) && Objects.equals(accAvatar, that.accAvatar) && Objects.equals(accLastAccess, that.accLastAccess);
+        return accId == that.accId && roleId == that.roleId && Objects.equals(accUsername, that.accUsername) && Objects.equals(accPassword, that.accPassword) && Objects.equals(accFirstName, that.accFirstName) && Objects.equals(accLastName, that.accLastName) && Objects.equals(accSex, that.accSex) && Objects.equals(accIdCard, that.accIdCard) && Objects.equals(accPhoneNumber, that.accPhoneNumber) && Objects.equals(accDateOfBirth, that.accDateOfBirth) && Objects.equals(accJoinedDate, that.accJoinedDate) && Objects.equals(accAvatar, that.accAvatar) && Objects.equals(accLastAccess, that.accLastAccess);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accId, accUsername, accPassword, accFirstName, accLastName, accSex, accIdCard, accPhoneNumber, accDateOfBirth, accJoinedDate, accAvatar, accLastAccess, accIsActive, roleId);
+        return Objects.hash(accId, accUsername, accPassword, accFirstName, accLastName, accSex, accIdCard, accPhoneNumber, accDateOfBirth, accJoinedDate, accAvatar, accLastAccess, roleId);
     }
 }

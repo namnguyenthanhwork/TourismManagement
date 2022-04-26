@@ -10,7 +10,8 @@ public class DispatcherServletInitializer extends
         return new Class[]{
                 HibernateConfig.class,
                 TileConfig.class,
-                SpringSecurityConfig.class
+                SpringSecurityConfig.class,
+                BeanFactoryConfig.class
         };
     }
 

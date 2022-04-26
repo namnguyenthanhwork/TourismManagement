@@ -1,12 +1,13 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "PostComment", schema = "TourismManagement")
-public class PostCommentEntity {
+public class PostCommentEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "cmt_id")

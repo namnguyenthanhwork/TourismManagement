@@ -1,7 +1,5 @@
 package com.ou.configs;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +24,7 @@ import org.springframework.web.servlet.view.JstlView;
         "com.ou.customer.services",
         "com.ou.common.controllers",
         "com.ou.common.repositories",
-        "com.ou.common.services"
+        "com.ou.common.services",
 })
 public class WebApplicationContextConfig implements WebMvcConfigurer {
 
@@ -50,16 +48,6 @@ public class WebApplicationContextConfig implements WebMvcConfigurer {
         resolver.setPrefix("/WEB-INF/**/jsp/");
         resolver.setSuffix(".jsp");
         return resolver;
-    }
-
-    @Bean
-    public Cloudinary cloudinary() {
-        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-                "cloud_name", "ou-project",
-                "api_key", "421955351642924",
-                "api_secret", "Rje0WuUauR_yMP9NNSObeOoA-Rs",
-                "secure", true));
-        return cloudinary;
     }
 
     @Bean

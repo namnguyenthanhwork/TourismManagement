@@ -1,23 +1,24 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "TourDepartureDate", schema = "TourismManagement")
 @IdClass(TourDepartureDateEntityPK.class)
-public class TourDepartureDateEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TourDepartureDateEntity implements Serializable {
+
     @Id
     @Column(name = "tour_id")
     private int tourId;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
     @Column(name = "dpt_id")
     private int dptId;
     @Basic
     @Column(name = "tour_amount")
-    private Integer tourAmount;
+    private Integer tourAmount = 1;
 
     public int getTourId() {
         return tourId;

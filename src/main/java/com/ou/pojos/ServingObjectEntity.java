@@ -1,11 +1,12 @@
 package com.ou.pojos;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "ServingObject", schema = "TourismManagement")
-public class ServingObjectEntity {
+public class ServingObjectEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "svo_id")
@@ -16,9 +17,6 @@ public class ServingObjectEntity {
     @Basic
     @Column(name = "svo_slug")
     private String svoSlug;
-    @Basic
-    @Column(name = "svo_is_active")
-    private byte svoIsActive;
 
     public int getSvoId() {
         return svoId;
@@ -44,24 +42,16 @@ public class ServingObjectEntity {
         this.svoSlug = svoSlug;
     }
 
-    public byte getSvoIsActive() {
-        return svoIsActive;
-    }
-
-    public void setSvoIsActive(byte svoIsActive) {
-        this.svoIsActive = svoIsActive;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ServingObjectEntity that = (ServingObjectEntity) o;
-        return svoId == that.svoId && svoIsActive == that.svoIsActive && Objects.equals(svoName, that.svoName) && Objects.equals(svoSlug, that.svoSlug);
+        return svoId == that.svoId && Objects.equals(svoName, that.svoName) && Objects.equals(svoSlug, that.svoSlug);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(svoId, svoName, svoSlug, svoIsActive);
+        return Objects.hash(svoId, svoName, svoSlug);
     }
 }
