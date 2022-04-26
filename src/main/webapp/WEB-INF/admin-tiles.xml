@@ -18,12 +18,14 @@
     <definition name="a-homepage" extends="a-base">
         <put-attribute name="a-title" value="a-base"/>
         <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-homepage.jsp"/>
+        <put-attribute name="a-sidebar" value="/WEB-INF/admin/jsp/a-sidebar.jsp"/>
         <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-homepage.jsp"/>
     </definition>
 
     <definition name="s-homepage" extends="a-base">
         <put-attribute name="a-title" value="s-base"/>
         <put-attribute name="a-ref" value="/WEB-INF/admin/ref/s-homepage.jsp"/>
+        <put-attribute name="a-sidebar" value="/WEB-INF/admin/jsp/s-sidebar.jsp"/>
         <put-attribute name="a-content" value="/WEB-INF/admin/jsp/s-homepage.jsp"/>
     </definition>
 
