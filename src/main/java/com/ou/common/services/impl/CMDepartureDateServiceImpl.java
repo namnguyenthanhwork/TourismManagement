@@ -25,7 +25,7 @@ public class CMDepartureDateServiceImpl implements CMDepartureDateService {
     private BeanFactoryConfig.UtilBeanFactory utilBeanFactory;
 
     @Override
-    public JSONArray getDepartureDats(Integer pageIndex) {
+    public JSONArray getDepartureDates(Integer pageIndex) {
         List<Object[]> departureDates = cMDepartureDateRepository.getDepartureDates(pageIndex);
         JSONArray jsonArray = utilBeanFactory.getApplicationContext().getBean(JSONArray.class);
         departureDates.forEach(departureDate -> {
@@ -41,14 +41,14 @@ public class CMDepartureDateServiceImpl implements CMDepartureDateService {
     }
 
     @Override
-    public DepartureDateEntity getDepartureDatAsObj(Integer dptId) {
+    public DepartureDateEntity getDepartureDateAsObj(Integer dptId) {
         if (dptId == null)
             return null;
         return cMDepartureDateRepository.getDepartureDate(dptId);
     }
 
     @Override
-    public JSONObject getDepartureDatAsJsonObj(Integer dptId) {
+    public JSONObject getDepartureDateAsJsonObj(Integer dptId) {
         if (dptId == null)
             return null;
         JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
@@ -65,17 +65,18 @@ public class CMDepartureDateServiceImpl implements CMDepartureDateService {
     }
 
     @Override
-    public boolean createDepartureDat(DepartureDateEntity departureDateEntity) {
+    public boolean createDepartureDate(DepartureDateEntity departureDateEntity) {
         return cMDepartureDateRepository.createDepartureDate(departureDateEntity);
     }
 
     @Override
-    public boolean updateDepartureDat(DepartureDateEntity departureDateEntity) {
+    public boolean updateDepartureDate(DepartureDateEntity departureDateEntity) {
         return cMDepartureDateRepository.updateDepartureDate(departureDateEntity);
     }
 
     @Override
-    public boolean deleteDepartureDat(DepartureDateEntity departureDateEntity) {
+    public boolean deleteDepartureDate(DepartureDateEntity departureDateEntity) {
         return cMDepartureDateRepository.deleteDepartureDate(departureDateEntity);
     }
+
 }

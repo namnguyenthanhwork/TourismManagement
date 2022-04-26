@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -53,7 +54,11 @@ public class CMFeatureRepositoryImpl implements CMFeatureRepository {
         CriteriaQuery<FeatureEntity> criteriaQuery = criteriaBuilder.createQuery(FeatureEntity.class);
         Root<FeatureEntity> featureEntityRoot = criteriaQuery.from(FeatureEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(featureEntityRoot.get("feaSlug").as(String.class), feaSlug));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override
@@ -63,7 +68,11 @@ public class CMFeatureRepositoryImpl implements CMFeatureRepository {
         CriteriaQuery<FeatureEntity> criteriaQuery = criteriaBuilder.createQuery(FeatureEntity.class);
         Root<FeatureEntity> featureEntityRoot = criteriaQuery.from(FeatureEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(featureEntityRoot.get("feaId").as(Integer.class), feaId));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override

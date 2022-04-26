@@ -70,7 +70,11 @@ public class CMRoleRepositoryImpl implements CMRoleRepository {
         CriteriaQuery<RoleEntity> criteriaQuery = criteriaBuilder.createQuery(RoleEntity.class);
         Root<RoleEntity> roleEntityRoot = criteriaQuery.from(RoleEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(roleEntityRoot.get("roleId").as(Integer.class), roleId));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
 

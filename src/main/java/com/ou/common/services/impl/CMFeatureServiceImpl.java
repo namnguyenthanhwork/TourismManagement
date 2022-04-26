@@ -60,7 +60,15 @@ public class CMFeatureServiceImpl implements CMFeatureService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(featureEntity.getFeaName());
         featureEntity.setFeaSlug(slugUtil.getSlug());
-        return cMFeatureRepository.createFeature(featureEntity);
+        if (cMFeatureRepository.getFeature(featureEntity.getFeaSlug()) != null)
+            return false;
+        boolean addResult;
+        try {
+            addResult =  cMFeatureRepository.createFeature(featureEntity);
+        } catch (Exception e) {
+            addResult = false;
+        }
+        return addResult;
     }
 
     @Override
@@ -68,7 +76,15 @@ public class CMFeatureServiceImpl implements CMFeatureService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(featureEntity.getFeaName());
         featureEntity.setFeaSlug(slugUtil.getSlug());
-        return cMFeatureRepository.updateFeature(featureEntity);
+        if (cMFeatureRepository.getFeature(featureEntity.getFeaSlug()) != null)
+            return false;
+        boolean updateResult;
+        try {
+            updateResult = cMFeatureRepository.updateFeature(featureEntity);
+        } catch (Exception e) {
+            updateResult = false;
+        }
+        return updateResult;
     }
 
     @Override

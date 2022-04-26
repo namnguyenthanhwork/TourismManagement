@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -51,7 +52,11 @@ public class CMSalePercentRepositoryImpl implements CMSalePercentRepository {
         CriteriaQuery<SalePercentEntity> criteriaQuery = criteriaBuilder.createQuery(SalePercentEntity.class);
         Root<SalePercentEntity> salePercentEntityRoot = criteriaQuery.from(SalePercentEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(salePercentEntityRoot.get("salePercentId").as(Integer.class), salePercentId));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -51,7 +52,11 @@ public class CMServiceRepositoryImpl implements CMServiceRepository {
         CriteriaQuery<ServiceEntity> criteriaQuery = criteriaBuilder.createQuery(ServiceEntity.class);
         Root<ServiceEntity> serviceEntityRoot = criteriaQuery.from(ServiceEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(serviceEntityRoot.get("servSlug").as(String.class), servSlug));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override
@@ -61,7 +66,11 @@ public class CMServiceRepositoryImpl implements CMServiceRepository {
         CriteriaQuery<ServiceEntity> criteriaQuery = criteriaBuilder.createQuery(ServiceEntity.class);
         Root<ServiceEntity> serviceEntityRoot = criteriaQuery.from(ServiceEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(serviceEntityRoot.get("servId").as(Integer.class), servId));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override

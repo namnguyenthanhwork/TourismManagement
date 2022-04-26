@@ -5,15 +5,15 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public interface CMDepartureDateService {
-    JSONArray getDepartureDats(Integer pageIndex);
+    JSONArray getDepartureDates(Integer pageIndex);
 
-    DepartureDateEntity getDepartureDatAsObj(Integer dptId);
+    DepartureDateEntity getDepartureDateAsObj(Integer dptId);
 
-    JSONObject getDepartureDatAsJsonObj(Integer dptId);
+    JSONObject getDepartureDateAsJsonObj(Integer dptId);
 
-    boolean createDepartureDat(DepartureDateEntity departureDateEntity);
+    boolean createDepartureDate(DepartureDateEntity departureDateEntity);
 
-    boolean updateDepartureDat(DepartureDateEntity departureDateEntity);
+    boolean updateDepartureDate(DepartureDateEntity departureDateEntity);
 
-    boolean deleteDepartureDat(DepartureDateEntity departureDateEntity);
+    boolean deleteDepartureDate(DepartureDateEntity departureDateEntity);
 }

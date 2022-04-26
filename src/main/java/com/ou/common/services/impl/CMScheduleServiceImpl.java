@@ -64,7 +64,15 @@ public class CMScheduleServiceImpl implements CMScheduleService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(scheduleEntity.getScheTitle());
         scheduleEntity.setScheSlug(slugUtil.getSlug());
-        return cMScheduleRepository.createSchedule(scheduleEntity);
+        if (cMScheduleRepository.getSchedule(scheduleEntity.getScheSlug()) != null)
+            return false;
+        boolean addResult;
+        try {
+            addResult =  cMScheduleRepository.createSchedule(scheduleEntity);
+        } catch (Exception e) {
+            addResult = false;
+        }
+        return addResult;
     }
 
     @Override
@@ -72,7 +80,15 @@ public class CMScheduleServiceImpl implements CMScheduleService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(scheduleEntity.getScheTitle());
         scheduleEntity.setScheSlug(slugUtil.getSlug());
-        return cMScheduleRepository.updateSchedule(scheduleEntity);
+        if (cMScheduleRepository.getSchedule(scheduleEntity.getScheSlug()) != null)
+            return false;
+        boolean updateResult;
+        try {
+            updateResult = cMScheduleRepository.updateSchedule(scheduleEntity);
+        } catch (Exception e) {
+            updateResult = false;
+        }
+        return updateResult;
     }
 
     @Override

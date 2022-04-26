@@ -59,7 +59,15 @@ public class CMServingObjectServiceImpl implements CMServingObjectService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(servingObjectEntity.getSvoName());
         servingObjectEntity.setSvoSlug(slugUtil.getSlug());
-        return cMServingObjectRepository.createServingObject(servingObjectEntity);
+        if (cMServingObjectRepository.getServingObject(servingObjectEntity.getSvoSlug()) != null)
+            return false;
+        boolean addResult;
+        try {
+            addResult = cMServingObjectRepository.createServingObject(servingObjectEntity);
+        } catch (Exception e) {
+            addResult = false;
+        }
+        return addResult;
     }
 
     @Override
@@ -67,7 +75,15 @@ public class CMServingObjectServiceImpl implements CMServingObjectService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(servingObjectEntity.getSvoName());
         servingObjectEntity.setSvoSlug(slugUtil.getSlug());
-        return cMServingObjectRepository.updateServingObject(servingObjectEntity);
+        if (cMServingObjectRepository.getServingObject(servingObjectEntity.getSvoSlug()) != null)
+            return false;
+        boolean updateResult;
+        try {
+            updateResult =  cMServingObjectRepository.updateServingObject(servingObjectEntity);
+        } catch (Exception e) {
+            updateResult = false;
+        }
+        return updateResult;
     }
 
     @Override

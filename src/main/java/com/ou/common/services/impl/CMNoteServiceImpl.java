@@ -63,7 +63,15 @@ public class CMNoteServiceImpl implements CMNoteService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(noteEntity.getNoteTitle());
         noteEntity.setNoteSlug(slugUtil.getSlug());
-        return cMNoteRepository.createNote(noteEntity);
+        if (cMNoteRepository.getNote(noteEntity.getNoteSlug()) != null)
+            return false;
+        boolean addResult;
+        try {
+            addResult =  cMNoteRepository.createNote(noteEntity);
+        } catch (Exception e) {
+            addResult = false;
+        }
+        return addResult;
     }
 
     @Override
@@ -71,7 +79,15 @@ public class CMNoteServiceImpl implements CMNoteService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(noteEntity.getNoteTitle());
         noteEntity.setNoteSlug(slugUtil.getSlug());
-        return cMNoteRepository.updateSNote(noteEntity);
+        if (cMNoteRepository.getNote(noteEntity.getNoteSlug()) != null)
+            return false;
+        boolean updateResult;
+        try {
+            updateResult = cMNoteRepository.updateSNote(noteEntity);
+        } catch (Exception e) {
+            updateResult = false;
+        }
+        return updateResult;
     }
 
     @Override

@@ -87,12 +87,28 @@ public class CMAccountServiceImpl implements CMAccountService {
     @Override
     public boolean createAccount(AccountEntity accountEntity) {
         accountEntity.setAccJoinedDate(utilBeanFactory.getApplicationContext().getBean(Timestamp.class));
-        return cMAccountRepository.createAccount(accountEntity);
+        if (cMAccountRepository.getAccount(accountEntity.getAccUsername()) != null)
+            return false;
+        boolean addResult;
+        try {
+            addResult = cMAccountRepository.createAccount(accountEntity);
+        } catch (Exception e) {
+            addResult = false;
+        }
+        return addResult;
     }
 
     @Override
     public boolean updateAccount(AccountEntity accountEntity) {
-        return cMAccountRepository.updateAccount(accountEntity);
+        if (cMAccountRepository.getAccount(accountEntity.getAccUsername()) != null)
+            return false;
+        boolean updateResult;
+        try {
+            updateResult = cMAccountRepository.updateAccount(accountEntity);
+        } catch (Exception e) {
+            updateResult = false;
+        }
+        return updateResult;
     }
 
     @Override

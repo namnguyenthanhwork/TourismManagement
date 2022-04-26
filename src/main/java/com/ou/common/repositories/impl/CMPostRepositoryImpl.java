@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -27,7 +28,11 @@ public class CMPostRepositoryImpl implements CMPostRepository {
         CriteriaQuery<PostEntity> criteriaQuery = criteriaBuilder.createQuery(PostEntity.class);
         Root<PostEntity> postEntityRoot = criteriaQuery.from(PostEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(postEntityRoot.get("postSlug").as(String.class), postSlug));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override
@@ -37,7 +42,11 @@ public class CMPostRepositoryImpl implements CMPostRepository {
         CriteriaQuery<PostEntity> criteriaQuery = criteriaBuilder.createQuery(PostEntity.class);
         Root<PostEntity> postEntityRoot = criteriaQuery.from(PostEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(postEntityRoot.get("postId").as(Integer.class), postId));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override

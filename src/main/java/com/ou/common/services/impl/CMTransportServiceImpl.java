@@ -61,7 +61,15 @@ public class CMTransportServiceImpl implements CMTransportService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(transportEntity.getTranName());
         transportEntity.setTranSlug(slugUtil.getSlug());
-        return cMTransportRepository.createTransport(transportEntity);
+        if (cMTransportRepository.getTransport(transportEntity.getTranSlug()) != null)
+            return false;
+        boolean addResult;
+        try {
+            addResult = cMTransportRepository.createTransport(transportEntity);
+        } catch (Exception e) {
+            addResult = false;
+        }
+        return addResult;
     }
 
     @Override
@@ -69,7 +77,15 @@ public class CMTransportServiceImpl implements CMTransportService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(transportEntity.getTranName());
         transportEntity.setTranSlug(slugUtil.getSlug());
-        return cMTransportRepository.updateTransport(transportEntity);
+        if (cMTransportRepository.getTransport(transportEntity.getTranSlug()) != null)
+            return false;
+        boolean updateResult;
+        try {
+            updateResult = cMTransportRepository.updateTransport(transportEntity);
+        } catch (Exception e) {
+            updateResult = false;
+        }
+        return updateResult;
     }
 
     @Override

@@ -48,7 +48,7 @@ public class ADepartureDateController {
             pageIndex = Integer.parseInt(params.get("page"));
         } catch (NumberFormatException ignored) {
         }
-        JSONArray departureDates = cMDepartureDateService.getDepartureDats(pageIndex);
+        JSONArray departureDates = cMDepartureDateService.getDepartureDates(pageIndex);
         return new ResponseEntity<>(departureDates, departureDates.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 
@@ -66,7 +66,7 @@ public class ADepartureDateController {
         FeatureEntity feature = cMFeatureService.getFeatureAsObj(httpServletRequest.getParameter("feaSlug"));
         departureDate.setDptDate(Timestamp.valueOf(httpServletRequest.getParameter("dptDate")));
         departureDate.setFeaId(feature.getFeaId());
-        boolean createdResult = cMDepartureDateService.createDepartureDat(departureDate);
+        boolean createdResult = cMDepartureDateService.createDepartureDate(departureDate);
         return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
     }
 
@@ -78,7 +78,7 @@ public class ADepartureDateController {
 
     @GetMapping("/{dptId}/chinh-sua")
     public ResponseEntity<JSONObject> getDepartureDateDetail(@PathVariable Integer dptId) {
-        JSONObject departureDate = cMDepartureDateService.getDepartureDatAsJsonObj(dptId);
+        JSONObject departureDate = cMDepartureDateService.getDepartureDateAsJsonObj(dptId);
         if (departureDate == null)
             return new ResponseEntity<>(utilBeanFactory.getApplicationContext()
                     .getBean(JSONObject.class), HttpStatus.NO_CONTENT);
@@ -89,23 +89,23 @@ public class ADepartureDateController {
     public ResponseEntity<HttpStatus> updateDepartureDate(@PathVariable Integer dptId, HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
-        DepartureDateEntity departureDate = cMDepartureDateService.getDepartureDatAsObj(dptId);
+        DepartureDateEntity departureDate = cMDepartureDateService.getDepartureDateAsObj(dptId);
         FeatureEntity feature = cMFeatureService.getFeatureAsObj(httpServletRequest.getParameter("feaSlug"));
         if (departureDate == null)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         departureDate.setDptDate(Timestamp.valueOf(httpServletRequest.getParameter("dptDate")));
         departureDate.setFeaId(feature.getFeaId());
-        boolean updateResult = cMDepartureDateService.updateDepartureDat(departureDate);
+        boolean updateResult = cMDepartureDateService.updateDepartureDate(departureDate);
         return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 
     // delete
     @RequestMapping(value = "/{dptId}", method = RequestMethod.DELETE)
     public ResponseEntity<HttpStatus> deleteDepartureDate(@PathVariable Integer dptId) {
-        DepartureDateEntity departureDate = cMDepartureDateService.getDepartureDatAsObj(dptId);
+        DepartureDateEntity departureDate = cMDepartureDateService.getDepartureDateAsObj(dptId);
         if (departureDate == null)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        boolean deleteResult = cMDepartureDateService.deleteDepartureDat(departureDate);
+        boolean deleteResult = cMDepartureDateService.deleteDepartureDate(departureDate);
         return new ResponseEntity<>(deleteResult ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 }

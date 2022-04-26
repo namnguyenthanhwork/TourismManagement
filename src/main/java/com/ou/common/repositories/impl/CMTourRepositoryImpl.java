@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,16 +82,21 @@ public class CMTourRepositoryImpl implements CMTourRepository {
                         postEntityRoot.get("postTitle"), postEntityRoot.get("postSlug"),
                         postEntityRoot.get("postContent"), postEntityRoot.get("postCoverPage")
                 );
-        Object[] result = session.createQuery(criteriaQuery).getSingleResult();
-        TourEntity tour = pojoBeanFactory.getApplicationContext().getBean(TourEntity.class);
-        tour.setTourId((Integer) result[0]);
-        tour.setTourAverageRating((Integer) result[1]);
-        tour.setCatId((Integer) result[2]);
-        if (result[3] != null)
-            tour.setSaleId((Integer) result[3]);
-        else
-            tour.setSaleId(null);
-        return tour;
+        try {
+            Object[] result = session.createQuery(criteriaQuery).getSingleResult();
+            TourEntity tour = pojoBeanFactory.getApplicationContext().getBean(TourEntity.class);
+            tour.setTourId((Integer) result[0]);
+            tour.setTourAverageRating((Integer) result[1]);
+            tour.setCatId((Integer) result[2]);
+            if (result[3] != null)
+                tour.setSaleId((Integer) result[3]);
+            else
+                tour.setSaleId(null);
+            return tour;
+        }catch (NoResultException noResultException){
+            return null;
+        }
+
     }
 
     @Override
@@ -100,7 +106,11 @@ public class CMTourRepositoryImpl implements CMTourRepository {
         CriteriaQuery<TourEntity> criteriaQuery = criteriaBuilder.createQuery(TourEntity.class);
         Root<TourEntity> tourEntityRoot = criteriaQuery.from(TourEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(tourEntityRoot.get("tourId").as(Integer.class), tourId));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override

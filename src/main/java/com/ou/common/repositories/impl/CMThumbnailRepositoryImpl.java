@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -63,7 +64,11 @@ public class CMThumbnailRepositoryImpl implements CMThumbnailRepository {
         CriteriaQuery<ThumbnailEntity> criteriaQuery = criteriaBuilder.createQuery(ThumbnailEntity.class);
         Root<ThumbnailEntity> thumbnailEntityRoot = criteriaQuery.from(ThumbnailEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(thumbnailEntityRoot.get("thumId").as(Integer.class), thumId));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -50,7 +51,11 @@ public class CMStorageRepositoryImpl implements CMStorageRepository {
         CriteriaQuery<StorageEntity> criteriaQuery = criteriaBuilder.createQuery(StorageEntity.class);
         Root<StorageEntity> storageEntityRoot = criteriaQuery.from(StorageEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(storageEntityRoot.get("storSlug").as(String.class), storSlug));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override
@@ -60,7 +65,11 @@ public class CMStorageRepositoryImpl implements CMStorageRepository {
         CriteriaQuery<StorageEntity> criteriaQuery = criteriaBuilder.createQuery(StorageEntity.class);
         Root<StorageEntity> storageEntityRoot = criteriaQuery.from(StorageEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(storageEntityRoot.get("storId").as(Integer.class), storId));
-        return session.createQuery(criteriaQuery).getSingleResult();
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override
