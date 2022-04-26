@@ -3,6 +3,7 @@ package com.ou.admin.controllers;
 import com.ou.common.services.CMRoleService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.RoleEntity;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +85,8 @@ public class ARoleController {
         if (role == null)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         role.setRoleName(httpServletRequest.getParameter("roleName"));
-        boolean updateResult = cMRoleService.updateRole(role);
+        boolean updateResult=cMRoleService.updateRole(role);
+
         return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 

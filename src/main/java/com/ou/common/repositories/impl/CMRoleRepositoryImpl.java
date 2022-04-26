@@ -5,6 +5,8 @@ import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.RoleEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
@@ -14,6 +16,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -81,11 +84,11 @@ public class CMRoleRepositoryImpl implements CMRoleRepository {
     public boolean updateRole(RoleEntity roleEntity) {
         try {
             Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession().update(roleEntity);
-            return true;
-        } catch (Exception e) {
+        } catch(ConstraintViolationException e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return false;
         }
+        return true;
     }
 
     @Override

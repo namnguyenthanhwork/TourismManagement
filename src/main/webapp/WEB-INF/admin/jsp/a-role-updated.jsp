@@ -5,5 +5,5 @@
 		<label for="roleName">Tên vai trò</label>
 		<input type="text" class="form-control" id="roleName" name="roleName" placeholder="Tên vai trò">
 	</div>
-	<button type="submit" id="btnRoleUpdate" class="btn btn-primary">Chỉnh sửa</button>
+	<button type="submit" id="roleUpdatedBtn" class="btn btn-primary">Chỉnh sửa</button>
 </form>
