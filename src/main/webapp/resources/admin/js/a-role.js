@@ -11,20 +11,33 @@ function getRoleInfo() {
             }
             let rows = ''
             for (let i = 0; i < data.length; i++) {
-                rows += `<tr>
-                    <td>${data[i]['roleId']}</td>
-                    <td>${data[i]['roleName']}</td>
-                    <td>${data[i]['roleSlug']}</td>
+                rows += `
+                <tr>
                     <td>
-                    <button><a href="/TourismManagement/quan-tri-vien/vai-tro/${data[i]['roleSlug']}">Chỉnh sửa</a></button>
-                    <button onclick="deleteRole('${data[i]['roleSlug']}')">Xoá</button>
+                        <div class="d-flex px-2 py-1">
+                            <div class="d-flex flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm">${data[i]['roleId']}</h6>
+                            </div>
+                        </div>
                     </td>
-                </tr>`
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0">${data[i]['roleName']}</p>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">${data[i]['roleSlug']}</span>
+                    </td>
+                    <td class="text-center">
+                        <a href="/TourismManagement/quan-tri-vien/vai-tro/${data[i]['roleSlug']}" 
+                        class="badge badge-success text-capitalize">Chỉnh sửa</a>
+                        <a href="javascript:;" class="badge badge-danger text-capitalize"
+                           onclick="deleteRole('${data[i]['roleSlug']}')">Xoá</a>
+                    </td>
+                </tr>     
+                `
             }
-
             document.getElementById('roleInfo').innerHTML = rows
         })
-        
+
 }
 
 
