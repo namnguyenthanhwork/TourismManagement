@@ -13,7 +13,7 @@
         </a>
     </div>
     <hr class="horizontal dark mt-0">
-    
+
     <div class="collapse navbar-collapse w-auto max-height-vh-100 h-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -32,7 +32,7 @@
                 <div class="collapse" id="dashboardsExamples">
                     <ul class="nav ms-4 ps-3">
                         <li class="nav-item">
-                            <a class="nav-link active" href="<c:url value='/quan-tri-vien/tai-khoan'/>">
+                            <a class="nav-link" href="<c:url value='/quan-tri-vien/tai-khoan'/>">
                                 <span class="sidenav-normal">Tài khoản</span>
                             </a>
                         </li>
@@ -60,13 +60,13 @@
                 <div class="collapse" id="dashboardsExamples1">
                     <ul class="nav ms-4 ps-3">
                         <li class="nav-item">
-                            <a class="nav-link active" href="<c:url value='/quan-tri-vien/hoa-don'/>">
+                            <a class="nav-link" href="<c:url value='/quan-tri-vien/hoa-don'/>">
                                 <span class="sidenav-normal">Hoá đơn</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<c:url value='/quan-tri-vien/hinh-thuc-thanh-toan'/>">
-                                <span class="sidenav-normal">Hình thức TT</span>
+                                <span class="sidenav-normal">Loại thanh toán</span>
                             </a>
                         </li>
                     </ul>
@@ -117,7 +117,8 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="<c:url value='/quan-tri-vien/dac-diem-ngay-khoi-hanh'/>">
+                                        <a class="nav-link"
+                                            href="<c:url value='/quan-tri-vien/dac-diem-ngay-khoi-hanh'/>">
                                             <span class="sidenav-normal">Đặc điểm</span>
                                         </a>
                                     </li>
@@ -147,7 +148,8 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="<c:url value='/quan-tri-vien/phuong-tien-di-chuyen'/>">
+                                        <a class="nav-link"
+                                            href="<c:url value='/quan-tri-vien/phuong-tien-di-chuyen'/>">
                                             <span class="sidenav-normal">Phương tiện</span>
                                         </a>
                                     </li>
@@ -173,7 +175,7 @@
                 <div class="collapse" id="dashboardsExamples2">
                     <ul class="nav ms-4 ps-3">
                         <li class="nav-item">
-                            <a class="nav-link active" href="<c:url value='/quan-tri-vien/giam-gia'/>">
+                            <a class="nav-link" href="<c:url value='/quan-tri-vien/giam-gia'/>">
                                 <span class="sidenav-normal">Giảm giá</span>
                             </a>
                         </li>
@@ -201,7 +203,7 @@
                 <div class="collapse" id="dashboardsExamples2">
                     <ul class="nav ms-4 ps-3">
                         <li class="nav-item">
-                            <a class="nav-link active" href="<c:url value='/quan-tri-vien/thong-ke'/>">
+                            <a class="nav-link" href="<c:url value='/quan-tri-vien/thong-ke'/>">
                                 <span class="sidenav-normal">Thống kê</span>
                             </a>
                         </li>
@@ -212,7 +214,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>      
+            </li>
         </ul>
     </div>
 </aside>

@@ -13,12 +13,8 @@ function getRoleInfo() {
             for (let i = 0; i < data.length; i++) {
                 rows += `
                 <tr>
-                    <td>
-                        <div class="d-flex px-2 py-1">
-                            <div class="d-flex flex-column justify-content-center">
-                                <h6 class="mb-0 text-sm">${data[i]['roleId']}</h6>
-                            </div>
-                        </div>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">${data[i]['roleId']}</span>
                     </td>
                     <td>
                         <p class="text-xs font-weight-bold mb-0">${data[i]['roleName']}</p>
@@ -42,21 +38,40 @@ function getRoleInfo() {
 
 
 function deleteRole(roleSlug) {
-    alert("Bạn có thực sự muốn xóa?")
-    fetch(`/TourismManagement/quan-tri-vien/vai-tro/${roleSlug}`, {
-        method: 'delete'
-    }).then(res => {
-        return res.status
-    }).then(data => {
-        if (data == 409) {
-            alert("xoá thất bại")
-            return
+    Swal.fire({
+        title: 'Bạn có thực sự muốn xoá ?',
+        text: "Dữ liệu sẽ bị mất nếu bạn xoá nó!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ok'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/TourismManagement/quan-tri-vien/vai-tro/${roleSlug}`, {
+                method: 'delete'
+            }).then(res => {
+                return res.status
+            }).then(data => {
+                if (data == 409) {
+                    Swal.fire(
+                        'Xoá thất bại!',
+                        'Vui lòng kiểm tra lại.',
+                        'warning'
+                    )
+                    return
+                }
+                Swal.fire(
+                    'Đã xoá',
+                    'Dữ liệu đã được xoá thành công.',
+                    'success'
+                )
+                getRoleInfo()
+            })
         }
-        alert("xoá thành công")
-        getRoleInfo()
     })
 }
 
-$(document).ready(function (){
+$(document).ready(function () {
     getRoleInfo()
 })
