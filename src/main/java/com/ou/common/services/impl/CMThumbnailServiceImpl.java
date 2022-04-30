@@ -48,6 +48,13 @@ public class CMThumbnailServiceImpl implements CMThumbnailService {
     }
 
     @Override
+    public List<ThumbnailEntity> getThumbnailsByTourId(Integer tourId) {
+        if(tourId==null)
+            return null;
+        return cMThumbnailRepository.getThumbnailsByTourId(tourId);
+    }
+
+    @Override
     public JSONObject getThumbnailAsJsonObj(Integer thumId) {
         if (thumId == null)
             return null;

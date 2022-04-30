@@ -30,6 +30,9 @@ public class CMCategoryRepositoryImpl implements CMCategoryRepository {
     @Autowired
     private BeanFactoryConfig.UtilBeanFactory utilBeanFactory;
 
+    @Autowired
+    private BeanFactoryConfig.PojoBeanFactory pojoBeanFactory;
+
     @Override
     public List<Object[]> getCategories(Integer pageIndex) {
         Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
@@ -59,7 +62,7 @@ public class CMCategoryRepositoryImpl implements CMCategoryRepository {
         criteriaQuery.where(criteriaBuilder.equal(categoryEntityRoot.get("catSlug").as(String.class), catSlug));
         try {
             return session.createQuery(criteriaQuery).getSingleResult();
-        }catch (NoResultException noResultException){
+        } catch (NoResultException noResultException) {
             return null;
         }
     }
@@ -73,9 +76,36 @@ public class CMCategoryRepositoryImpl implements CMCategoryRepository {
         criteriaQuery.where(criteriaBuilder.equal(categoryEntityRoot.get("catId").as(Integer.class), catId));
         try {
             return session.createQuery(criteriaQuery).getSingleResult();
-        }catch (NoResultException noResultException){
+        } catch (NoResultException noResultException) {
             return null;
         }
+    }
+
+    @Override
+    public List<CategoryEntity> getCategoriesByStorageSlug(String storSlug) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<CategoryEntity> categoryEntityRoot = criteriaQuery.from(CategoryEntity.class);
+        Root<StorageEntity> storageEntityRoot = criteriaQuery.from(StorageEntity.class);
+        criteriaQuery.where(
+                        criteriaBuilder.equal(categoryEntityRoot.get("storId").as(Integer.class),
+                                storageEntityRoot.get("storId").as(Integer.class)),
+                        criteriaBuilder.equal(storageEntityRoot.get("storSlug").as(String.class), storSlug))
+                .multiselect(categoryEntityRoot.get("catId"), categoryEntityRoot.get("catName"),
+                        categoryEntityRoot.get("catSlug"));
+        List<CategoryEntity> categoryEntities =
+                pojoBeanFactory.getApplicationContext().getBean("categoryEntities", List.class);
+        List<Object[]> results = session.createQuery(criteriaQuery).getResultList();
+        results.forEach(result->{
+            CategoryEntity category = pojoBeanFactory.getApplicationContext().getBean(CategoryEntity.class);
+            category.setCatId((Integer) result[0]);
+            category.setCatName(result[1].toString());
+            category.setCatSlug((String) result[2]);
+            categoryEntities.add(category);
+        });
+
+        return categoryEntities;
     }
 
     @Override

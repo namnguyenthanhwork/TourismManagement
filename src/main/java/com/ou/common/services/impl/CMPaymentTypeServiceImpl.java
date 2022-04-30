@@ -75,7 +75,8 @@ public class CMPaymentTypeServiceImpl implements CMPaymentTypeService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(paymentTypeEntity.getPaytName());
         paymentTypeEntity.setPaytSlug(slugUtil.getSlug());
-        if (cMPaymentTypeRepository.getPaymentType(paymentTypeEntity.getPaytSlug()) != null)
+        PaymentTypeEntity updatePaymentType = cMPaymentTypeRepository.getPaymentType(paymentTypeEntity.getPaytSlug());
+        if (updatePaymentType != null && updatePaymentType.getPaytId()!=paymentTypeEntity.getPaytId())
             return false;
         boolean updateResult;
         try {

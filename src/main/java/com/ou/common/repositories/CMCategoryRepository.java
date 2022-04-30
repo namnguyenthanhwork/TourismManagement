@@ -11,6 +11,8 @@ public interface CMCategoryRepository {
 
     CategoryEntity getCategory(Integer catId);
 
+    List<CategoryEntity> getCategoriesByStorageSlug(String storSlug);
+
     boolean createCategory(CategoryEntity categoryEntity);
 
     boolean updateCategory(CategoryEntity categoryEntity);

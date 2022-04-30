@@ -75,6 +75,16 @@ public class CMScheduleRepositoryImpl implements CMScheduleRepository {
     }
 
     @Override
+    public List<ScheduleEntity> getSchedulesByTourId(Integer tourId) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<ScheduleEntity> criteriaQuery = criteriaBuilder.createQuery(ScheduleEntity.class);
+        Root<ScheduleEntity> scheduleEntityRoot = criteriaQuery.from(ScheduleEntity.class);
+        criteriaQuery.where(criteriaBuilder.equal(scheduleEntityRoot.get("tourId").as(Integer.class), tourId));
+        return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
     public boolean createSchedule(ScheduleEntity scheduleEntity) {
         try {
             Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession().save(scheduleEntity);

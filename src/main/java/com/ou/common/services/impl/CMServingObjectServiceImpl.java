@@ -41,6 +41,13 @@ public class CMServingObjectServiceImpl implements CMServingObjectService {
     }
 
     @Override
+    public ServingObjectEntity getServingObject(Integer svoId) {
+        if (svoId == null )
+            return null;
+        return cMServingObjectRepository.getServingObject(svoId);
+    }
+
+    @Override
     public JSONObject getServingObjectAsJsonObj(String svoSlug) {
         if (svoSlug == null || svoSlug.trim().length() == 0)
             return null;
@@ -75,7 +82,9 @@ public class CMServingObjectServiceImpl implements CMServingObjectService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(servingObjectEntity.getSvoName());
         servingObjectEntity.setSvoSlug(slugUtil.getSlug());
-        if (cMServingObjectRepository.getServingObject(servingObjectEntity.getSvoSlug()) != null)
+        ServingObjectEntity updateServingObject = cMServingObjectRepository.
+                getServingObject(servingObjectEntity.getSvoSlug());
+        if (updateServingObject!= null && updateServingObject.getSvoId()!=servingObjectEntity.getSvoId())
             return false;
         boolean updateResult;
         try {

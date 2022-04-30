@@ -100,7 +100,8 @@ public class CMAccountServiceImpl implements CMAccountService {
 
     @Override
     public boolean updateAccount(AccountEntity accountEntity) {
-        if (cMAccountRepository.getAccount(accountEntity.getAccUsername()) != null)
+        AccountEntity updateAccount = cMAccountRepository.getAccount(accountEntity.getAccUsername());
+        if ( updateAccount!= null && updateAccount.getAccId()!=accountEntity.getAccId())
             return false;
         boolean updateResult;
         try {

@@ -10,6 +10,8 @@ public interface CMThumbnailRepository {
 
     ThumbnailEntity getThumbnail(Integer thumId);
 
+    List<ThumbnailEntity> getThumbnailsByTourId(Integer tourId);
+
     boolean createThumbnail(ThumbnailEntity thumbnailEntity);
 
     boolean updateThumbnail(ThumbnailEntity thumbnailEntity);

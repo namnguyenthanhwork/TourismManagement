@@ -53,10 +53,11 @@ public class ANewsController {
     public ResponseEntity<JSONArray> getNewsInfo(@RequestParam Map<String, String> params) {
         Integer pageIndex = null;
         try {
-            pageIndex = Integer.parseInt(params.get("page"));
+            pageIndex = Integer.parseInt(params.get("trang"));
         } catch (NumberFormatException ignored) {
         }
-        JSONArray news = cMNewsService.getNews(pageIndex);
+        String kw= params.get("kw");
+        JSONArray news = cMNewsService.getNews(pageIndex, kw);
         return new ResponseEntity<>(news, news.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 
@@ -163,19 +164,5 @@ public class ANewsController {
             return new ResponseEntity<>(deleteResult ? HttpStatus.OK : HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);
-    }
-
-    // search
-    @GetMapping("/tim-kiem")
-    public String getNewsSearchView() {
-        return "a-news-search";
-    }
-
-    @GetMapping(value = "/tim-kiem/thong-tin")
-    public ResponseEntity<JSONArray> searchNewsInfo(
-            @RequestParam(required = false) Map<String, String> params ){
-        String kw= params.get("kw");
-        JSONArray news = cMNewsService.getNews(null, kw);
-        return new ResponseEntity<>(news, news.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 }

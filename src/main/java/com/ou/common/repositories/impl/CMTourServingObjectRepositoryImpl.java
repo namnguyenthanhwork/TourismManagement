@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -90,6 +91,20 @@ public class CMTourServingObjectRepositoryImpl implements CMTourServingObjectRep
         });
 
         return tourServingObjects;
+    }
+
+    @Override
+    public TourServingObjectEntity getTourServingObjectById(Integer tsvoId) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<TourServingObjectEntity> criteriaQuery = criteriaBuilder.createQuery(TourServingObjectEntity.class);
+        Root<TourServingObjectEntity> tourServingObjectEntityRoot = criteriaQuery.from(TourServingObjectEntity.class);
+        criteriaQuery.where(criteriaBuilder.equal(tourServingObjectEntityRoot.get("tsvoId").as(Integer.class), tsvoId));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
     }
 
     @Override

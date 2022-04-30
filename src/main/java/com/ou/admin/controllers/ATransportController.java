@@ -39,7 +39,7 @@ public class ATransportController {
     public ResponseEntity<JSONArray> getTransportsInfo(@RequestParam Map<String, String> params) {
         Integer pageIndex = null;
         try {
-            pageIndex = Integer.parseInt(params.get("page"));
+            pageIndex = Integer.parseInt(params.get("trang"));
         } catch (NumberFormatException ignored) {
         }
         JSONArray transports = cMTransportService.getTransports(pageIndex);

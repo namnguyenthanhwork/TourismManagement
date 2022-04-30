@@ -79,7 +79,8 @@ public class CMNoteServiceImpl implements CMNoteService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(noteEntity.getNoteTitle());
         noteEntity.setNoteSlug(slugUtil.getSlug());
-        if (cMNoteRepository.getNote(noteEntity.getNoteSlug()) != null)
+        NoteEntity updateNote = cMNoteRepository.getNote(noteEntity.getNoteSlug());
+        if ( updateNote!= null && updateNote.getNoteId()!= noteEntity.getNoteId())
             return false;
         boolean updateResult;
         try {

@@ -8,6 +8,7 @@ import java.util.List;
 public interface CMTourServingObjectRepository {
     List<TourServingObjectEntity> getTourServingObjectByTour(String tourSlug);
     List<TourServingObjectEntity> getTourServingObjectByServingObject(String svoSlug);
+    TourServingObjectEntity getTourServingObjectById(Integer tsvoId);
 
     boolean createTourServingObject(TourServingObjectEntity tourServingObjectEntity);
 

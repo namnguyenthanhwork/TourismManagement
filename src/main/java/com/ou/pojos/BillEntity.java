@@ -34,12 +34,14 @@ public class BillEntity implements Serializable {
     @Basic
     @Column(name = "bill_ship_city")
     private String billShipCity;
+
+    @Basic
+    @Column(name = "bill_is_paid")
+    private Boolean billIsPaid = false;
+
     @Basic
     @Column(name = "acc_id")
     private int accId;
-    @Basic
-    @Column(name = "tour_id")
-    private int tourId;
     @Basic
     @Column(name = "payt_id")
     private int paytId;
@@ -108,6 +110,14 @@ public class BillEntity implements Serializable {
         this.billShipCity = billShipCity;
     }
 
+    public Boolean getBillIsPaid() {
+        return billIsPaid;
+    }
+
+    public void setBillIsPaid(Boolean billIsPaid) {
+        this.billIsPaid = billIsPaid;
+    }
+
     public int getAccId() {
         return accId;
     }
@@ -116,13 +126,6 @@ public class BillEntity implements Serializable {
         this.accId = accId;
     }
 
-    public int getTourId() {
-        return tourId;
-    }
-
-    public void setTourId(int tourId) {
-        this.tourId = tourId;
-    }
 
     public int getPaytId() {
         return paytId;
@@ -137,11 +140,19 @@ public class BillEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BillEntity that = (BillEntity) o;
-        return billId == that.billId && accId == that.accId && tourId == that.tourId && paytId == that.paytId && Objects.equals(billCreatedDate, that.billCreatedDate) && Objects.equals(billTotalMoney, that.billTotalMoney) && Objects.equals(billTotalSaleMoney, that.billTotalSaleMoney) && Objects.equals(billShipDate, that.billShipDate) && Objects.equals(billShipAddress, that.billShipAddress) && Objects.equals(billShipDistrict, that.billShipDistrict) && Objects.equals(billShipCity, that.billShipCity);
+        return billId == that.billId && accId == that.accId  && paytId == that.paytId &&
+                Objects.equals(billCreatedDate, that.billCreatedDate) &&
+                Objects.equals(billTotalMoney, that.billTotalMoney) &&
+                Objects.equals(billTotalSaleMoney, that.billTotalSaleMoney) &&
+                Objects.equals(billShipDate, that.billShipDate) &&
+                Objects.equals(billShipAddress, that.billShipAddress) &&
+                Objects.equals(billShipDistrict, that.billShipDistrict) &&
+                Objects.equals(billShipCity, that.billShipCity) && billIsPaid==that.billIsPaid;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(billId, billCreatedDate, billTotalMoney, billTotalSaleMoney, billShipDate, billShipAddress, billShipDistrict, billShipCity, accId, tourId, paytId);
+        return Objects.hash(billId, billCreatedDate, billTotalMoney, billTotalSaleMoney, billShipDate, billShipAddress,
+                billShipDistrict, billShipCity, accId, paytId, billIsPaid);
     }
 }

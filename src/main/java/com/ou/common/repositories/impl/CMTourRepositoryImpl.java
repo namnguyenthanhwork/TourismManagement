@@ -13,9 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.persistence.NoResultException;
-import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Objects;
 
@@ -78,9 +79,7 @@ public class CMTourRepositoryImpl implements CMTourRepository {
                         criteriaBuilder.equal(postEntityRoot.get("postSlug").as(String.class), tourSlug))
                 .multiselect(
                         tourEntityRoot.get("tourId"), tourEntityRoot.get("tourAverageRating"),
-                        tourEntityRoot.get("catId"), tourEntityRoot.get("saleId"),
-                        postEntityRoot.get("postTitle"), postEntityRoot.get("postSlug"),
-                        postEntityRoot.get("postContent"), postEntityRoot.get("postCoverPage")
+                        tourEntityRoot.get("catId"), tourEntityRoot.get("saleId")
                 );
         try {
             Object[] result = session.createQuery(criteriaQuery).getSingleResult();

@@ -8,11 +8,9 @@ import java.util.Objects;
 @Table(name = "NewsLike", schema = "TourismManagement")
 @IdClass(NewsLikeEntityPK.class)
 public class NewsLikeEntity implements Serializable {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "news_id")
     private int newsId;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "acc_id")
     private int accId;

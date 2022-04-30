@@ -45,7 +45,7 @@ public class ASaleConroller {
     public ResponseEntity<JSONArray> getSalesInfo(@RequestParam Map<String, String> params) {
         Integer pageIndex = null;
         try {
-            pageIndex = Integer.parseInt(params.get("page"));
+            pageIndex = Integer.parseInt(params.get("trang"));
         } catch (NumberFormatException ignored) {
         }
         JSONArray sales = cMSaleService.getSales(pageIndex);

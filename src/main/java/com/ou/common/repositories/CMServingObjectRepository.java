@@ -9,7 +9,6 @@ public interface CMServingObjectRepository {
     List<Object[]> getServingObjects(Integer pageIndex);
 
     ServingObjectEntity getServingObject(String svoSlug);
-
     ServingObjectEntity getServingObject(Integer svoId);
 
     boolean createServingObject(ServingObjectEntity servingObjectEntity);

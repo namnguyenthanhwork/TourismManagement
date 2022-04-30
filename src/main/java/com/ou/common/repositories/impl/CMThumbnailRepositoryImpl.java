@@ -72,6 +72,16 @@ public class CMThumbnailRepositoryImpl implements CMThumbnailRepository {
     }
 
     @Override
+    public List<ThumbnailEntity> getThumbnailsByTourId(Integer tourId) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<ThumbnailEntity> criteriaQuery = criteriaBuilder.createQuery(ThumbnailEntity.class);
+        Root<ThumbnailEntity> thumbnailEntityRoot = criteriaQuery.from(ThumbnailEntity.class);
+        criteriaQuery.where(criteriaBuilder.equal(thumbnailEntityRoot.get("tourId").as(Integer.class), tourId));
+        return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
     public boolean createThumbnail(ThumbnailEntity thumbnailEntity) {
         try {
             Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession().save(thumbnailEntity);

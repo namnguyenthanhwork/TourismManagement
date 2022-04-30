@@ -47,7 +47,7 @@ public class AThumbnailController {
     public ResponseEntity<JSONArray> getThumbnailsInfo(@RequestParam Map<String, String> params) {
         Integer pageIndex = null;
         try {
-            pageIndex = Integer.parseInt(params.get("page"));
+            pageIndex = Integer.parseInt(params.get("trang"));
         } catch (NumberFormatException ignored) {
         }
         JSONArray thumbnails = cMThumbnailService.getThumbnails(pageIndex);
@@ -56,7 +56,7 @@ public class AThumbnailController {
 
     // create
     @GetMapping("/tao-moi")
-    public String getThumbnailtCreatedView() {
+    public String getThumbnailCreatedView() {
         return "a-thumbnail-created";
     }
 

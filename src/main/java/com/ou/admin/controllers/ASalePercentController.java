@@ -39,7 +39,7 @@ public class ASalePercentController {
     public ResponseEntity<JSONArray> getSalePercentsInfo(@RequestParam Map<String, String> params) {
         Integer pageIndex = null;
         try {
-            pageIndex = Integer.parseInt(params.get("page"));
+            pageIndex = Integer.parseInt(params.get("trang"));
         } catch (NumberFormatException ignored) {
         }
         JSONArray salePercents = cMSalePercentService.getSalePercents(pageIndex);

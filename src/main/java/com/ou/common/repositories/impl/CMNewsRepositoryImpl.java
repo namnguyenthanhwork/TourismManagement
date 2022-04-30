@@ -13,7 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.persistence.NoResultException;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +30,6 @@ public class CMNewsRepositoryImpl implements CMNewsRepository {
     @Autowired
     private BeanFactoryConfig.UtilBeanFactory utilBeanFactory;
 
-    
     @Autowired
     private BeanFactoryConfig.PojoBeanFactory pojoBeanFactory;
 
@@ -46,8 +48,8 @@ public class CMNewsRepositoryImpl implements CMNewsRepository {
             predicates.add(criteriaBuilder.like(postEntityRoot.get("postTitle").as(String.class),
                     String.format("%%%s%%", params[0].trim())));
         }
-        criteriaQuery.where(predicates.toArray(predicates.toArray(utilBeanFactory.getApplicationContext()
-                        .getBean("predicateArray", Predicate[].class))))
+        criteriaQuery.where(predicates.toArray(utilBeanFactory.getApplicationContext()
+                        .getBean("predicateArray", Predicate[].class)))
                 .multiselect(
                         newsEntityRoot.get("newsId"), newsEntityRoot.get("newsCreatedDate"),
                         newsEntityRoot.get("newsLikeAmount"), postEntityRoot.get("postTitle"),

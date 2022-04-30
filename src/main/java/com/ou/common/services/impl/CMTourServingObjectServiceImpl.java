@@ -28,6 +28,13 @@ public class CMTourServingObjectServiceImpl implements CMTourServingObjectServic
     }
 
     @Override
+    public TourServingObjectEntity getTourServingObjectById(Integer tsvoId) {
+        if (tsvoId == null )
+            return null;
+        return cMTourServingObjectRepository.getTourServingObjectById(tsvoId);
+    }
+
+    @Override
     public boolean createTourServingObject(TourServingObjectEntity tourServingObjectEntity) {
         return cMTourServingObjectRepository.createTourServingObject(tourServingObjectEntity);
     }

@@ -3,7 +3,6 @@ package com.ou.admin.controllers;
 import com.ou.common.services.CMRoleService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.RoleEntity;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,7 @@ public class ARoleController {
     public ResponseEntity<JSONArray> getRolesInfo(@RequestParam Map<String, String> params) {
         Integer pageIndex = null;
         try {
-            pageIndex = Integer.parseInt(params.get("page"));
+            pageIndex = Integer.parseInt(params.get("trang"));
         } catch (NumberFormatException ignored) {
         }
         JSONArray roles = cMRoleService.getRoles(pageIndex);

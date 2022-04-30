@@ -26,4 +26,5 @@
         <put-attribute name="c-ref" value="/WEB-INF/customer/ref/c-sign-up.jsp"/>
         <put-attribute name="c-content" value="/WEB-INF/customer/jsp/c-sign-up.jsp"/>
     </definition>
+
 </tiles-definitions>
