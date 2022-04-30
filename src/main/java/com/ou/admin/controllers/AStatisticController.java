@@ -17,7 +17,6 @@ import java.util.Map;
 @Controller
 @RequestMapping(path = "/quan-tri-vien/thong-ke")
 public class AStatisticController {
-
     @Autowired
     private AStatisticService aStatisticService;
 
