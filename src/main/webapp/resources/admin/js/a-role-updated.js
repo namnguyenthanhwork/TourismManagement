@@ -9,7 +9,7 @@ function getRoleInfo(){
             alert("thông tin trống")
             return
         }
-        document.getElementById('roleName').value = data['roleName'];
+        $("#roleName").val(data['roleName']);
     })
 }
 
