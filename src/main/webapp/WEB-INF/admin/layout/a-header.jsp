@@ -7,7 +7,7 @@
     <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/TourismManagement/quan-tri-vien/trang-chu">Trang chủ</a></li>
+                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="<c:url value='/quan-tri-vien/trang-chu' />">Trang chủ</a></li>
                 <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Bảng điều khiển</li>
             </ol>
             <h6 class="font-weight-bolder mb-0">Bảng điều khiển</h6>
@@ -15,7 +15,7 @@
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <ul class="ms-md-auto navbar-nav justify-content-end">
                 <li class="nav-item d-flex align-items-center">
-                    <a href="/auth/dang-xuat"
+                    <a href="<c:url value='/auth/dang-xuat' />"
                        class="nav-link text-body font-weight-bold px-0">
                         <i class="fa fa-user me-sm-1"></i>
                         <span class="d-sm-inline d-none">Đăng xuất</span>

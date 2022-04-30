@@ -1,27 +1,33 @@
 package com.ou.configs;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.ou.pojos.*;
-import com.ou.utils.PageUtil;
-import com.ou.utils.SlugUtil;
+import com.ou.utils.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.env.Environment;
 
 import javax.persistence.criteria.Predicate;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Configuration
+@PropertySource("classpath:mail.properties")
+@PropertySource("classpath:momo.properties")
+@PropertySource("classpath:sms.properties")
+@PropertySource("classpath:cloudinary.properties")
 public class BeanFactoryConfig {
 
     @Bean
@@ -33,6 +39,7 @@ public class BeanFactoryConfig {
     public PojoBeanFactory pojoBeanFactory() {
         return new PojoBeanFactory();
     }
+
 
     public static class PojoBeanFactory implements ApplicationContextAware {
         private ApplicationContext applicationContext;
@@ -208,55 +215,73 @@ public class BeanFactoryConfig {
             return new TourTransportEntity();
         }
 
+        @Bean
+        @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+        public BillTourServingObjectEntity billTourServingObjectEntity() {
+            return new BillTourServingObjectEntity();
+        }
 
         @Bean(name = "newsLikeEntityList")
         @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-        public List<NewsLikeEntity> newsLikeEntityList(){
+        public List<NewsLikeEntity> newsLikeEntityList() {
             return new ArrayList<>();
         }
 
         @Bean(name = "postCommentEntityList")
         @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-        public List<PostCommentEntity> postCommentEntityList(){
+        public List<PostCommentEntity> postCommentEntityList() {
             return new ArrayList<>();
         }
 
         @Bean(name = "tourDepartureDateEntityList")
         @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-        public List<TourDepartureDateEntity> tourDepartureDateEntityList(){
+        public List<TourDepartureDateEntity> tourDepartureDateEntityList() {
             return new ArrayList<>();
         }
 
         @Bean(name = "tourNoteEntityList")
         @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-        public List<TourNoteEntity> tourNoteEntityList(){
+        public List<TourNoteEntity> tourNoteEntityList() {
             return new ArrayList<>();
         }
 
         @Bean(name = "tourRatingEntityList")
         @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-        public List<TourRatingEntity> tourRatingEntityList(){
+        public List<TourRatingEntity> tourRatingEntityList() {
             return new ArrayList<>();
         }
 
         @Bean(name = "tourServiceEntityList")
         @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-        public List<TourServiceEntity> tourServiceEntityList(){
+        public List<TourServiceEntity> tourServiceEntityList() {
             return new ArrayList<>();
         }
 
         @Bean(name = "tourServingObjectEntityList")
         @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-        public List<TourServingObjectEntity> tourServingObjectEntityList(){
+        public List<TourServingObjectEntity> tourServingObjectEntityList() {
             return new ArrayList<>();
         }
 
         @Bean(name = "tourTransportEntityList")
         @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-        public List<TourTransportEntity> tourTransportEntityList(){
+        public List<TourTransportEntity> tourTransportEntityList() {
+            return new ArrayList<>();
+        }
+
+        @Bean(name = "billTourServingObjectEntities")
+        @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+        public List<BillTourServingObjectEntity> billTourServingObjectEntities() {
+            return new ArrayList<>();
+        }
+
+        @Bean(name = "categoryEntities")
+        @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+        public List<CategoryEntity> categoryEntities() {
             return new ArrayList<>();
         }
     }
+
 
     public static class UtilBeanFactory implements ApplicationContextAware {
         private ApplicationContext applicationContext;
@@ -265,19 +290,18 @@ public class BeanFactoryConfig {
             return applicationContext;
         }
 
+        @Autowired
+        public Environment env;
+
         @Override
         public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
             this.applicationContext = applicationContext;
         }
 
         @Bean
-        public Cloudinary cloudinary() {
-            Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-                    "cloud_name", "ou-project",
-                    "api_key", "421955351642924",
-                    "api_secret", "Rje0WuUauR_yMP9NNSObeOoA-Rs",
-                    "secure", true));
-            return cloudinary;
+        @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+        public PageUtil pageUtil() {
+            return new PageUtil();
         }
 
         @Bean
@@ -286,9 +310,28 @@ public class BeanFactoryConfig {
         }
 
         @Bean
-        @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-        public PageUtil pageUtil() {
-            return new PageUtil();
+        public MailUtil mailUtil() {
+            return new MailUtil(env, new Properties());
+        }
+
+        @Bean
+        public SMSUtil smsUtil() {
+            return new SMSUtil(env);
+        }
+
+        @Bean
+        public MomoUtil momoUtil() {
+            return new MomoUtil();
+        }
+
+        @Bean
+        public Cloudinary cloudinary() {
+            Map<String, Object> configs = new HashMap<>();
+            configs.put("cloud_name", env.getProperty("cloudinary.cloud_name"));
+            configs.put("api_key", env.getProperty("cloudinary.api_key"));
+            configs.put("api_secret", env.getProperty("cloudinary.api_secret"));
+            configs.put("secure", env.getProperty("cloudinary.secure"));
+            return new Cloudinary(configs);
         }
 
         @Bean
@@ -326,7 +369,39 @@ public class BeanFactoryConfig {
         public Predicate[] predicateArray() {
             return new Predicate[]{};
         }
-    }
 
+
+        @Bean(name = "atomicReference")
+        @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+        public AtomicReference<Integer> atomicReference() {
+            return new AtomicReference<>(0);
+        }
+
+        @Bean(name = "stringList")
+        @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+        public List<String> stringList() {
+            return new ArrayList<>();
+        }
+
+        @Bean(name = "slugList")
+        @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+        public List<String> slugList() {
+            return new ArrayList<>();
+        }
+
+        @Bean(name = "numberList")
+        @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+        public List<Integer> numberList() {
+            return new ArrayList<>();
+        }
+
+        @Bean
+        @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+        public BigDecimal bigDecimal() {
+            return new BigDecimal(0);
+        }
+
+
+    }
 
 }

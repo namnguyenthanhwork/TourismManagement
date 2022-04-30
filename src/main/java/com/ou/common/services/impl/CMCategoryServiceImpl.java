@@ -58,6 +58,13 @@ public class CMCategoryServiceImpl implements CMCategoryService {
     }
 
     @Override
+    public List<CategoryEntity> getCategoriesByStorageSlug(String storSlug) {
+        if (storSlug == null || storSlug.trim().length() == 0)
+            return null;
+        return cMCategoryRepository.getCategoriesByStorageSlug(storSlug);
+    }
+
+    @Override
     public JSONObject getCategoryAsJsonObj(String catSlug) {
         if (catSlug == null || catSlug.trim().length() == 0)
             return null;
@@ -96,7 +103,8 @@ public class CMCategoryServiceImpl implements CMCategoryService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(categoryEntity.getCatName());
         categoryEntity.setCatSlug(slugUtil.getSlug());
-        if (cMCategoryRepository.getCategory(categoryEntity.getCatSlug()) != null)
+        CategoryEntity updateCategory = cMCategoryRepository.getCategory(categoryEntity.getCatSlug());
+        if (updateCategory!= null && updateCategory.getCatId()!=categoryEntity.getCatId())
             return false;
         boolean updateResult;
         try {

@@ -2,6 +2,8 @@ package com.ou.common.services.impl;
 
 
 import com.ou.common.repositories.*;
+import com.ou.common.services.CMScheduleService;
+import com.ou.common.services.CMThumbnailService;
 import com.ou.common.services.CMTourService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.*;
@@ -57,16 +59,24 @@ public class CMTourServiceImpl implements CMTourService {
     private CMTourTransportRepository cMTourTransportRepository;
 
     @Autowired
+    private CMScheduleService cMScheduleService;
+
+    @Autowired
+    private CMThumbnailService cMThumbnailService;
+
+    @Autowired
     private BeanFactoryConfig.UtilBeanFactory utilBeanFactory;
 
 
-    private void setAdditionTourInformation(JSONObject jsonObject, String tourSlug){
-
+    private void setAdditionTourInformation(JSONObject jsonObject, String tourSlug) {
         JSONArray services = utilBeanFactory.getApplicationContext().getBean(JSONArray.class);
         JSONArray notes = utilBeanFactory.getApplicationContext().getBean(JSONArray.class);
         JSONArray servingObjects = utilBeanFactory.getApplicationContext().getBean(JSONArray.class);
         JSONArray departureDates = utilBeanFactory.getApplicationContext().getBean(JSONArray.class);
         JSONArray transports = utilBeanFactory.getApplicationContext().getBean(JSONArray.class);
+        JSONArray thumbnails = utilBeanFactory.getApplicationContext().getBean(JSONArray.class);
+        JSONArray schedules = utilBeanFactory.getApplicationContext().getBean(JSONArray.class);
+        TourEntity tour = cMTourRepository.getTour(tourSlug);
         cMTourServiceRepository.getTourServiceByTour(tourSlug).forEach(tourServiceEntity -> {
             ServiceEntity service = cMServiceRepository.getService(tourServiceEntity.getServId());
             JSONObject servJson = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
@@ -117,11 +127,28 @@ public class CMTourServiceImpl implements CMTourService {
             transports.add(tranJson);
         });
 
+        cMScheduleService.getSchedulesByTourId(tour.getTourId()).forEach(scheduleEntity -> {
+            JSONObject scheduleJson = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+            scheduleJson.put("scheId", scheduleEntity.getScheId());
+            scheduleJson.put("scheTitle", scheduleEntity.getScheTitle());
+            scheduleJson.put("scheSlug", scheduleEntity.getScheSlug());
+            scheduleJson.put("scheContent", scheduleEntity.getScheContent());
+            schedules.add(scheduleJson);
+        });
+
+        cMThumbnailService.getThumbnailsByTourId(tour.getTourId()).forEach(thumbnailEntity -> {
+            JSONObject thumJson = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+            thumJson.put("thumId", thumbnailEntity.getThumId());
+            thumJson.put("thumImage", thumbnailEntity.getThumImage());
+            thumbnails.add(thumJson);
+        });
+
         jsonObject.put("services", services);
         jsonObject.put("notes", notes);
         jsonObject.put("servingObjects", servingObjects);
         jsonObject.put("departureDates", departureDates);
         jsonObject.put("transports", transports);
+        jsonObject.put("schedules", schedules);
     }
 
     @Override

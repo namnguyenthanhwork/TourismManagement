@@ -77,7 +77,8 @@ public class CMTransportServiceImpl implements CMTransportService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(transportEntity.getTranName());
         transportEntity.setTranSlug(slugUtil.getSlug());
-        if (cMTransportRepository.getTransport(transportEntity.getTranSlug()) != null)
+        TransportEntity updateTransport = cMTransportRepository.getTransport(transportEntity.getTranSlug());
+        if (updateTransport != null && updateTransport.getTranId()!=transportEntity.getTranId())
             return false;
         boolean updateResult;
         try {

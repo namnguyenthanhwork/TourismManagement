@@ -137,10 +137,11 @@ public class ATourController {
     public ResponseEntity<JSONArray> getToursInfo(@RequestParam(required = false) Map<String, String> params) {
         Integer pageIndex = null;
         try {
-            pageIndex = Integer.parseInt(params.get("page"));
+            pageIndex = Integer.parseInt(params.get("trang"));
         } catch (NumberFormatException ignored) {
         }
-        JSONArray tours = cMTourService.getTours(pageIndex);
+        String kw = params.get("kw");
+        JSONArray tours = cMTourService.getTours(pageIndex, kw);
         return new ResponseEntity<>(tours, tours.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 
@@ -280,19 +281,5 @@ public class ATourController {
 
     }
 
-    // search
-    @GetMapping("/tim-kiem")
-    public String getTourSearchView() {
-        return "a-tour-search";
-    }
-
-
-    @GetMapping(value = "/tim-kiem/thong-tin")
-    public ResponseEntity<JSONArray> searchTourInfo(
-            @RequestParam(required = false) Map<String, String> params ){
-        String kw= params.get("kw");
-        JSONArray tours = cMTourService.getTours(null, kw);
-        return new ResponseEntity<>(tours, tours.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
-    }
 }
 

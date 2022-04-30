@@ -82,10 +82,11 @@ public class AAccountController {
     public ResponseEntity<JSONArray> getAccountsInfo(@RequestParam Map<String, String> params) {
         Integer pageIndex = null;
         try {
-            pageIndex = Integer.parseInt(params.get("page"));
+            pageIndex = Integer.parseInt(params.get("trang"));
         } catch (NumberFormatException ignored) {
         }
-        JSONArray accounts = cMAccountService.getAccounts(pageIndex);
+        String kw= params.get("kw");
+        JSONArray accounts = cMAccountService.getAccounts(pageIndex, kw);
         return new ResponseEntity<>(accounts, accounts.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 
@@ -146,19 +147,4 @@ public class AAccountController {
         return new ResponseEntity<>(deleteResult ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 
-
-    // search
-    @GetMapping("/tim-kiem")
-    public String getAccountSearchView() {
-        return "a-account-search";
-    }
-
-
-    @GetMapping(value = "/tim-kiem/thong-tin")
-    public ResponseEntity<JSONArray> searchAccountInfo(
-            @RequestParam(required = false) Map<String, String> params ){
-        String kw= params.get("kw");
-        JSONArray accounts = cMAccountService.getAccounts(null, kw);
-        return new ResponseEntity<>(accounts, accounts.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
-    }
 }

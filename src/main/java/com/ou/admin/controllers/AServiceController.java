@@ -38,7 +38,7 @@ public class AServiceController {
     public ResponseEntity<JSONArray> getServicesInfo(@RequestParam Map<String, String> params) {
         Integer pageIndex = null;
         try {
-            pageIndex = Integer.parseInt(params.get("page"));
+            pageIndex = Integer.parseInt(params.get("trang"));
         } catch (NumberFormatException ignored) {
         }
         JSONArray services = cMServiceService.getServices(pageIndex);

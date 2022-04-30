@@ -7,17 +7,27 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "TourServingObject", schema = "TourismManagement")
-@IdClass(TourServingObjectEntityPK.class)
 public class TourServingObjectEntity implements Serializable {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tsvo_id")
+    private int tsvoId;
+
     @Column(name = "tour_id")
     private int tourId;
-    @Id
+
     @Column(name = "svo_id")
     private int svoId;
     @Basic
     @Column(name = "tour_price")
     private BigDecimal tourPrice = BigDecimal.ZERO;;
+
+    public int getTsvoId(){return tsvoId;}
+
+    public void setTsvoId(int tsvoId){
+        this.tsvoId=tsvoId;
+    }
 
     public int getTourId() {
         return tourId;
@@ -48,11 +58,11 @@ public class TourServingObjectEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TourServingObjectEntity that = (TourServingObjectEntity) o;
-        return tourId == that.tourId && svoId == that.svoId && Objects.equals(tourPrice, that.tourPrice);
+        return tsvoId==that.tsvoId && tourId == that.tourId && svoId == that.svoId && Objects.equals(tourPrice, that.tourPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tourId, svoId, tourPrice);
+        return Objects.hash(tsvoId, tourId, svoId, tourPrice);
     }
 }

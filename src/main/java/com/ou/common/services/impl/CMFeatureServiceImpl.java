@@ -76,7 +76,8 @@ public class CMFeatureServiceImpl implements CMFeatureService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(featureEntity.getFeaName());
         featureEntity.setFeaSlug(slugUtil.getSlug());
-        if (cMFeatureRepository.getFeature(featureEntity.getFeaSlug()) != null)
+        FeatureEntity updateFeature = cMFeatureRepository.getFeature(featureEntity.getFeaSlug());
+        if (updateFeature != null && updateFeature.getFeaId() != featureEntity.getFeaId())
             return false;
         boolean updateResult;
         try {

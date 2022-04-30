@@ -5,7 +5,6 @@ import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.RoleEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -17,7 +16,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 

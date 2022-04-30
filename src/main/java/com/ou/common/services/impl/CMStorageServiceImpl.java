@@ -76,7 +76,8 @@ public class CMStorageServiceImpl implements CMStorageService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(storageEntity.getStorName());
         storageEntity.setStorSlug(slugUtil.getSlug());
-        if (cMStorageRepository.getStorage(storageEntity.getStorSlug()) != null)
+        StorageEntity updateStorage = cMStorageRepository.getStorage(storageEntity.getStorSlug());
+        if (updateStorage!= null && updateStorage.getStorId()!=storageEntity.getStorId())
             return false;
         boolean updateResult;
         try {

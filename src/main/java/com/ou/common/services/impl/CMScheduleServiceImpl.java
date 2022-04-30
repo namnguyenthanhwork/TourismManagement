@@ -60,6 +60,13 @@ public class CMScheduleServiceImpl implements CMScheduleService {
     }
 
     @Override
+    public List<ScheduleEntity> getSchedulesByTourId(Integer tourId) {
+        if(tourId==null)
+            return null;
+        return cMScheduleRepository.getSchedulesByTourId(tourId);
+    }
+
+    @Override
     public boolean createSchedule(ScheduleEntity scheduleEntity) {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(scheduleEntity.getScheTitle());
@@ -80,7 +87,8 @@ public class CMScheduleServiceImpl implements CMScheduleService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(scheduleEntity.getScheTitle());
         scheduleEntity.setScheSlug(slugUtil.getSlug());
-        if (cMScheduleRepository.getSchedule(scheduleEntity.getScheSlug()) != null)
+        ScheduleEntity updateSchedule =cMScheduleRepository.getSchedule(scheduleEntity.getScheSlug());
+        if (updateSchedule != null && updateSchedule.getScheId()!=scheduleEntity.getScheId())
             return false;
         boolean updateResult;
         try {

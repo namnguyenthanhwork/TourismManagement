@@ -12,6 +12,8 @@ public interface CMScheduleRepository {
 
     ScheduleEntity getSchedule(Integer scheId);
 
+    List<ScheduleEntity> getSchedulesByTourId(Integer tourId);
+
     boolean createSchedule(ScheduleEntity scheduleEntity);
 
     boolean updateSchedule(ScheduleEntity scheduleEntity);

@@ -4,10 +4,14 @@ import com.ou.pojos.ThumbnailEntity;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.List;
+
 public interface CMThumbnailService {
     JSONArray getThumbnails(Integer pageIndex);
 
     ThumbnailEntity getThumbnailAsObj(Integer thumId);
+
+    List<ThumbnailEntity> getThumbnailsByTourId(Integer tourId);
 
     JSONObject getThumbnailAsJsonObj(Integer thumId);
 

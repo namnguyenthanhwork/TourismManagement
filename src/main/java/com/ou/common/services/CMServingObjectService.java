@@ -8,6 +8,7 @@ public interface CMServingObjectService {
     JSONArray getServingObjects(Integer pageIndex);
 
     ServingObjectEntity getServingObjectAsObj(String svoSlug);
+    ServingObjectEntity getServingObject(Integer svoId);
 
     JSONObject getServingObjectAsJsonObj(String svoSlug);
 

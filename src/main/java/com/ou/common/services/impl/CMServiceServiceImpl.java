@@ -63,7 +63,8 @@ public class CMServiceServiceImpl implements CMServiceService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(serviceEntity.getServTitle());
         serviceEntity.setServSlug(slugUtil.getSlug());
-        if (cMServiceRepository.getService(serviceEntity.getServSlug()) != null)
+        ServiceEntity updateService = cMServiceRepository.getService(serviceEntity.getServSlug());
+        if (updateService != null && updateService.getServId()!=serviceEntity.getServId())
             return false;
         boolean addResult;
         try {

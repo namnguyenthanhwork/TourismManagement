@@ -32,7 +32,7 @@ public class CMPostServiceImpl implements CMPostService {
             return false;
         boolean addResult;
         try {
-            addResult =  cMPostRepository.createPost(postEntity);
+            addResult = cMPostRepository.createPost(postEntity);
         } catch (Exception e) {
             addResult = false;
         }
@@ -44,7 +44,8 @@ public class CMPostServiceImpl implements CMPostService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(postEntity.getPostTitle());
         postEntity.setPostSlug(slugUtil.getSlug());
-        if (cMPostRepository.getPost(postEntity.getPostSlug()) != null)
+        PostEntity updatePost = cMPostRepository.getPost(postEntity.getPostSlug());
+        if ( updatePost!= null && updatePost.getPostId()!= postEntity.getPostId())
             return false;
         boolean updateResult;
         try {
