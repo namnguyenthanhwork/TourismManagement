@@ -20,10 +20,10 @@ function getSaleInfo() {
                         <p class="text-xs font-weight-bold mb-0">${data[i]['sperPercent']}</p>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['saleFromDate']).toLocaleString()}</span>
+                        <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['saleFromDate']).toISOString().split('T')[0]}</span>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['saleToDate']).toLocaleString()}</span>
+                        <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['saleToDate']).toISOString().split('T')[0]}</span>
                     </td>
                     <td class="text-center">
                         <a href="/TourismManagement/quan-tri-vien/giam-gia/${data[i]['saleId']}" 

@@ -192,15 +192,15 @@
                 <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Thống kê - Báo cáo</h6>
             </li>
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#dashboardsExamples2" class="nav-link" aria-expanded="false"
+                <a data-bs-toggle="collapse" href="#dashboardsExamples4" class="nav-link" aria-expanded="false"
                     aria-controls="dashboardsExamples" role="button">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
                         <i class="fas fa-house-user"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Dữ liệu (x)</span>
+                    <span class="nav-link-text ms-1">Dữ liệu</span>
                 </a>
-                <div class="collapse" id="dashboardsExamples2">
+                <div class="collapse" id="dashboardsExamples4">
                     <ul class="nav ms-4 ps-3">
                         <li class="nav-item">
                             <a class="nav-link" href="<c:url value='/quan-tri-vien/thong-ke'/>">

@@ -34,7 +34,7 @@ function getBillInfo() {
                     <span class="text-secondary text-xs font-weight-bold">${data[i]['accPhoneNumber']}</span>
                 </td>
                 <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['accDateOfBirth']).toLocaleDateString()}</span>
+                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['accDateOfBirth']).toISOString().split('T')[0]}</span>
                 </td>
                 <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold">${data[i]['paytId']}</span>
@@ -55,7 +55,7 @@ function getBillInfo() {
                     <span class="text-secondary text-xs font-weight-bold">${data[i]['billId']}</span>
                 </td>
                  <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['billCreatedDate']).toLocaleDateString()}</span>
+                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['billCreatedDate']).toISOString().split('T')[0]}</span>
                 </td>
                  <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold">${data[i]['billTotalMoney']}</span>
@@ -64,7 +64,7 @@ function getBillInfo() {
                     <span class="text-secondary text-xs font-weight-bold">${data[i]['billTotalSaleMoney']}</span>
                 </td>
                  <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['billShipDate']).toLocaleDateString()}</span>
+                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['billShipDate']).toISOString().split('T')[0]}</span>
                 </td>
                  <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold">${data[i]['billShipAddress']}</span>
