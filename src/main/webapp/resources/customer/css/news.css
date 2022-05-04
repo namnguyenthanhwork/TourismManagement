@@ -1,0 +1,261 @@
+.news {
+    margin-bottom: 20px
+}
+
+.news .img {
+    padding-top: 66.666666%;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px
+}
+
+.news .img img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-transition: all .3s linear;
+    -o-transition: all .3s linear;
+    transition: all .3s linear
+}
+
+.news .img:hover img {
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    -o-transform: scale(1.05);
+    transform: scale(1.05)
+}
+
+.news .tend {
+    margin-bottom: 10px
+}
+
+.news .tend a {
+    display: block;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 700;
+    height: 52px;
+    overflow: hidden
+}
+
+.news .tools {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px
+}
+
+.news .tools .be {
+    font-size: 12px;
+    line-height: 20px;
+    color: #999;
+    margin-right: 15px
+}
+
+.news .tools .be span {
+    padding-left: 20px;
+    position: relative
+}
+
+.news .tools .be span:before {
+    font-family: fontAwesome;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%)
+}
+
+.news .des {
+    height: 66px;
+    overflow: hidden
+}
+
+.news .des p {
+    padding: 0 !important;
+    font-size: 14px !important;
+    line-height: 22px !important;
+    font-weight: 400 !important;
+    text-transform: none !important
+}
+
+.the-comment {
+    margin-bottom: 40px
+}
+
+.the-content {
+    margin-bottom: 40px
+}
+
+#slideOther .slick-list {
+    margin: 0 -10px
+}
+
+#slideOther .item {
+    padding: 0 10px
+}
+
+#slideOther .slick-arrow {
+    position: absolute;
+    text-indent: -9999px;
+    z-index: 100;
+    border: none;
+    width: 32px;
+    height: 31px;
+    top: 25%;
+    background: url(../images/controls.png)
+}
+
+#slideOther .slick-prev {
+    left: 0;
+    background-position: 0 0
+}
+
+#slideOther .slick-prev:hover {
+    background-position: 0 31px
+}
+
+#slideOther .slick-next {
+    right: 0;
+    background-position: -43px 0
+}
+
+#slideOther .slick-next:hover {
+    background-position: -43px 31px
+}
+
+#search-vmb {
+    position: absolute;
+    top: 181px
+}
+
+.contact-ticket-plane img {
+    vertical-align: middle;
+    margin-right: 5px
+}
+
+.contact-ticket-plane a {
+    font-size: 16px;
+    display: block;
+    float: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 30px;
+    font-weight: 700;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px
+}
+
+.link-contact-ticket {
+    padding-left: 15px;
+    padding-right: 15px;
+    background: #ed0080;
+    background: linear-gradient(180deg, #ed0080 0, #be3b98 100%);
+    color: #fff !important;
+    border: none;
+    -webkit-transition: all .3s linear;
+    -o-transition: all .3s linear;
+    transition: all .3s linear;
+    text-transform: uppercase;
+    font-weight: 700
+}
+
+.link-contact-ticket:hover {
+    color: #fff;
+    background: #666
+}
+
+.cat-details {
+    width: 100%;
+    padding-bottom: 10px
+}
+
+.cat-details .img {
+    float: left;
+    width: 350px;
+    padding-right: 20px;
+    padding-bottom: 10px
+}
+
+.cat-details .img img {
+    width: 350px;
+    height: auto
+}
+
+.cat-details .des {
+    font-size: 16px !important;
+    font-family: Arial, Helvetica, sans-serif !important
+}
+
+@media all and (max-width: 1270px) {
+    #search-vmb {
+        top: 130px
+    }
+
+    .slick-slider {
+        margin-bottom: 0
+    }
+}
+
+@media all and (max-width: 1100px) {
+    #search-vmb {
+        top: 123px
+    }
+
+    .slick-slider {
+        margin-bottom: 20px
+    }
+}
+
+@media all and (max-width: 991px) {
+    #search-vmb {
+        position: relative;
+        margin-top: 0 !important;
+        top: 4%
+    }
+
+    .slick-slider {
+        margin-bottom: 0
+    }
+
+    #ifrSearchForm {
+        width: 100% !important
+    }
+}
+
+@media only screen and (max-width: 460px) {
+    .slick-slider {
+        margin-bottom: 0
+    }
+
+    .contact-ticket-plane a {
+        margin-right: 10px;
+        font-size: 14px
+    }
+
+    .cat-details .img {
+        float: none;
+        width: 100%;
+        text-align: center;
+        padding-right: 0
+    }
+}
+
+@media all and (max-width: 420px) {
+    .vnt-news .row .col-xs-6 {
+        width: 100%
+    }
+
+    .slick-slider {
+        margin-bottom: 0
+    }
+}

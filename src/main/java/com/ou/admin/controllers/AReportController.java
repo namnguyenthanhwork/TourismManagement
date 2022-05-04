@@ -72,6 +72,6 @@ public class AReportController {
                 }
             }
         }
-        return new ResponseEntity<>(reportInfos, reportInfos.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(reportInfos, HttpStatus.OK);
     }
 }

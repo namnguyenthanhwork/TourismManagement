@@ -46,10 +46,10 @@ function getAccountInfo() {
                     <span class="text-secondary text-xs font-weight-bold">${data[i]['accPhoneNumber']}</span>
                 </td>
                 <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['accDateOfBirth']).toLocaleDateString()}</span>
+                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['accDateOfBirth']).toISOString().split('T')[0]}</span>
                 </td>
                 <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['accJoinedDate']).toLocaleDateString()}</span>
+                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['accJoinedDate']).toISOString().split('T')[0]}</span>
                 </td>
                 <td class="align-middle text-center">
                 <div> 

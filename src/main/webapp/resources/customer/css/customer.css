@@ -221,7 +221,6 @@
     font-variant: normal;
     font-weight: 400;
     line-height: 1;
-    speak: none;
     text-transform: none
 }
 
@@ -2124,10 +2123,6 @@ pre {
     white-space: pre-wrap
 }
 
-q {
-    quotes: "\201C""\201D""\2018""\2019"
-}
-
 button,
 input,
 select,
@@ -3557,7 +3552,6 @@ textarea.input-lg {
 
 .btn {
     line-height: 1.428571429;
-    -o-user-select: none
 }
 
 .btn:focus {
@@ -8775,10 +8769,6 @@ table.dataTable th {
     border: 1px solid #ccc;
     border: 1px solid rgba(0, 0, 0, .15);
     border-radius: 4px;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none
 }
 
 .bfh-slider>.bfh-slider-handle {
@@ -8925,8 +8915,7 @@ html[xmlns] .flexslider .slides {
     border: 4px solid #fff;
     position: relative;
     zoom: 1;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px
+   border-radius: 4px;
 }
 
 .flexslider .slides {
@@ -9106,7 +9095,6 @@ html[xmlns] .flexslider .slides {
     display: block;
     opacity: .7;
     cursor: pointer;
-    -moz-user-select: none;
     transition: all 1s ease
 }
 
@@ -12677,10 +12665,16 @@ a:hover {
     .mda-more-box span {
         background-color: #eb004f;
         padding: 10px 50px;
+        border-radius: 10px;
         font-size: 17px;
         color: #fff;
         cursor: pointer;
-        display: inline-block
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+    .mda-more-box span:hover {
+        background-color: #c5104d;
     }
 
     .summary-info .mda-more-box {
@@ -30567,7 +30561,6 @@ button.close {
     margin: 1px;
     text-indent: -999px;
     cursor: pointer;
-    background-color: #000\9;
     background-color: transparent;
     border: 1px solid #fff;
     border-radius: 10px
@@ -32953,8 +32946,7 @@ only screen and (min-resolution:144dpi) {
     .chosen-container .chosen-results-scroll-down span,
     .chosen-container .chosen-results-scroll-up span,
     .chosen-rtl .chosen-search input[type=text] {
-        background-image: none;
-    !important;
+        background-image: none !important;
         background-size: 52px 37px !important;
         background-repeat: no-repeat !important
     }
@@ -35177,7 +35169,7 @@ b {
     line-height: 34px;
     color: #fff;
     padding: 10px 50px 10px 10px;
-    background: url(../images/bg-arrow.png)no-repeat 100% 50% #9c1320;
+    background: url(../images/bg-arrow.png) no-repeat 100% 50% #9c1320;
     cursor: pointer;
     display: none
 }
@@ -39733,6 +39725,10 @@ a.go_top:before {
     border: 2px solid #fff
 }
 
+#vnt-slide-home .slick-dots li button:before {
+    content: unset;
+}
+
 #vnt-slide-home .slick-dots li.slick-active button {
     background: #ed0080;
     border-color: #ed0080
@@ -40062,4 +40058,36 @@ a.go_top:before {
     .slideFluid.width2.owl-carousel.owl-loaded {
         width: auto
     }
+}
+
+/* Rating Star Widgets Style */
+.rating-stars ul {
+    list-style-type: none;
+    padding: 0;
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.rating-stars ul>li.star {
+    display: inline-block;
+
+}
+
+/* Idle State of the stars */
+.rating-stars ul>li.star>i.fa {
+    font-size: 2.5em;
+    /* Change the size of the stars */
+    color: #ccc;
+    /* Color on idle state */
+}
+
+/* Hover state of the stars */
+.rating-stars ul>li.star.hover>i.fa {
+    color: #FFCC36;
+}
+
+/* Selected state of the stars */
+.rating-stars ul>li.star.selected>i.fa {
+    color: #FF912C;
 }

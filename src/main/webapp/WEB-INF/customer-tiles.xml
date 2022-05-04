@@ -8,7 +8,6 @@
         <put-attribute name="c-title" value="c-base"/>
         <put-attribute name="c-header" value="/WEB-INF/customer/layout/c-header.jsp"/>
         <put-attribute name="c-ref" value="/WEB-INF/customer/layout/c-blank.jsp"/>
-        <put-attribute name="c-sidebar" value="/WEB-INF/customer/layout/c-sidebar.jsp"/>
         <put-attribute name="c-content" value="/WEB-INF/customer/layout/c-content.jsp"/>
         <put-attribute name="c-footer" value="/WEB-INF/customer/layout/c-footer.jsp"/>
     </definition>
@@ -18,6 +17,27 @@
         <put-attribute name="c-title" value="c-base"/>
         <put-attribute name="c-ref" value="/WEB-INF/customer/ref/c-homepage.jsp"/>
         <put-attribute name="c-content" value="/WEB-INF/customer/jsp/c-homepage.jsp"/>
+    </definition>
+
+    <!-- tour-detail -->
+    <definition name="c-tour-detail" extends="c-homepage">
+        <put-attribute name="c-title" value="c-base"/>
+        <put-attribute name="c-ref" value="/WEB-INF/customer/ref/c-tour-detail.jsp"/>
+        <put-attribute name="c-content" value="/WEB-INF/customer/jsp/c-tour-detail.jsp"/>
+    </definition>
+
+    <!-- news-detail -->
+    <definition name="c-news-detail" extends="c-homepage">
+        <put-attribute name="c-title" value="c-base"/>
+        <put-attribute name="c-ref" value="/WEB-INF/customer/ref/c-news-detail.jsp"/>
+        <put-attribute name="c-content" value="/WEB-INF/customer/jsp/c-news-detail.jsp"/>
+    </definition>
+
+    <!-- news -->
+    <definition name="c-news" extends="c-homepage">
+        <put-attribute name="c-title" value="c-base"/>
+        <put-attribute name="c-ref" value="/WEB-INF/customer/ref/c-news.jsp"/>
+        <put-attribute name="c-content" value="/WEB-INF/customer/jsp/c-news.jsp"/>
     </definition>
 
     <!-- sign up-->

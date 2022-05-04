@@ -2689,8 +2689,8 @@ progress {
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid #d2d6da;
-    -webkit-appearance: none;
-    appearance: none;
+    -webkit-appearance: auto;
+    appearance: auto;
     border-radius: 0.5rem;
     transition: box-shadow 0.15s ease, border-color 0.15s ease;
 }
@@ -2931,8 +2931,8 @@ textarea.form-control-lg {
     border: 1px solid #d2d6da;
     border-radius: 0.5rem;
     transition: box-shadow 0.15s ease, border-color 0.15s ease;
-    -webkit-appearance: none;
-    appearance: none;
+    -webkit-appearance: auto;
+    appearance: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {
