@@ -9,7 +9,7 @@ public interface CMServiceRepository {
     List<Object[]> getServices(Integer pageIndex);
 
     ServiceEntity getService(String servSlug);
-
+    long getServiceAmount();
     ServiceEntity getService(Integer servId);
 
     boolean createService(ServiceEntity serviceEntity);

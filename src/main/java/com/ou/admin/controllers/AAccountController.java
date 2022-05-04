@@ -7,6 +7,7 @@ import com.ou.common.services.CMRoleService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.AccountEntity;
 import com.ou.pojos.RoleEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -44,16 +48,20 @@ public class AAccountController {
     private void setAccountInfo(AccountEntity accountEntity,
                                 RoleEntity roleEntity,
                                 HttpServletRequest httpServletRequest,
-                                MultipartFile accAvatar) {
+                                MultipartFile accAvatar) throws ParseException {
         accountEntity.setAccUsername(httpServletRequest.getParameter("accUsername"));
-        accountEntity.setAccPassword(passwordEncoder.encode(httpServletRequest.getParameter("accPassword")));
+        if (httpServletRequest.getParameter("accPassword") != null)
+            accountEntity.setAccPassword(passwordEncoder.encode(httpServletRequest.getParameter("accPassword")));
         accountEntity.setAccFirstName(httpServletRequest.getParameter("accFirstName"));
         accountEntity.setAccLastName(httpServletRequest.getParameter("accLastName"));
         accountEntity.setAccSex(Byte.valueOf(httpServletRequest.getParameter("accSex")));
         accountEntity.setAccIdCard(httpServletRequest.getParameter("accIdCard"));
         accountEntity.setAccPhoneNumber(httpServletRequest.getParameter("accPhoneNumber"));
-        accountEntity.setAccDateOfBirth(Timestamp.valueOf(httpServletRequest.getParameter("accDateOfBirth")));
-        if (!accAvatar.isEmpty()) {
+        Timestamp dob = utilBeanFactory.getApplicationContext().getBean("emptyTimeStamp", Timestamp.class);
+        dob.setTime(utilBeanFactory.getApplicationContext().getBean(SimpleDateFormat.class).parse(httpServletRequest
+                .getParameter("accDateOfBirth") + " 00:00:00").getTime());
+        accountEntity.setAccDateOfBirth(dob);
+        if (accAvatar!=null && !accAvatar.isEmpty()) {
             try {
                 Cloudinary cloudinary = utilBeanFactory.getApplicationContext().getBean(Cloudinary.class);
                 Map url = cloudinary.uploader().upload(accAvatar.getBytes(),
@@ -63,7 +71,7 @@ public class AAccountController {
                 accountEntity.setAccAvatar((String) url.get("secure_url"));
             } catch (IOException ignored) {
                 if (accountEntity.getAccAvatar() == null && accountEntity.getAccAvatar().length() == 0)
-                        accountEntity.setAccAvatar("https://res.cloudinary.com/ou-project/image/upload/v1650636461/account/defaultAvatar_bmgisb.png");
+                    accountEntity.setAccAvatar("https://res.cloudinary.com/ou-project/image/upload/v1650636461/account/defaultAvatar_bmgisb.png");
             }
         } else {
             if (accountEntity.getAccAvatar() == null && accountEntity.getAccAvatar().length() == 0)
@@ -85,9 +93,17 @@ public class AAccountController {
             pageIndex = Integer.parseInt(params.get("trang"));
         } catch (NumberFormatException ignored) {
         }
-        String kw= params.get("kw");
+        String kw = params.get("kw");
         JSONArray accounts = cMAccountService.getAccounts(pageIndex, kw);
         return new ResponseEntity<>(accounts, accounts.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getAccountPageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMAccountService.getAccountAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
     }
 
     // create
@@ -97,15 +113,17 @@ public class AAccountController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createAccount(HttpServletRequest httpServletRequest,
-                                                 @RequestParam(name = "accAvatar", required = false) MultipartFile accAvatar)
-            throws UnsupportedEncodingException {
+    public String createAccount(HttpServletRequest httpServletRequest,
+                                @RequestParam(name = "accAvatar", required = false) MultipartFile accAvatar)
+            throws UnsupportedEncodingException, ParseException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         AccountEntity account = pojoBeanFactory.getApplicationContext().getBean(AccountEntity.class);
         RoleEntity role = cMRoleService.getRoleAsObj(httpServletRequest.getParameter("roleSlug"));
         setAccountInfo(account, role, httpServletRequest, accAvatar);
         boolean createdResult = cMAccountService.createAccount(account);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/tai-khoan";
+        return "redirect:/quan-tri-vien/tai-khoan/tao-moi";
     }
 
     // update
@@ -124,17 +142,21 @@ public class AAccountController {
     }
 
     @RequestMapping(value = "/{accUsername}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateAccount(@PathVariable String accUsername, HttpServletRequest httpServletRequest,
-                                                    @RequestParam(name = "accAvatar", required = false) MultipartFile accAvatar)
-            throws UnsupportedEncodingException {
+    public String updateAccount(@PathVariable String accUsername, HttpServletRequest httpServletRequest,
+                                @RequestParam(name = "accAvatar", required = false) MultipartFile accAvatar)
+            throws UnsupportedEncodingException, ParseException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         AccountEntity account = cMAccountService.getAccountAsObj(accUsername);
-        RoleEntity role = cMRoleService.getRoleAsObj(httpServletRequest.getParameter("roleSlug"));
         if (account == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return String.format("redirect:/quan-tri-vien/tai-khoan/%s", accUsername);
+        String password = account.getAccPassword();
+        RoleEntity role = cMRoleService.getRoleAsObj(httpServletRequest.getParameter("roleSlug"));
         setAccountInfo(account, role, httpServletRequest, accAvatar);
+        account.setAccPassword(password);
         boolean updateResult = cMAccountService.updateAccount(account);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/tai-khoan";
+        return String.format("redirect:/quan-tri-vien/tai-khoan/%s", accUsername);
     }
 
     // delete

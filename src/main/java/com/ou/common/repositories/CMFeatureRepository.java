@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CMFeatureRepository {
     List<Object[]> getFeatures(Integer pageIndex);
+    long getFeatureAmount();
 
     FeatureEntity getFeature(String feaSlug);
 

@@ -34,6 +34,11 @@ public class CMServingObjectServiceImpl implements CMServingObjectService {
     }
 
     @Override
+    public long getServingObjectAmount() {
+        return cMServingObjectRepository.getServingObjectAmount();
+    }
+
+    @Override
     public ServingObjectEntity getServingObjectAsObj(String svoSlug) {
         if (svoSlug == null || svoSlug.trim().length() == 0)
             return null;

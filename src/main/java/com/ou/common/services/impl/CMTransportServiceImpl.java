@@ -36,6 +36,11 @@ public class CMTransportServiceImpl implements CMTransportService {
     }
 
     @Override
+    public long getTransportAmount() {
+        return cMTransportRepository.getTransportAmount();
+    }
+
+    @Override
     public TransportEntity getTransportAsObj(String tranSlug) {
         if (tranSlug == null || tranSlug.trim().length() == 0)
             return null;

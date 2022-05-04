@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CMThumbnailRepository {
     List<Object[]> getThumbnails(Integer pageIndex);
+    long getThumbnailAmount();
 
     ThumbnailEntity getThumbnail(Integer thumId);
 

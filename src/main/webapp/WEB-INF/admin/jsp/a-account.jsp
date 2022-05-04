@@ -6,7 +6,8 @@
         <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                 <h5>Quản lý tài khoản</h5>
-                <a href="/TourismManagement/quan-tri-vien/tai-khoan/tao-moi"
+                <input id="search" placeholder="Nhập tên người dùng ...">
+                <a href="<c:url value ='/quan-tri-vien/tai-khoan/tao-moi'/>"
                     class="badge badge-success p-2 text-capitalize mb-2">Thêm tài khoản</a>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
@@ -23,13 +24,11 @@
                                 <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
                                     Mật khẩu</th>
                                 <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
-                                    Tên</th>
-                                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
-                                    Họ và tên lót</th>
+                                    Họ và tên</th>
                                 <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
                                     Giới tính</th>
                                 <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
-                                    Mã nhân viên</th>
+                                    Mã CCCD</th>
                                 <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
                                     Số điện thoại</th>
                                 <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
@@ -45,11 +44,12 @@
                             </tr>
                         </thead>
                         <tbody id="accountInfo">
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+        <ul class="pagination" id ="pagination">
+        </ul>
     </div>
 </div>

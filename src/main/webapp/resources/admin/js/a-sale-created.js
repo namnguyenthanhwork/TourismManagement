@@ -1,31 +1,30 @@
-function redirectPageAfterCreate() {
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/giam-gia'
-
-    })
-}
-
-$(document).ready(function () {
-    fetch("/TourismManagement/quan-tri-vien/giam-gia/thong-tin")
+function getSalePercentInfo(){
+    fetch("/TourismManagement/quan-tri-vien/phan-tram-giam-gia/thong-tin")
         .then(res => {
             if (res.status != 200)
                 return res.status
             return res.json()
         }).then(data => {
-            if (data == 204) {
-                alert("thông tin trống")
-                return
-            }
-            let options = '';
-            for (let i = 0; i < data.length; i++) {
-                options += `
-                     <option value="${data[i]['sperPercent']}">${data[i]['sperPercent']}</option>
+        if (data == 204) {
+            alert("thông tin trống")
+            return
+        }
+        let options = '';
+        for (let i = 0; i < data.length; i++) {
+            options += `
+                     <option value="${data[i]['sperId']}">${data[i]['sperPercent']}</option>
                 `
-            }
-            document.getElementById('sperPercent').innerHTML = options
-        })
+        }
+        document.getElementById('sperId').innerHTML = options
+    })
+}
 
-    $('#saleCreatedBtn').click(() => redirectPageAfterCreate())
+$(document).ready(function () {
+    $('#loading').hide()
+    getSalePercentInfo()
+    $('#saleCreatedBtn').click(function () {
+        alert("Xác nhận tạo giảm giá mới")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

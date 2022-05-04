@@ -5,6 +5,8 @@ import com.ou.common.services.*;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.*;
 import com.ou.utils.MomoUtil;
+import com.ou.utils.PageUtil;
+import com.ou.utils.SMSUtil;
 import com.ou.utils.UserUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,6 +22,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -55,7 +60,13 @@ public class STourBookingController {
     private CMPaymentTypeService cMPaymentTypeService;
 
     @Autowired
+    private CMDepartureDateService cMDepartureDateService;
+
+    @Autowired
     private CMBillService cMBillService;
+
+    @Autowired
+    private CMThumbnailService cMThumbnailService;
 
     @Autowired
     private CMBillTourServingObjectService cMBillTourServingObjectService;
@@ -85,8 +96,9 @@ public class STourBookingController {
     }
 
     @GetMapping("/{tourSlug}")
-    public String getTourDetailView(@PathVariable String tourSlug) {
-        return "a-tour-detail";
+    public String getTourDetailView(@PathVariable String tourSlug,
+                                    @RequestParam(required = false) Map<String, String> params) {
+        return "s-tour-booking-detail";
     }
 
     @GetMapping("/{tourSlug}/thong-tin")
@@ -98,6 +110,27 @@ public class STourBookingController {
         return new ResponseEntity<>(tour, HttpStatus.OK);
     }
 
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getTourBookingPageAmount() {
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount", pageUtil.getPageAmount(cMTourService.getTourAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
+
+    @GetMapping("/{tourId}/hinh-thu-nho")
+    public ResponseEntity<JSONArray> getThumbnailsOfTour(@PathVariable Integer tourId) {
+        JSONArray jsonArray = cMThumbnailService.getThumbnailByTourId(tourId);
+        return new ResponseEntity<>(jsonArray, HttpStatus.OK);
+    }
+
+    @GetMapping("/{tourId}/hinh-thuc-thanh-toan")
+    public ResponseEntity<JSONArray> getPaymentTypesOfTour(@PathVariable Integer tourId) {
+        JSONArray jsonArray = cMPaymentTypeService.getPaymentTypes(null);
+        return new ResponseEntity<>(jsonArray, HttpStatus.OK);
+    }
+
+    // booking
     @RequestMapping(value = "/{tourSlug}/thanh-toan", method = RequestMethod.POST)
     public String bookTourStaff(@PathVariable String tourSlug,
                                 HttpServletRequest httpServletRequest) throws UnsupportedEncodingException,
@@ -111,13 +144,16 @@ public class STourBookingController {
         List<Integer> tourAmounts = utilBeanFactory.getApplicationContext().getBean("numberList", List.class);
         List<Integer> tsvoIds = utilBeanFactory.getApplicationContext().getBean("numberList", List.class);
         svoSlugs.forEach(svoSlug -> {
+            String param = httpServletRequest.getParameter(svoSlug);
+            if (param == null || Integer.parseInt(param) == 0)
+                return;
             List<TourServingObjectEntity> tourServingObjects = cMTourServingObjectService
                     .getTourServingObjectByTour(tourSlug);
             tourServingObjects.forEach(tsvo -> {
                 if (cMServingObjectService.getServingObject(tsvo.getSvoId()).getSvoSlug().equals(svoSlug))
                     tsvoIds.add(tsvo.getTsvoId());
             });
-            tourAmounts.add(Integer.valueOf(httpServletRequest.getParameter(svoSlug)));
+            tourAmounts.add(Integer.valueOf(param));
         });
 
         TourEntity tour = cMTourService.getTourAsObj(tourSlug);
@@ -137,16 +173,19 @@ public class STourBookingController {
         if (tour.getSaleId() != null) {
             saleEntity = cMSaleService.getSaleAsObj(tour.getSaleId());
             SalePercentEntity salePercent = cMSalePercentService.getSalePercentAsObj(saleEntity.getSperId());
-            billTotalSaleMoney = billTotalMoney.divide(new BigDecimal(100), RoundingMode.HALF_EVEN)
-                    .multiply(new BigDecimal(salePercent.getSperPercent()));
+            long currentTime = System.currentTimeMillis();
+            if (saleEntity.getSaleFromDate().getTime() <= currentTime && currentTime <= saleEntity.getSaleToDate().getTime())
+                billTotalSaleMoney = billTotalMoney.divide(new BigDecimal(100), RoundingMode.HALF_EVEN)
+                        .multiply(new BigDecimal(salePercent.getSperPercent()));
         }
+        DepartureDateEntity departureDate = cMDepartureDateService.getDepartureDateAsObj(
+                Integer.valueOf(httpServletRequest.getParameter("dptId")));
+        bill.setBillDepartureDate(departureDate.getDptDate());
         bill.setAccId(account.getAccId());
         bill.setPaytId(paymentType.getPaytId());
         bill.setBillTotalMoney(billTotalMoney);
         bill.setBillTotalSaleMoney(billTotalSaleMoney);
         BillEntity createdBill = cMBillService.createBill(bill);
-        List<BillTourServingObjectEntity> billTourServingObjectEntities =
-                pojoBeanFactory.getApplicationContext().getBean("billTourServingObjectEntities", List.class);
         AtomicReference<Integer> pivot =
                 utilBeanFactory.getApplicationContext().getBean("atomicReference", AtomicReference.class);
         tsvoIds.forEach(tsvoId -> {
@@ -155,32 +194,37 @@ public class STourBookingController {
             billTourServingObjectEntity.setTourAmount(tourAmounts.get(pivot.get()));
             billTourServingObjectEntity.setBillId(createdBill.getBillId());
             billTourServingObjectEntity.setTsvoId(tsvoId);
-            billTourServingObjectEntities.add(billTourServingObjectEntity);
+            cMBillTourServingObjectService.createBillTourServingObject(billTourServingObjectEntity);
             pivot.set(pivot.get() + 1);
         });
-        billTourServingObjectEntities.forEach(billTourServingObjectEntity ->
-                cMBillTourServingObjectService.createBillTourServingObject(billTourServingObjectEntity));
+        BigDecimal price = billTotalMoney.subtract(billTotalSaleMoney);
+        String orderInfo = String.format("Mã tour: %d - Tên tour: %s - " +
+                        "Mã nhân viên đăng kí: %d - Tên nhân viên đăng kí: %s",
+                post.getPostId(),
+                post.getPostTitle(),
+                account.getAccId(),
+                account.getAccLastName() + " " + account.getAccFirstName());
         if ("thanh-toan-momo".equals(paymentType.getPaytSlug())) {
-            String orderInfo = "adadsd";
-            BigDecimal price = billTotalMoney.subtract(billTotalSaleMoney);
-            String notifyURL = String.format("http://127.0.0.1:5000/TourismManagement/%s", tourSlug);
-            String returnURL = String.format("http://127.0.0.1:5000/TourismManagement/%s", tourSlug);
-            return String.format("redirect:%s&billId=%d",
+            String url = String.format("http://localhost:8080/TourismManagement/nhan-vien/dat-tour/%s", tourSlug);
+            return String.format("redirect:%s&%d",
                     utilBeanFactory.getApplicationContext().getBean(MomoUtil.class)
-                            .createOrder(price, orderInfo, notifyURL, returnURL).get("payUrl"),
+                            .createOrder(price, orderInfo, url, url).get("payUrl"),
                     createdBill.getBillId());
         }
         createdBill.setBillIsPaid(true);
+        orderInfo += String.format(" - Giá: %s", price);
         cMBillService.updateBill(createdBill);
-        String directlyPaymentURL = "";
-        return String.format("redirect:%s", directlyPaymentURL);
+//        utilBeanFactory.getApplicationContext().getBean(SMSUtil.class)
+//                .sendMessage(httpServletRequest.getParameter("phoneNumber"), orderInfo);
+        return "redirect:/nhan-vien/dat-tour";
     }
 
     @PostMapping("/thanh-toan/cap-nhat")
-    public void updateBillStaff(@RequestBody Map<String, String> body) {
+    public ResponseEntity<HttpStatus> updateBillStaff(@RequestBody Map<String, String> body) {
         Integer billId = Integer.valueOf(body.get("billId"));
         BillEntity bill = cMBillService.getBillAsObj(billId);
         bill.setBillIsPaid(true);
-        cMBillService.updateBill(bill);
+        boolean result = cMBillService.updateBill(bill);
+        return new ResponseEntity<>(result ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 }

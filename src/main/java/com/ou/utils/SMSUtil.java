@@ -3,11 +3,13 @@ package com.ou.utils;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
 import java.util.Objects;
 
 public class SMSUtil {
+
     public Environment env;
 
     public SMSUtil(Environment environment) {
@@ -17,8 +19,7 @@ public class SMSUtil {
     }
 
     public void sendMessage(String phoneNumber, String content) {
-
-        Message.creator(new PhoneNumber(env.getProperty("sms.phone_number")),
-                new PhoneNumber(phoneNumber), content).create();
+        Message.creator(new PhoneNumber(phoneNumber),
+        new PhoneNumber(env.getProperty("sms.phone_number")), content).create();
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface CMRoleRepository {
     List<Object[]> getRoles(Integer pageIndex);
+    long getRoleAmount();
 
     RoleEntity getRole(String roleSlug);
 

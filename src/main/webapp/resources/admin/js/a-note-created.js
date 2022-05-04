@@ -1,11 +1,9 @@
-function redirectPageAfterCreate(){
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/ghi-chu'
-    })
-}
 
 $(document).ready(function () {
-    $('#noteCreatedBtn').click( () =>redirectPageAfterCreate())
+    $('#loading').hide()
+    $('#noteCreatedBtn').click(function (){
+        alert("Xác nhận tạo mới ghi chú")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

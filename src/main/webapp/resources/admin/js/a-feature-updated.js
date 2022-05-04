@@ -1,5 +1,8 @@
 function getFeatureInfo() {
-    let path = window.location.href + '/chinh-sua';
+    let href = window.location.href
+    if (href.includes('?'))
+        href = href.substring(0, href.indexOf('?'))
+    let path = href + '/chinh-sua'
     fetch(path).then(res => {
         if (res.status !== 200)
             return res.status
@@ -13,17 +16,13 @@ function getFeatureInfo() {
     })
 }
 
-function redirectPageAfterUpdate() {
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/dac-diem-ngay-khoi-hanh'
-    })
-}
-
-
 $(document).ready(function () {
+    $('#loading').hide()
     $('#featureUpdatedForm').attr('action', window.location.href);
     getFeatureInfo()
-    $('#featureUpdatedBtn').click(() => redirectPageAfterUpdate())
+    $('#featureUpdatedBtn').click(function () {
+        alert("Xác nhận cập nhật đặc điểm khởi hành mới mới")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

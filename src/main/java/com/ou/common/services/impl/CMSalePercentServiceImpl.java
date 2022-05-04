@@ -34,6 +34,11 @@ public class CMSalePercentServiceImpl implements CMSalePercentService {
     }
 
     @Override
+    public long getSalePercentAmount() {
+        return cMSalePercentRepository.getSalePercentAmount();
+    }
+
+    @Override
     public SalePercentEntity getSalePercentAsObj(Integer salePercentId) {
         if (salePercentId == null)
             return null;

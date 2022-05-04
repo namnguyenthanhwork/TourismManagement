@@ -32,12 +32,19 @@ public class CMThumbnailServiceImpl implements CMThumbnailService {
             JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
             jsonObject.put("thumId", thumbnail[0]);
             jsonObject.put("thumImage", thumbnail[1]);
-            jsonObject.put("postId", thumbnail[2]);
-            jsonObject.put("postTitle", thumbnail[3]);
-
+            int postId  = (int) thumbnail[2];
+            PostEntity post = cMPostRepository.getPost(postId);
+            jsonObject.put("tourId", post.getPostId());
+            jsonObject.put("tourTitle", post.getPostTitle());
+            jsonObject.put("tourSlug", post.getPostSlug());
             jsonArray.add(jsonObject);
         });
         return jsonArray;
+    }
+
+    @Override
+    public long getThumbnailAmount() {
+        return cMThumbnailRepository.getThumbnailAmount();
     }
 
     @Override
@@ -55,6 +62,21 @@ public class CMThumbnailServiceImpl implements CMThumbnailService {
     }
 
     @Override
+    public JSONArray getThumbnailByTourId(Integer tourId) {
+        if(tourId==null)
+            return null;
+        List<ThumbnailEntity> thumbnailEntities= cMThumbnailRepository.getThumbnailsByTourId(tourId);
+        JSONArray jsonArray = utilBeanFactory.getApplicationContext().getBean(JSONArray.class);
+        thumbnailEntities.forEach(thumbnailEntity->{
+            JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+            jsonObject.put("thumId", thumbnailEntity.getThumId());
+            jsonObject.put("thumImage", thumbnailEntity.getThumImage());
+            jsonArray.add(jsonObject);
+        });
+        return jsonArray;
+    }
+
+    @Override
     public JSONObject getThumbnailAsJsonObj(Integer thumId) {
         if (thumId == null)
             return null;
@@ -65,8 +87,9 @@ public class CMThumbnailServiceImpl implements CMThumbnailService {
         jsonObject.put("thumId", thumbnail.getThumId());
         jsonObject.put("thumImage", thumbnail.getThumImage());
         PostEntity post = cMPostRepository.getPost(thumbnail.getTourId());
-        jsonObject.put("postId", post.getPostId());
-        jsonObject.put("postTitle", post.getPostTitle());
+        jsonObject.put("tourId", post.getPostId());
+        jsonObject.put("tourTitle", post.getPostTitle());
+        jsonObject.put("tourSlug", post.getPostSlug());
         return jsonObject;
     }
 

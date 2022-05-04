@@ -3,6 +3,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMScheduleRepository;
 import com.ou.configs.BeanFactoryConfig;
+import com.ou.pojos.SaleEntity;
 import com.ou.pojos.ScheduleEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
@@ -36,7 +37,9 @@ public class CMScheduleRepositoryImpl implements CMScheduleRepository {
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<ScheduleEntity> scheduleEntityRoot = criteriaQuery.from(ScheduleEntity.class);
         criteriaQuery.multiselect(scheduleEntityRoot.get("scheId"), scheduleEntityRoot.get("scheTitle"),
-                scheduleEntityRoot.get("scheSlug"), scheduleEntityRoot.get("scheContent"));
+                        scheduleEntityRoot.get("scheSlug"), scheduleEntityRoot.get("scheContent"),
+                        scheduleEntityRoot.get("tourId"))
+                .orderBy(criteriaBuilder.asc(scheduleEntityRoot.get("scheId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -44,6 +47,20 @@ public class CMScheduleRepositoryImpl implements CMScheduleRepository {
                     .setMaxResults(PageUtil.getPageSize()).getResultList();
         }
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public long getScheduleAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<ScheduleEntity> scheduleEntityRoot = criteriaQuery.from(ScheduleEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(scheduleEntityRoot.get("scheId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override

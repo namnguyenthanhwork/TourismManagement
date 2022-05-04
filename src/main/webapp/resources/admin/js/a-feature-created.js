@@ -1,11 +1,9 @@
-function redirectPageAfterCreate(){
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/dac-diem-ngay-khoi-hanh'
-    })
-}
 
 $(document).ready(function () {
-    $('#featureCreatedBtn').click( () =>redirectPageAfterCreate())
+    $('#loading').hide()
+    $('#featureCreatedBtn').click( function () {
+        alert("Xác nhận tạo đặc điểm khởi hành mới mới")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

@@ -2,7 +2,9 @@ package com.ou.pojos;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "Tour", schema = "TourismManagement")

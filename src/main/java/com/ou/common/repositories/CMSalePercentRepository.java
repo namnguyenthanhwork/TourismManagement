@@ -7,7 +7,7 @@ import java.util.List;
 public interface CMSalePercentRepository {
 
     List<Object[]> getSalePercents(Integer pageIndex);
-
+    long getSalePercentAmount();
     SalePercentEntity getSalePercent(Integer salePercentId);
 
     boolean createSalePercent(SalePercentEntity salePercentEntity);

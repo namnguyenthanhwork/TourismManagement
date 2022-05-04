@@ -325,6 +325,10 @@ public class BeanFactoryConfig {
         }
 
         @Bean
+        public OTPUtil OTPUtil() {
+            return new OTPUtil();
+        }
+        @Bean
         public Cloudinary cloudinary() {
             Map<String, Object> configs = new HashMap<>();
             configs.put("cloud_name", env.getProperty("cloudinary.cloud_name"));
@@ -351,9 +355,13 @@ public class BeanFactoryConfig {
             return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         }
 
-        @Bean
+        @Bean(name = "emptyTimeStamp")
         @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-        public Timestamp timestamp() {
+        public Timestamp emptyTimeStamp(){return  new Timestamp(0);}
+
+        @Bean(name = "currentTimeStamp")
+        @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+        public Timestamp currentTimeStamp() {
             return new Timestamp(System.currentTimeMillis());
         }
 

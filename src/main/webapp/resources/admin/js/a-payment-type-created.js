@@ -1,11 +1,9 @@
-function redirectPageAfterCreate() {
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/hinh-thuc-thanh-toan'
-    })
-}
 
 $(document).ready(function () {
-    $('#paymentTypeCreatedBtn').click(() => redirectPageAfterCreate())
+    $('#loading').hide()
+    $('#paymentTypeCreatedBtn').click(function () {
+        alert("Xác nhận tạo hình thức thanh toán mới")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

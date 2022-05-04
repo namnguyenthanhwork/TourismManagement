@@ -1,5 +1,8 @@
 function getTransportInfo() {
-    let path = window.location.href + '/chinh-sua';
+    let href = window.location.href
+    if (href.includes('?'))
+        href = href.substring(0, href.indexOf('?'))
+    let path = href + '/chinh-sua'
     fetch(path).then(res => {
         if (res.status !== 200)
             return res.status
@@ -13,17 +16,13 @@ function getTransportInfo() {
     })
 }
 
-function redirectPageAfterUpdate() {
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/phuong-tien-di-chuyen'
-    })
-}
-
-
 $(document).ready(function () {
+    $('#loading').hide()
     $('#transportUpdatedForm').attr('action', window.location.href);
     getTransportInfo()
-    $('#transportUpdatedBtn').click(() => redirectPageAfterUpdate())
+    $('#transportUpdatedBtn').click(function () {
+        alert("Xác nhận cập nhật phương tiện di chuyển")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

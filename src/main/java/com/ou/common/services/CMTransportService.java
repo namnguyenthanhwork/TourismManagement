@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 
 public interface CMTransportService {
     JSONArray getTransports(Integer pageIndex);
-
+    long getTransportAmount();
     TransportEntity getTransportAsObj(String tranSlug);
 
     JSONObject getTransportAsJsonObj(String tranSlug);

@@ -3,6 +3,7 @@ package com.ou.admin.controllers;
 import com.ou.common.services.CMNoteService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.NoteEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,13 @@ public class ANoteController {
         return new ResponseEntity<>(notes, notes.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getNotePageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMNoteService.getNoteAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
     // create
     @GetMapping("/tao-moi")
     public String getNoteCreatedView() {
@@ -52,14 +60,16 @@ public class ANoteController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createNote(HttpServletRequest httpServletRequest)
+    public String createNote(HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         NoteEntity noteEntity = pojoBeanFactory.getApplicationContext().getBean(NoteEntity.class);
         noteEntity.setNoteTitle(httpServletRequest.getParameter("noteTitle"));
         noteEntity.setNoteContent(httpServletRequest.getParameter("noteContent"));
         boolean createdResult = cMNoteService.createNote(noteEntity);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/ghi-chu";
+        return "redirect:/quan-tri-vien/ghi-chu/tao-moi";
     }
 
     // update
@@ -78,16 +88,18 @@ public class ANoteController {
     }
 
     @RequestMapping(value = "/{noteSlug}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateNote(@PathVariable String noteSlug, HttpServletRequest httpServletRequest)
+    public String updateNote(@PathVariable String noteSlug, HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         NoteEntity note = cMNoteService.getNoteAsObj(noteSlug);
         if (note == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return String.format("redirect:/quan-tri-vien/ghi-chu/%s", noteSlug);
         note.setNoteTitle(httpServletRequest.getParameter("noteTitle"));
         note.setNoteContent(httpServletRequest.getParameter("noteContent"));
         boolean updateResult = cMNoteService.updateNote(note);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/ghi-chu";
+        return String.format("redirect:/quan-tri-vien/ghi-chu/%s", noteSlug);
     }
 
     // delete

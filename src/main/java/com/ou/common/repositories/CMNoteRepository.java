@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CMNoteRepository {
     List<Object[]> getNotes(Integer pageIndex);
+    long getNoteAmount();
 
     NoteEntity getNote(String noteSlug);
 

@@ -4,6 +4,7 @@ package com.ou.admin.controllers;
 import com.ou.common.services.CMStorageService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.StorageEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,13 @@ public class AStorageController {
         JSONArray storages = cMStorageService.getStorages(pageIndex);
         return new ResponseEntity<>(storages, storages.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
-
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getStoragePageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMStorageService.getStorageAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
     // create
     @GetMapping("/tao-moi")
     public String getStorageCreatedView() {
@@ -53,13 +60,15 @@ public class AStorageController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createStorage(HttpServletRequest httpServletRequest)
+    public String createStorage(HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         StorageEntity storageEntity = pojoBeanFactory.getApplicationContext().getBean(StorageEntity.class);
         storageEntity.setStorName(httpServletRequest.getParameter("storName"));
         boolean createdResult = cMStorageService.createStorage(storageEntity);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/kho-chua";
+        return "redirect:/quan-tri-vien/kho-chua/tao-moi";
     }
 
     // update
@@ -78,15 +87,17 @@ public class AStorageController {
     }
 
     @RequestMapping(value = "/{storSlug}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateStorage(@PathVariable String storSlug, HttpServletRequest httpServletRequest)
+    public String updateStorage(@PathVariable String storSlug, HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         StorageEntity storage = cMStorageService.getStorageAsObj(storSlug);
         if (storage == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return String.format("redirect:/quan-tri-vien/kho-chua/%s",storSlug);
         storage.setStorName(httpServletRequest.getParameter("storName"));
         boolean updateResult = cMStorageService.updateStorage(storage);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/kho-chua";
+        return String.format("redirect:/quan-tri-vien/kho-chua/%s",storSlug);
     }
 
     // delete

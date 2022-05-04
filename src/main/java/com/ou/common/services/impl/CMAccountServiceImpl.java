@@ -59,6 +59,11 @@ public class CMAccountServiceImpl implements CMAccountService {
     }
 
     @Override
+    public long getAccountAmount() {
+        return cMAccountRepository.getAccountAmount();
+    }
+
+    @Override
     public JSONObject getAccountAsJsonObj(String username) {
         if (username == null || username.trim().length() == 0)
             return null;
@@ -86,7 +91,8 @@ public class CMAccountServiceImpl implements CMAccountService {
 
     @Override
     public boolean createAccount(AccountEntity accountEntity) {
-        accountEntity.setAccJoinedDate(utilBeanFactory.getApplicationContext().getBean(Timestamp.class));
+        accountEntity.setAccJoinedDate(utilBeanFactory.getApplicationContext().getBean("currentTimeStamp",Timestamp.class));
+        accountEntity.setAccLastAccess(utilBeanFactory.getApplicationContext().getBean("currentTimeStamp",Timestamp.class));
         if (cMAccountRepository.getAccount(accountEntity.getAccUsername()) != null)
             return false;
         boolean addResult;

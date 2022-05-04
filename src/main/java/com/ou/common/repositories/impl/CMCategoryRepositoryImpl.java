@@ -3,6 +3,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMCategoryRepository;
 import com.ou.configs.BeanFactoryConfig;
+import com.ou.pojos.BillEntity;
 import com.ou.pojos.CategoryEntity;
 import com.ou.pojos.StorageEntity;
 import com.ou.utils.PageUtil;
@@ -43,7 +44,8 @@ public class CMCategoryRepositoryImpl implements CMCategoryRepository {
         criteriaQuery.where(criteriaBuilder.equal(categoryEntityRoot.get("storId"), storageEntityRoot.get("storId")))
                 .multiselect(categoryEntityRoot.get("catId"), categoryEntityRoot.get("catName"),
                         categoryEntityRoot.get("catSlug"), storageEntityRoot.get("storId"),
-                        storageEntityRoot.get("storName"), storageEntityRoot.get("storSlug"));
+                        storageEntityRoot.get("storName"), storageEntityRoot.get("storSlug"))
+                .orderBy(criteriaBuilder.asc(categoryEntityRoot.get("catId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -51,6 +53,20 @@ public class CMCategoryRepositoryImpl implements CMCategoryRepository {
                     .setMaxResults(PageUtil.getPageSize()).getResultList();
         }
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public long getCategoryAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<CategoryEntity> categoryEntityRoot = criteriaQuery.from(CategoryEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(categoryEntityRoot.get("catId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override

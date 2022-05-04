@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface CMTourRepository {
     List<Object[]> getTours(Integer pageIndex, String ... params);
+    List<Object[]> getTours();
+    long getTourAmount();
 
     TourEntity getTour(String tourSlug);
 

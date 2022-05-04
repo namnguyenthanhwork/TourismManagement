@@ -4,6 +4,7 @@ package com.ou.admin.controllers;
 import com.ou.common.services.CMServingObjectService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.ServingObjectEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,13 @@ public class AServingObjectController {
         return new ResponseEntity<>(servingObjects, servingObjects.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getServingObjectPageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMServingObjectService.getServingObjectAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
     // create
     @GetMapping("/tao-moi")
     public String getServingObjectCreatedView() {
@@ -53,13 +61,15 @@ public class AServingObjectController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createServingObject(HttpServletRequest httpServletRequest)
+    public String createServingObject(HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         ServingObjectEntity servingObjectEntity = pojoBeanFactory.getApplicationContext().getBean(ServingObjectEntity.class);
         servingObjectEntity.setSvoName(httpServletRequest.getParameter("svoName"));
         boolean createdResult = cMServingObjectService.createServingObject(servingObjectEntity);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/doi-tuong-phuc-vu";
+        return "redirect:/quan-tri-vien/doi-tuong-phuc-vu/tao-moi";
     }
 
     // update
@@ -78,15 +88,17 @@ public class AServingObjectController {
     }
 
     @RequestMapping(value = "/{svoSlug}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateServingObject(@PathVariable String svoSlug, HttpServletRequest httpServletRequest)
+    public String updateServingObject(@PathVariable String svoSlug, HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         ServingObjectEntity servingObject = cMServingObjectService.getServingObjectAsObj(svoSlug);
         if (servingObject == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return String.format("redirect:/quan-tri-vien/doi-tuong-phuc-vu/%s", svoSlug);
         servingObject.setSvoName(httpServletRequest.getParameter("svoName"));
         boolean updateResult = cMServingObjectService.updateServingObject(servingObject);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/doi-tuong-phuc-vu";
+        return String.format("redirect:/quan-tri-vien/doi-tuong-phuc-vu/%s", svoSlug);
     }
 
     // delete

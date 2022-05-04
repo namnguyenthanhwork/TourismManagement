@@ -44,6 +44,11 @@ public class CMCategoryServiceImpl implements CMCategoryService {
     }
 
     @Override
+    public long getCategoryAmount() {
+        return cMCategoryRepository.getCategoryAmount();
+    }
+
+    @Override
     public CategoryEntity getCategoryAsObj(String catSlug) {
         if (catSlug == null || catSlug.trim().length() == 0)
             return null;

@@ -5,6 +5,7 @@ import com.cloudinary.utils.ObjectUtils;
 import com.ou.common.services.*;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.*;
+import com.ou.utils.PageUtil;
 import com.ou.utils.SlugUtil;
 import com.ou.utils.UserUtil;
 import org.json.simple.JSONArray;
@@ -78,54 +79,57 @@ public class ATourController {
         String[] svoSlugs = httpServletRequest.getParameterValues("svoSlugs");
         String[] dptIds = httpServletRequest.getParameterValues("dptIds");
         String[] tranSlugs = httpServletRequest.getParameterValues("tranSlugs");
-        Arrays.stream(servSlugs).forEach(servSlug -> {
-            TourServiceEntity tourService = pojoBeanFactory.getApplicationContext()
-                    .getBean(TourServiceEntity.class);
-            ServiceEntity service = cMServiceService.getServiceAsObj(servSlug);
-            tourService.setTourId(tourId);
-            tourService.setServId(service.getServId());
-            cMTourServiceService.createTourService(tourService);
-        });
+        if (servSlugs != null && servSlugs.length > 0)
+            Arrays.stream(servSlugs).forEach(servSlug -> {
+                TourServiceEntity tourService = pojoBeanFactory.getApplicationContext()
+                        .getBean(TourServiceEntity.class);
+                ServiceEntity service = cMServiceService.getServiceAsObj(servSlug);
+                tourService.setTourId(tourId);
+                tourService.setServId(service.getServId());
+                cMTourServiceService.createTourService(tourService);
+            });
+        if (noteSlugs != null && noteSlugs.length > 0)
+            Arrays.stream(noteSlugs).forEach(noteSlug -> {
+                TourNoteEntity tourNote = pojoBeanFactory.getApplicationContext()
+                        .getBean(TourNoteEntity.class);
+                NoteEntity note = cMNoteService.getNoteAsObj(noteSlug);
+                tourNote.setTourId(tourId);
+                tourNote.setNoteId(note.getNoteId());
+                cMTourNoteService.createTourNote(tourNote);
+            });
 
-        Arrays.stream(noteSlugs).forEach(noteSlug -> {
-            TourNoteEntity tourNote = pojoBeanFactory.getApplicationContext()
-                    .getBean(TourNoteEntity.class);
-            NoteEntity note = cMNoteService.getNoteAsObj(noteSlug);
-            tourNote.setTourId(tourId);
-            tourNote.setNoteId(note.getNoteId());
-            cMTourNoteService.createTourNote(tourNote);
-        });
+        if (svoSlugs != null && svoSlugs.length > 0)
+            Arrays.stream(svoSlugs).forEach(svoSlug -> {
+                TourServingObjectEntity tourServingObject = pojoBeanFactory.getApplicationContext()
+                        .getBean(TourServingObjectEntity.class);
+                ServingObjectEntity servingObject = cMServingObjectService.getServingObjectAsObj(svoSlug);
+                tourServingObject.setTourId(tourId);
+                tourServingObject.setSvoId(servingObject.getSvoId());
+                tourServingObject.setTourPrice(BigDecimal.valueOf(
+                        Long.parseLong(httpServletRequest.getParameter(svoSlug + "Price"))));
+                cMTourServingObjectService.createTourServingObject(tourServingObject);
+            });
 
-        Arrays.stream(svoSlugs).forEach(svoSlug -> {
-            TourServingObjectEntity tourServingObject = pojoBeanFactory.getApplicationContext()
-                    .getBean(TourServingObjectEntity.class);
-            ServingObjectEntity servingObject = cMServingObjectService.getServingObjectAsObj(svoSlug);
-            tourServingObject.setTourId(tourId);
-            tourServingObject.setSvoId(servingObject.getSvoId());
-            tourServingObject.setTourPrice(BigDecimal.valueOf(
-                    Long.parseLong(httpServletRequest.getParameter(svoSlug + "Price"))));
-            cMTourServingObjectService.createTourServingObject(tourServingObject);
-        });
+        if (dptIds != null && dptIds.length > 0)
+            Arrays.stream(dptIds).forEach(dptId -> {
+                TourDepartureDateEntity tourDepartureDate = pojoBeanFactory.getApplicationContext()
+                        .getBean(TourDepartureDateEntity.class);
+                tourDepartureDate.setTourId(tourId);
+                tourDepartureDate.setDptId(Integer.parseInt(dptId));
+                tourDepartureDate.setTourAmount(Integer.valueOf(httpServletRequest.getParameter(dptId + "Amount")));
+                cMTourDepartureDateService.createTourDepartureDate(tourDepartureDate);
+            });
 
-        Arrays.stream(dptIds).forEach(dptId -> {
-            TourDepartureDateEntity tourDepartureDate = pojoBeanFactory.getApplicationContext()
-                    .getBean(TourDepartureDateEntity.class);
-            tourDepartureDate.setTourId(tourId);
-            tourDepartureDate.setDptId(Integer.parseInt(dptId));
-            tourDepartureDate.setTourAmount(Integer.valueOf(httpServletRequest.getParameter(dptId + "Amount")));
-            cMTourDepartureDateService.createTourDepartureDate(tourDepartureDate);
-        });
-
-        Arrays.stream(tranSlugs).forEach(tranSlug -> {
-            TourTransportEntity tourTransport = pojoBeanFactory.getApplicationContext()
-                    .getBean(TourTransportEntity.class);
-            TransportEntity transport = cMTransportService.getTransportAsObj(tranSlug);
-            tourTransport.setTourId(tourId);
-            tourTransport.setTranId(transport.getTranId());
-            cMTourTransportService.createTourTransport(tourTransport);
-        });
+        if (tranSlugs != null && tranSlugs.length > 0)
+            Arrays.stream(tranSlugs).forEach(tranSlug -> {
+                TourTransportEntity tourTransport = pojoBeanFactory.getApplicationContext()
+                        .getBean(TourTransportEntity.class);
+                TransportEntity transport = cMTransportService.getTransportAsObj(tranSlug);
+                tourTransport.setTourId(tourId);
+                tourTransport.setTranId(transport.getTranId());
+                cMTourTransportService.createTourTransport(tourTransport);
+            });
     }
-
 
     // get
     @GetMapping()
@@ -145,6 +149,18 @@ public class ATourController {
         return new ResponseEntity<>(tours, tours.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/thong-tin/tong-quan")
+    public ResponseEntity<JSONArray> getToursInfoGeneral() {
+        JSONArray tours = cMTourService.getTours();
+        return new ResponseEntity<>(tours, tours.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+    }
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getTourPageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMTourService.getTourAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
     // create
     @GetMapping("/tao-moi")
     public String getTourCreatedView() {
@@ -152,22 +168,18 @@ public class ATourController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createTour(HttpServletRequest httpServletRequest,
-                                                 @RequestParam(name = "tourCoverPage", required = false) MultipartFile tourCoverPage) throws UnsupportedEncodingException {
+    public String createTour(HttpServletRequest httpServletRequest,
+                             @RequestParam(name = "tourCoverPage", required = false) MultipartFile tourCoverPage) throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         TourEntity tourEntity = pojoBeanFactory.getApplicationContext().getBean(TourEntity.class);
         PostEntity postEntity = pojoBeanFactory.getApplicationContext().getBean(PostEntity.class);
         AccountEntity account = cMAccountService.getAccountAsObj(UserUtil.getCurrentUsername());
         CategoryEntity category = cMCategoryService.getCategoryAsObj(httpServletRequest.getParameter("catSlug"));
-        Integer saleId = null;
-        try {
-            saleId = Integer.parseInt(httpServletRequest.getParameter("saleId"));
-        } catch (NumberFormatException ignored) {
-        }
+
         postEntity.setAccId(account.getAccId());
-        postEntity.setPostTitle(httpServletRequest.getParameter("tourName"));
+        postEntity.setPostTitle(httpServletRequest.getParameter("tourTitle"));
         postEntity.setPostContent(httpServletRequest.getParameter("tourContent"));
-        if (!tourCoverPage.isEmpty()) {
+        if (tourCoverPage != null && !tourCoverPage.isEmpty()) {
             try {
                 Cloudinary cloudinary = utilBeanFactory.getApplicationContext().getBean(Cloudinary.class);
                 Map url = cloudinary.uploader().upload(tourCoverPage.getBytes(),
@@ -186,14 +198,18 @@ public class ATourController {
             slugUtil.setSlug(postEntity.getPostTitle());
             PostEntity addedPost = cMPostService.getPostAsObj(slugUtil.getSlug());
             tourEntity.setTourId(addedPost.getPostId());
-            tourEntity.setSaleId(saleId);
             tourEntity.setCatId(category.getCatId());
+            int saleId = Integer.parseInt(httpServletRequest.getParameter("saleId"));
+            if (saleId != -1)
+                tourEntity.setSaleId(saleId);
+
             boolean createdResult = cMTourService.createTour(tourEntity);
             if (!createdResult)
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return "redirect:/quan-tri-vien/tour-du-lich/tao-moi";
             setAdditionTourInformation(httpServletRequest, addedPost.getPostId());
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return "redirect:/quan-tri-vien/tour-du-lich";
+        }
+        return "redirect:/quan-tri-vien/tour-du-lich/tao-moi";
 
     }
 
@@ -213,22 +229,18 @@ public class ATourController {
     }
 
     @RequestMapping(value = "/{tourSlug}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateTour(@PathVariable String tourSlug, HttpServletRequest httpServletRequest,
-                                                 @RequestParam(name = "tourCoverPage", required = false) MultipartFile tourCoverPage) throws UnsupportedEncodingException {
+    public String updateTour(@PathVariable String tourSlug, HttpServletRequest httpServletRequest,
+                             @RequestParam(name = "tourCoverPage", required = false) MultipartFile tourCoverPage)
+            throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         TourEntity tour = cMTourService.getTourAsObj(tourSlug);
         PostEntity post = cMPostService.getPostAsObj(tourSlug);
         CategoryEntity category = cMCategoryService.getCategoryAsObj(httpServletRequest.getParameter("catSlug"));
-        Integer saleId = null;
-        try {
-            saleId = Integer.parseInt(httpServletRequest.getParameter("saleId"));
-        } catch (NumberFormatException ignored) {
-        }
         if (tour == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        post.setPostTitle(httpServletRequest.getParameter("tourName"));
+            return String.format("redirect:/quan-tri-vien/tour-du-lich/%s", tourSlug);
+        post.setPostTitle(httpServletRequest.getParameter("tourTitle"));
         post.setPostContent(httpServletRequest.getParameter("tourContent"));
-        if (!tourCoverPage.isEmpty()) {
+        if (tourCoverPage != null && !tourCoverPage.isEmpty()) {
             try {
                 Cloudinary cloudinary = utilBeanFactory.getApplicationContext().getBean(Cloudinary.class);
                 Map url = cloudinary.uploader().upload(tourCoverPage.getBytes(),
@@ -246,10 +258,12 @@ public class ATourController {
         }
         if (cMPostService.updatePost(post)) {
             tour.setCatId(category.getCatId());
-            tour.setSaleId(saleId);
+            int saleId = Integer.parseInt(httpServletRequest.getParameter("saleId"));
+            if (saleId != -1)
+                tour.setSaleId(saleId);
             boolean updatedResult = cMTourService.updateTour(tour);
             if (!updatedResult)
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return String.format("redirect:/quan-tri-vien/tour-du-lich/%s", tourSlug);
             cMTourServiceService.getTourServiceByTour(post.getPostSlug()).forEach(tourServiceEntity ->
                     cMTourServiceService.deleteTourService(tourServiceEntity));
             cMTourNoteService.getTourNoteByTour(post.getPostSlug()).forEach(tourNoteEntity ->
@@ -261,25 +275,20 @@ public class ATourController {
             cMTourTransportService.getTourTransportByTour(post.getPostSlug()).forEach(tourTransportEntity ->
                     cMTourTransportService.deleteTourTransport(tourTransportEntity));
             setAdditionTourInformation(httpServletRequest, tour.getTourId());
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return "redirect:/quan-tri-vien/tour-du-lich";
+        }
+        return String.format("redirect:/quan-tri-vien/tour-du-lich/%s", tourSlug);
 
     }
 
     // delete
     @RequestMapping(value = "/{tourSlug}", method = RequestMethod.DELETE)
     public ResponseEntity<HttpStatus> deleteTour(@PathVariable String tourSlug) {
-        TourEntity tour = cMTourService.getTourAsObj(tourSlug);
         PostEntity post = cMPostService.getPostAsObj(tourSlug);
-        if (tour == null || post == null)
+        if (post == null)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        if (cMPostService.deletePost(post)) {
-            boolean deleteResult = cMTourService.deleteTour(tour);
-            return new ResponseEntity<>(deleteResult ? HttpStatus.OK : HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
-
+        boolean deleteResult = cMPostService.deletePost(post);
+        return new ResponseEntity<>(deleteResult ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
-
 }
 

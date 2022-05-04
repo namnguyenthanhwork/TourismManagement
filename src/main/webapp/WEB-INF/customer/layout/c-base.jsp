@@ -20,8 +20,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+
     <!-- -->
 
+    <script src="<c:url value='/resources/customer/js/c-header.js'/> "/>
     <tiles:insertAttribute name="c-ref"/>
 </head>
 
@@ -29,6 +31,7 @@
 <div id="vnt-wrapper">
     <div id="vnt-container">
         <tiles:insertAttribute name="c-header"/>
+
         <tiles:insertAttribute name="c-content"/>
         <tiles:insertAttribute name="c-footer"/>
     </div>
@@ -40,6 +43,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
         integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script src="<c:url value ='/resources/customer/js/customer.js'/>"></script>
 
 </body>

@@ -3,6 +3,7 @@ package com.ou.admin.controllers;
 import com.ou.common.services.CMRoleService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.RoleEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,13 @@ public class ARoleController {
         JSONArray roles = cMRoleService.getRoles(pageIndex);
         return new ResponseEntity<>(roles, roles.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
-
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getRolePageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMRoleService.getRoleAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
     // create
     @GetMapping("/tao-moi")
     public String getRoleCreatedView() {
@@ -52,13 +59,15 @@ public class ARoleController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createRole(HttpServletRequest httpServletRequest)
+    public String createRole(HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         RoleEntity roleEntity = pojoBeanFactory.getApplicationContext().getBean(RoleEntity.class);
         roleEntity.setRoleName(httpServletRequest.getParameter("roleName"));
         boolean createdResult = cMRoleService.createRole(roleEntity);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/vai-tro";
+        return "redirect:/quan-tri-vien/vai-tro/tao-moi";
     }
 
     // update
@@ -77,15 +86,17 @@ public class ARoleController {
     }
 
     @RequestMapping(value = "/{roleSlug}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateRole(@PathVariable String roleSlug, HttpServletRequest httpServletRequest)
+    public String updateRole(@PathVariable String roleSlug, HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         RoleEntity role = cMRoleService.getRoleAsObj(roleSlug);
         if (role == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return String.format("redirect:/quan-tri-vien/vai-tro/%s", roleSlug);
         role.setRoleName(httpServletRequest.getParameter("roleName"));
         boolean updateResult=cMRoleService.updateRole(role);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/vai-tro";
+        return String.format("redirect:/quan-tri-vien/vai-tro/%s", roleSlug);
     }
 
     // delete

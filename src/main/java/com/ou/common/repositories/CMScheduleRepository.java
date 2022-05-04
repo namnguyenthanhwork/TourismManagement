@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CMScheduleRepository {
     List<Object[]> getSchedules(Integer pageIndex);
-
+    long getScheduleAmount();
     ScheduleEntity getSchedule(String scheSlug);
 
     ScheduleEntity getSchedule(Integer scheId);

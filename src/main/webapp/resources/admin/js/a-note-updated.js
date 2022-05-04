@@ -1,5 +1,8 @@
-function getNoteInfo() {
-    let path = window.location.href + '/chinh-sua';
+function getNoteInfo(editor) {
+    let href = window.location.href
+    if (href.includes('?'))
+        href = href.substring(0, href.indexOf('?'))
+    let path = href + '/chinh-sua'
     fetch(path).then(res => {
         if (res.status !== 200)
             return res.status
@@ -9,22 +12,17 @@ function getNoteInfo() {
             alert("thông tin trống")
             return
         }
-        $("#noteTitle").val(data['noteTitle']);
-        $("#noteContent").val(data['noteContent']);
+        $("#noteTitle").val(data['noteTitle'])
+        editor.setData(data['noteContent'])
     })
 }
-
-function redirectPageAfterUpdate() {
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/ghi-chu'
-    })
-}
-
 
 $(document).ready(function () {
-    $('#noteUpdatedForm').attr('action', window.location.href);
-    getNoteInfo()
-    $('#noteUpdatedBtn').click(() => redirectPageAfterUpdate())
+    $('#loading').hide()
+    $('#noteUpdatedForm').attr('action', window.location.href)
+    $('#noteUpdatedBtn').click(function (){
+        alert("Xác nhận cập nhật ghi chú")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

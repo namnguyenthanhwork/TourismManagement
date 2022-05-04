@@ -35,6 +35,11 @@ public class CMStorageServiceImpl implements CMStorageService {
     }
 
     @Override
+    public long getStorageAmount() {
+        return cMStorageRepository.getStorageAmount();
+    }
+
+    @Override
     public StorageEntity getStorageAsObj(String storSlug) {
         if (storSlug == null || storSlug.trim().length() == 0)
             return null;

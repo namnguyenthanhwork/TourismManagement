@@ -2,6 +2,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMStorageRepository;
 import com.ou.configs.BeanFactoryConfig;
+import com.ou.pojos.ServingObjectEntity;
 import com.ou.pojos.StorageEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
@@ -34,7 +35,8 @@ public class CMStorageRepositoryImpl implements CMStorageRepository {
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<StorageEntity> storageEntityRoot = criteriaQuery.from(StorageEntity.class);
         criteriaQuery.multiselect(storageEntityRoot.get("storId"), storageEntityRoot.get("storName"),
-                storageEntityRoot.get("storSlug"));
+                storageEntityRoot.get("storSlug"))
+                .orderBy(criteriaBuilder.asc(storageEntityRoot.get("storId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -42,6 +44,20 @@ public class CMStorageRepositoryImpl implements CMStorageRepository {
                     .setMaxResults(PageUtil.getPageSize()).getResultList();
         }
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public long getStorageAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<StorageEntity> storageEntityRoot = criteriaQuery.from(StorageEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(storageEntityRoot.get("storId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override

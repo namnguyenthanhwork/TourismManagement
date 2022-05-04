@@ -3,6 +3,7 @@ package com.ou.common.repositories.impl;
 import com.ou.common.repositories.CMTourRepository;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.PostEntity;
+import com.ou.pojos.ThumbnailEntity;
 import com.ou.pojos.TourEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
@@ -56,7 +57,8 @@ public class CMTourRepositoryImpl implements CMTourRepository {
                         tourEntityRoot.get("tourId"), tourEntityRoot.get("tourAverageRating"),
                         tourEntityRoot.get("catId"), tourEntityRoot.get("saleId"),
                         postEntityRoot.get("postTitle"), postEntityRoot.get("postSlug"),
-                        postEntityRoot.get("postContent"), postEntityRoot.get("postCoverPage"));
+                        postEntityRoot.get("postContent"), postEntityRoot.get("postCoverPage"))
+                .orderBy(criteriaBuilder.asc(tourEntityRoot.get("tourId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -65,6 +67,33 @@ public class CMTourRepositoryImpl implements CMTourRepository {
         }
 
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public List<Object[]> getTours() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<TourEntity> tourEntityRoot = criteriaQuery.from(TourEntity.class);
+        Root<PostEntity> postEntityRoot = criteriaQuery.from(PostEntity.class);
+        criteriaQuery.where(criteriaBuilder.equal(tourEntityRoot.get("tourId").as(Integer.class),
+                postEntityRoot.get("postId").as(Integer.class)))
+                .multiselect(postEntityRoot.get("postTitle"), postEntityRoot.get("postSlug"));
+        return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public long getTourAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<TourEntity> tourEntityRoot = criteriaQuery.from(TourEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(tourEntityRoot.get("tourId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override

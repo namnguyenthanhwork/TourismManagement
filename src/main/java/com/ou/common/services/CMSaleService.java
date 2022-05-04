@@ -8,6 +8,7 @@ public interface CMSaleService {
     JSONArray getSales(Integer pageIndex);
 
     SaleEntity getSaleAsObj(Integer saleId);
+    long getSaleAmount();
 
     JSONObject getSaleAsJsonObj(Integer saleId);
 

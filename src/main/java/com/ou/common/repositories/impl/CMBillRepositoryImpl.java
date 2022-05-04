@@ -6,6 +6,7 @@ import com.ou.pojos.AccountEntity;
 import com.ou.pojos.BillEntity;
 import com.ou.pojos.PaymentTypeEntity;
 import com.ou.utils.PageUtil;
+import org.cloudinary.json.JSONObject;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -42,17 +43,11 @@ public class CMBillRepositoryImpl implements CMBillRepository {
                                 accountEntityRoot.get("accId").as(Integer.class)),
                         criteriaBuilder.equal(billEntityRoot.get("paytId").as(Integer.class),
                                 paymentTypeEntityRoot.get("paytId").as(Integer.class)))
-                .multiselect(
-                        accountEntityRoot.get("accId"), accountEntityRoot.get("accUsername"),
-                        accountEntityRoot.get("accFirstName"), accountEntityRoot.get("accLastName"),
-                        accountEntityRoot.get("accIdCard"), accountEntityRoot.get("accPhoneNumber"),
-                        accountEntityRoot.get("accDateOfBirth"), paymentTypeEntityRoot.get("paytId"),
-                        paymentTypeEntityRoot.get("paytName"), paymentTypeEntityRoot.get("paytSlug"),
+                .multiselect( accountEntityRoot.get("accUsername"),paymentTypeEntityRoot.get("paytName"),
                         billEntityRoot.get("billId"), billEntityRoot.get("billCreatedDate"),
                         billEntityRoot.get("billTotalMoney"), billEntityRoot.get("billTotalSaleMoney"),
-                        billEntityRoot.get("billShipDate"), billEntityRoot.get("billShipAddress"),
-                        billEntityRoot.get("billShipDistrict"), billEntityRoot.get("billShipCity"),
-                        billEntityRoot.get("billIsPaid"));
+                        billEntityRoot.get("billIsPaid"), billEntityRoot.get("billDepartureDate"))
+                .orderBy(criteriaBuilder.asc(billEntityRoot.get("billId")));;
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -63,12 +58,58 @@ public class CMBillRepositoryImpl implements CMBillRepository {
     }
 
     @Override
-    public BillEntity createBill(BillEntity bill) {
-        return (BillEntity) Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession().save(bill);
+    public long getBillAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<BillEntity> billEntityRoot = criteriaQuery.from(BillEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(billEntityRoot.get("billId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override
-    public BillEntity getBill(Integer billId) {
+    public Object[] getBillAsJson(Integer billId) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<BillEntity> billEntityRoot = criteriaQuery.from(BillEntity.class);
+        Root<AccountEntity> accountEntityRoot = criteriaQuery.from(AccountEntity.class);
+        Root<PaymentTypeEntity> paymentTypeEntityRoot = criteriaQuery.from(PaymentTypeEntity.class);
+        criteriaQuery.where(
+                        criteriaBuilder.equal(billEntityRoot.get("accId").as(Integer.class),
+                                accountEntityRoot.get("accId").as(Integer.class)),
+                        criteriaBuilder.equal(billEntityRoot.get("paytId").as(Integer.class),
+                                paymentTypeEntityRoot.get("paytId").as(Integer.class)),
+                        criteriaBuilder.equal(billEntityRoot.get("billId").as(Integer.class), billId))
+                .multiselect(
+                        accountEntityRoot.get("accId"), accountEntityRoot.get("accUsername"),
+                        accountEntityRoot.get("accFirstName"), accountEntityRoot.get("accLastName"),
+                        accountEntityRoot.get("accIdCard"), accountEntityRoot.get("accPhoneNumber"),
+                        accountEntityRoot.get("accDateOfBirth"), paymentTypeEntityRoot.get("paytId"),
+                        paymentTypeEntityRoot.get("paytName"), paymentTypeEntityRoot.get("paytSlug"),
+                        billEntityRoot.get("billId"), billEntityRoot.get("billCreatedDate"),
+                        billEntityRoot.get("billTotalMoney"), billEntityRoot.get("billTotalSaleMoney"),
+                        billEntityRoot.get("billShipDate"), billEntityRoot.get("billShipAddress"),
+                        billEntityRoot.get("billShipDistrict"), billEntityRoot.get("billShipCity"),
+                        billEntityRoot.get("billIsPaid"), billEntityRoot.get("billDepartureDate"));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return null;
+        }
+    }
+
+    @Override
+    public Integer createBill(BillEntity bill) {
+        return (Integer) Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession().save(bill);
+    }
+
+    @Override
+    public BillEntity getBillAsObj(Integer billId) {
         Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<BillEntity> criteriaQuery= criteriaBuilder.createQuery(BillEntity.class);
@@ -80,6 +121,7 @@ public class CMBillRepositoryImpl implements CMBillRepository {
             return null;
         }
     }
+
 
     @Override
     public boolean updateBill(BillEntity billEntity) {

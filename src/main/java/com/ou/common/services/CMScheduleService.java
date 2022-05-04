@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CMScheduleService {
     JSONArray getSchedules(Integer pageIndex);
-
+    long getScheduleAmount();
     ScheduleEntity getScheduleAsObj(String scheSlug);
 
     JSONObject getScheduleAsJsonObj(String scheSlug);

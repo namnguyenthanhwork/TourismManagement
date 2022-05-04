@@ -3,8 +3,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMDepartureDateRepository;
 import com.ou.configs.BeanFactoryConfig;
-import com.ou.pojos.DepartureDateEntity;
-import com.ou.pojos.FeatureEntity;
+import com.ou.pojos.*;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +29,9 @@ public class CMDepartureDateRepositoryImpl implements CMDepartureDateRepository 
     @Autowired
     private BeanFactoryConfig.UtilBeanFactory utilBeanFactory;
 
+    @Autowired
+    private BeanFactoryConfig.PojoBeanFactory pojoBeanFactory;
+
     @Override
     public List<Object[]> getDepartureDates(Integer pageIndex) {
         Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
@@ -38,7 +41,8 @@ public class CMDepartureDateRepositoryImpl implements CMDepartureDateRepository 
         Root<FeatureEntity> featureEntityRoot = criteriaQuery.from(FeatureEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(departureDateEntityRoot.get("feaId"), featureEntityRoot.get("feaId")))
                 .multiselect(departureDateEntityRoot.get("dptId"), departureDateEntityRoot.get("dptDate"),
-                        featureEntityRoot.get("feaId"), featureEntityRoot.get("feaName"), featureEntityRoot.get("feaSlug"));
+                        featureEntityRoot.get("feaId"), featureEntityRoot.get("feaName"), featureEntityRoot.get("feaSlug"))
+                .orderBy(criteriaBuilder.asc(departureDateEntityRoot.get("dptId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -46,6 +50,20 @@ public class CMDepartureDateRepositoryImpl implements CMDepartureDateRepository 
                     .setMaxResults(PageUtil.getPageSize()).getResultList();
         }
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public long getDepartureDateAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<DepartureDateEntity> departureDateEntityRoot = criteriaQuery.from(DepartureDateEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(departureDateEntityRoot.get("dptId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override

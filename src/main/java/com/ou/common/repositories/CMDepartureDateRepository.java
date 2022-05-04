@@ -7,7 +7,9 @@ import java.util.List;
 public interface CMDepartureDateRepository {
     List<Object[]> getDepartureDates(Integer pageIndex);
 
+    long getDepartureDateAmount();
     DepartureDateEntity getDepartureDate(Integer dptId);
+
 
     boolean createDepartureDate(DepartureDateEntity departureDateEntity);
 

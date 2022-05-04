@@ -8,11 +8,14 @@
     <div class="card-body pt-4 p-3">
         <form id="salePercentUpdatedForm" method="post">
             <div class="form-group">
-                <label for="sperPercent">Phần trăm giảm giá</label>
-                <input type="text" class="form-control" id="sperPercent" name="sperPercent"
+                <label for="sperPercent">Phần trăm giảm giá (*)</label>
+                <input type="number" class="form-control" id="sperPercent" name="sperPercent"
                     placeholder="Nhập phần trăm giảm giá...">
             </div>
-            <button type="submit" id="salePercentUpdatedBtn" class="btn btn-primary">Chỉnh sửa</button>
+            <div class="form-group">
+                <button type="submit" id="salePercentUpdatedBtn" class="btn btn-primary">Cập nhật</button>
+                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+            </div>
         </form>
     </div>
 </div>

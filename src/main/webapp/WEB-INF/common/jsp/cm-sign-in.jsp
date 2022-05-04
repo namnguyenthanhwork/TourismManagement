@@ -30,6 +30,9 @@
                                     <input class="form-check-input" type="checkbox" id="rememberMe">
                                     <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
                                 </div>
+                                <div>
+                                    <a href="<c:url value="/dang-ki-tai-khoan"/> ">Đăng ký tài khoản</a>
+                                </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0" id="signin">Đăng nhập
                                     </button>

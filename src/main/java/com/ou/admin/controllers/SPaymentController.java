@@ -2,6 +2,7 @@ package com.ou.admin.controllers;
 
 
 import com.ou.common.services.CMBillService;
+import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.BillEntity;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,8 @@ import java.util.Map;
 public class SPaymentController {
     @Autowired
     private CMBillService cMBillService;
-
+    @Autowired
+    private BeanFactoryConfig.UtilBeanFactory utilBeanFactory;
     // get
     @GetMapping()
     public String getPaymentStaffView() {
@@ -29,16 +31,24 @@ public class SPaymentController {
 
     @PostMapping()
     public ResponseEntity<JSONObject> getPaymentDetail(@RequestBody Map<String, String> body) {
-        Integer billId = Integer.valueOf(body.get("billId"));
-        JSONObject billInfo = cMBillService.getBillAsJson(billId);
-        return new ResponseEntity<>(billInfo, billInfo != null ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+        try {
+            Integer billId = Integer.valueOf(body.get("billId"));
+            JSONObject billInfo = cMBillService.getBillAsJson(billId);
+            return new ResponseEntity<>(billInfo == null?
+                    utilBeanFactory.getApplicationContext().getBean(JSONObject.class):billInfo,
+                    HttpStatus.OK);
+        }catch (NumberFormatException numberFormatException){
+            return new ResponseEntity<>(  utilBeanFactory.getApplicationContext().getBean(JSONObject.class), HttpStatus.OK);
+        }
+
     }
 
-    @PostMapping("/thanh-toan/cap-nhat")
-    public void updatePaymentStaff(@RequestBody Map<String, String> body) {
+    @PostMapping("/cap-nhat")
+    public ResponseEntity<HttpStatus> updatePaymentStaff(@RequestBody Map<String, String> body) {
         Integer billId = Integer.valueOf(body.get("billId"));
         BillEntity bill = cMBillService.getBillAsObj(billId);
         bill.setBillIsPaid(true);
-        cMBillService.updateBill(bill);
+        boolean result = cMBillService.updateBill(bill);
+        return  new ResponseEntity<>(result?HttpStatus.OK:HttpStatus.CONFLICT);
     }
 }

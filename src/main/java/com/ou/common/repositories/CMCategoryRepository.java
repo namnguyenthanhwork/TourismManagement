@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface CMCategoryRepository {
     List<Object[]> getCategories(Integer pageIndex);
+    long getCategoryAmount();
 
     CategoryEntity getCategory(String catSlug);
 

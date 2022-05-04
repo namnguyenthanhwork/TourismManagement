@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 
 public interface CMPaymentTypeService {
     JSONArray getPaymentTypes(Integer pageIndex);
+    long getPaymentTypeAmount();
 
     PaymentTypeEntity getPaymentTypeAsObj(String paytSlug);
 

@@ -2,6 +2,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMServingObjectRepository;
 import com.ou.configs.BeanFactoryConfig;
+import com.ou.pojos.ServiceEntity;
 import com.ou.pojos.ServingObjectEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
@@ -36,7 +37,8 @@ public class CMServingObjectRepositoryImpl implements CMServingObjectRepository 
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<ServingObjectEntity> servingObjectEntityRoot = criteriaQuery.from(ServingObjectEntity.class);
         criteriaQuery.multiselect(servingObjectEntityRoot.get("svoId"), servingObjectEntityRoot.get("svoName"),
-                servingObjectEntityRoot.get("svoSlug"));
+                servingObjectEntityRoot.get("svoSlug"))
+                .orderBy(criteriaBuilder.asc(servingObjectEntityRoot.get("svoId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -44,6 +46,20 @@ public class CMServingObjectRepositoryImpl implements CMServingObjectRepository 
                     .setMaxResults(PageUtil.getPageSize()).getResultList();
         }
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public long getServingObjectAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<ServingObjectEntity> servingObjectEntityRoot = criteriaQuery.from(ServingObjectEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(servingObjectEntityRoot.get("svoId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override

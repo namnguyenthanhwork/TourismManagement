@@ -8,6 +8,7 @@ public interface CMNoteService {
 
     JSONArray getNotes(Integer pageIndex);
 
+    long getNoteAmount();
     NoteEntity getNoteAsObj(String noteSlug);
 
     JSONObject getNoteAsJsonObj(String noteSlug);

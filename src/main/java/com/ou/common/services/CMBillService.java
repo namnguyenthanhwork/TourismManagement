@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 
 public interface CMBillService {
     JSONArray getBills(Integer pageIndex);
+    long getBillAmount();
     BillEntity getBillAsObj(Integer billId);
     JSONObject getBillAsJson(Integer billId);
     BillEntity createBill(BillEntity bill);

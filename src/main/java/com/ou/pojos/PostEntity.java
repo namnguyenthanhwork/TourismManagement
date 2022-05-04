@@ -18,7 +18,7 @@ public class PostEntity implements Serializable {
     @Column(name = "post_slug")
     private String postSlug;
     @Basic
-    @Column(name = "post_content")
+    @Column(name = "post_content", length = Integer.MAX_VALUE)
     private String postContent;
     @Basic
     @Column(name = "post_cover_page")

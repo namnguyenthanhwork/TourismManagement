@@ -69,8 +69,8 @@ public class MomoUtil {
         String requestBody = objectMapper
                 .writerWithDefaultPrettyPrinter()
                 .writeValueAsString(map);
-        HttpRequest request = HttpRequest.newBuilder(URI.create(
-                        Objects.requireNonNull(env.getProperty("momo.api_url"))))
+        String path = env.getProperty("momo.api_url");
+        HttpRequest request = HttpRequest.newBuilder(URI.create(Objects.requireNonNull(path)))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();

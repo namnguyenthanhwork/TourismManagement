@@ -35,6 +35,11 @@ public class CMFeatureServiceImpl implements CMFeatureService {
     }
 
     @Override
+    public long getFeatureAmount() {
+        return cMFeatureRepository.getFeatureAmount();
+    }
+
+    @Override
     public FeatureEntity getFeatureAsObj(String feaSlug) {
         if (feaSlug == null || feaSlug.trim().length() == 0)
             return null;

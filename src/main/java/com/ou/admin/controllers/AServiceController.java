@@ -3,6 +3,7 @@ package com.ou.admin.controllers;
 import com.ou.common.services.CMServiceService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.ServiceEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,14 @@ public class AServiceController {
         return new ResponseEntity<>(services, services.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getServicePageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMServiceService.getServiceAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
+
     // create
     @GetMapping("/tao-moi")
     public String getServiceCreatedView() {
@@ -52,14 +61,16 @@ public class AServiceController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createService(HttpServletRequest httpServletRequest)
+    public String createService(HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         ServiceEntity serviceEntity = pojoBeanFactory.getApplicationContext().getBean(ServiceEntity.class);
         serviceEntity.setServTitle(httpServletRequest.getParameter("servTitle"));
         serviceEntity.setServContent(httpServletRequest.getParameter("servContent"));
         boolean createdResult = cMServiceService.createService(serviceEntity);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/dich-vu";
+        return "redirect:/quan-tri-vien/dich-vu/tao-moi";
     }
 
     // update
@@ -78,16 +89,18 @@ public class AServiceController {
     }
 
     @RequestMapping(value = "/{servSlug}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateService(@PathVariable String servSlug, HttpServletRequest httpServletRequest)
+    public String updateService(@PathVariable String servSlug, HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         ServiceEntity service = cMServiceService.getServiceAsObj(servSlug);
         if (service == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return String.format("redirect:/quan-tri-vien/dich-vu/%s", servSlug);
         service.setServTitle(httpServletRequest.getParameter("servTitle"));
         service.setServContent(httpServletRequest.getParameter("servContent"));
         boolean updateResult = cMServiceService.updateService(service);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/dich-vu";
+        return String.format("redirect:/quan-tri-vien/dich-vu/%s", servSlug);
     }
 
     // delete

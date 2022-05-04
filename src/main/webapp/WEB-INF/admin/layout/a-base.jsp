@@ -33,6 +33,8 @@
     <!-- Nucleo Icons -->
     <link href="<c:url value = '/resources/common/css/nucleo-icons.css'/>" rel="stylesheet" />
     <link href="<c:url value = '/resources/common/css/nucleo-svg.css'/>" rel="stylesheet" />
+    <link href="<c:url value = '/resources/common/css/loading.css'/>" rel="stylesheet" />
+    <link href="<c:url value = '/resources/ckeditor/ckeditor.css'/>" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="<c:url value = '/resources/common/css/nucleo-svg.css'/>" rel="stylesheet" />

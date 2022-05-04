@@ -36,11 +36,15 @@ public class CMNewsServiceImpl implements CMNewsService {
             jsonObject.put("newsLikeAmount", news[2]);
             jsonObject.put("newsTitle", news[3]);
             jsonObject.put("newsSlug", news[4]);
-            jsonObject.put("newsContent", news[5]);
-            jsonObject.put("newsCoverPage", news[6]);
+            jsonObject.put("newsCoverPage", news[5]);
             jsonArray.add(jsonObject);
         });
         return jsonArray;
+    }
+
+    @Override
+    public long getNewsAmount() {
+        return cMNewsRepository.getNewsAmount();
     }
 
     @Override
@@ -72,7 +76,7 @@ public class CMNewsServiceImpl implements CMNewsService {
     @Override
     public boolean createNews(NewsEntity newsEntity) {
         newsEntity.setNewsLikeAmount(0);
-        newsEntity.setNewsCreatedDate(utilBeanFactory.getApplicationContext().getBean(Timestamp.class));
+        newsEntity.setNewsCreatedDate(utilBeanFactory.getApplicationContext().getBean("currentTimeStamp",Timestamp.class));
         return cMNewsRepository.createNews(newsEntity);
     }
 

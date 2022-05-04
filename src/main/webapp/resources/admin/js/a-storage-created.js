@@ -1,11 +1,9 @@
-function redirectPageAfterCreate() {
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/kho-chua'
-    })
-}
 
 $(document).ready(function () {
-    $('#storageCreatedBtn').click(() => redirectPageAfterCreate())
+    $('#loading').hide()
+    $('#storageCreatedBtn').click(function () {
+        alert('Xác nhận tạo kho chứa mới')
+        $(this).hide()
+        $('#loading').show()
+    })
 })

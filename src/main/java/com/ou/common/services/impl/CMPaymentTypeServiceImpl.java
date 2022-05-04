@@ -34,6 +34,11 @@ public class CMPaymentTypeServiceImpl implements CMPaymentTypeService {
     }
 
     @Override
+    public long getPaymentTypeAmount() {
+        return cMPaymentTypeRepository.getPaymentTypeAmount();
+    }
+
+    @Override
     public PaymentTypeEntity getPaymentTypeAsObj(String paytSlug) {
         if (paytSlug == null || paytSlug.trim().length() == 0)
             return null;

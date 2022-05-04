@@ -2,6 +2,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMRoleRepository;
 import com.ou.configs.BeanFactoryConfig;
+import com.ou.pojos.PaymentTypeEntity;
 import com.ou.pojos.RoleEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
@@ -37,7 +38,8 @@ public class CMRoleRepositoryImpl implements CMRoleRepository {
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<RoleEntity> roleEntityRoot = criteriaQuery.from(RoleEntity.class);
         criteriaQuery.multiselect(roleEntityRoot.get("roleId"), roleEntityRoot.get("roleName"),
-                roleEntityRoot.get("roleSlug"));
+                        roleEntityRoot.get("roleSlug"))
+                .orderBy(criteriaBuilder.asc(roleEntityRoot.get("roleId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -45,6 +47,20 @@ public class CMRoleRepositoryImpl implements CMRoleRepository {
                     .setMaxResults(PageUtil.getPageSize()).getResultList();
         }
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public long getRoleAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<RoleEntity> roleEntityRoot = criteriaQuery.from(RoleEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(roleEntityRoot.get("roleId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override

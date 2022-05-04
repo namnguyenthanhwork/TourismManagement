@@ -2,6 +2,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMNoteRepository;
 import com.ou.configs.BeanFactoryConfig;
+import com.ou.pojos.NewsEntity;
 import com.ou.pojos.NoteEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
@@ -34,7 +35,8 @@ public class CMNoteRepositoryImpl implements CMNoteRepository {
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<NoteEntity> noteEntityRoot = criteriaQuery.from(NoteEntity.class);
         criteriaQuery.multiselect(noteEntityRoot.get("noteId"), noteEntityRoot.get("noteTitle"),
-                noteEntityRoot.get("noteSlug"), noteEntityRoot.get("noteContent"));
+                noteEntityRoot.get("noteSlug"), noteEntityRoot.get("noteContent"))
+                .orderBy(criteriaBuilder.asc(noteEntityRoot.get("noteId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -42,6 +44,20 @@ public class CMNoteRepositoryImpl implements CMNoteRepository {
                     .setMaxResults(PageUtil.getPageSize()).getResultList();
         }
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public long getNoteAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<NoteEntity> noteEntityRoot = criteriaQuery.from(NoteEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(noteEntityRoot.get("noteId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override

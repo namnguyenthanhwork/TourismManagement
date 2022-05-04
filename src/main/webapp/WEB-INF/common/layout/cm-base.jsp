@@ -21,13 +21,13 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <!-- -->
-
+    <link href="<c:url value = '/resources/common/css/loading.css'/>" rel="stylesheet" />
     <tiles:insertAttribute name="cm-ref"/>
 </head>
 
 <body>
 <tiles:insertAttribute name="cm-content"/>
 
-<script src="<c:url value ='/resources/common/js/sign-in.js'/>"></script>
+<script src="<c:url value ='/resources/common/js/cm-sign-in.js'/>"></script>
 </body>
 </html>

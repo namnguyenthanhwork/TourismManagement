@@ -1,5 +1,8 @@
-function getServiceInfo() {
-    let path = window.location.href + '/chinh-sua';
+function getServiceInfo(editor) {
+    let href = window.location.href
+    if (href.includes('?'))
+        href = href.substring(0, href.indexOf('?'))
+    let path = href + '/chinh-sua'
     fetch(path).then(res => {
         if (res.status !== 200)
             return res.status
@@ -10,21 +13,16 @@ function getServiceInfo() {
             return
         }
         $("#servTitle").val(data['servTitle']);
-        $("#servContent").val(data['servContent']);
+        editor.setData(data['servContent']);
     })
 }
-
-function redirectPageAfterUpdate() {
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/dich-vu'
-    })
-}
-
 
 $(document).ready(function () {
+    $('#loading').hide()
     $('#serviceUpdatedForm').attr('action', window.location.href);
-    getServiceInfo()
-    $('#serviceUpdatedBtn').click(() => redirectPageAfterUpdate())
+    $('#serviceUpdatedBtn').click(function () {
+        alert("Xác nhận cập nhật lịch trình")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

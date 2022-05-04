@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 public interface CMRoleService {
     JSONArray getRoles(Integer pageIndex);
 
+    long getRoleAmount();
     RoleEntity getRoleAsObj(String roleSlug);
 
     JSONObject getRoleAsJsonObj(String roleSlug);

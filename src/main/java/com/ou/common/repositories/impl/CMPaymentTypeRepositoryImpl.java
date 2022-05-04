@@ -2,6 +2,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMPaymentTypeRepository;
 import com.ou.configs.BeanFactoryConfig;
+import com.ou.pojos.NoteEntity;
 import com.ou.pojos.PaymentTypeEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
@@ -35,7 +36,8 @@ public class CMPaymentTypeRepositoryImpl implements CMPaymentTypeRepository {
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<PaymentTypeEntity> paymentTypeEntityRoot = criteriaQuery.from(PaymentTypeEntity.class);
         criteriaQuery.multiselect(paymentTypeEntityRoot.get("paytId"), paymentTypeEntityRoot.get("paytName"),
-                paymentTypeEntityRoot.get("paytSlug"));
+                        paymentTypeEntityRoot.get("paytSlug"))
+                .orderBy(criteriaBuilder.asc(paymentTypeEntityRoot.get("paytId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -56,6 +58,20 @@ public class CMPaymentTypeRepositoryImpl implements CMPaymentTypeRepository {
             return session.createQuery(criteriaQuery).getSingleResult();
         }catch (NoResultException noResultException){
             return null;
+        }
+    }
+
+    @Override
+    public long getPaymentTypeAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<PaymentTypeEntity> paymentTypeEntityRoot = criteriaQuery.from(PaymentTypeEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(paymentTypeEntityRoot.get("paytId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
         }
     }
 
