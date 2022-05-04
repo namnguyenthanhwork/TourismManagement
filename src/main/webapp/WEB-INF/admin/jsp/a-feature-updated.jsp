@@ -8,10 +8,13 @@
     <div class="card-body pt-4 p-3">
         <form id="featureUpdatedForm" method="post">
             <div class="form-group">
-                <label for="feaName">Tên đặc điểm</label>
+                <label for="feaName">Tên đặc điểm (*)</label>
                 <input type="text" class="form-control" id="feaName" name="feaName" placeholder="Nhập tên đặc điểm...">
             </div>
-            <button type="submit" id="featureUpdatedBtn" class="btn btn-primary">Chỉnh sửa</button>
+            <div class="form-group">
+                <button type="submit" id="featureUpdatedBtn" class="btn btn-primary">Cập nhật</button>
+                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+            </div>
         </form>
     </div>
 </div>

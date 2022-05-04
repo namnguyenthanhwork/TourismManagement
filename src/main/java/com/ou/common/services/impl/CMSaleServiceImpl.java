@@ -48,6 +48,11 @@ public class CMSaleServiceImpl implements CMSaleService {
     }
 
     @Override
+    public long getSaleAmount() {
+        return cMSaleRepository.getSaleAmount();
+    }
+
+    @Override
     public JSONObject getSaleAsJsonObj(Integer saleId) {
         if (saleId == null)
             return null;

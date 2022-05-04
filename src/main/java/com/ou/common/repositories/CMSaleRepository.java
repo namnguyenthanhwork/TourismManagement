@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CMSaleRepository {
     List<Object[]> getSales(Integer pageIndex);
-
+    long getSaleAmount();
     SaleEntity getSale(Integer saleId);
 
     boolean createSale(SaleEntity saleEntity);

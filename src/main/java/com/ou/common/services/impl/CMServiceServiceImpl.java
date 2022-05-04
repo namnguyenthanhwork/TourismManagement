@@ -37,6 +37,11 @@ public class CMServiceServiceImpl implements CMServiceService {
     }
 
     @Override
+    public long getServiceAmount() {
+        return cMServiceRepository.getServiceAmount();
+    }
+
+    @Override
     public ServiceEntity getServiceAsObj(String servSlug) {
         if (servSlug == null || servSlug.trim().length() == 0)
             return null;
@@ -80,7 +85,8 @@ public class CMServiceServiceImpl implements CMServiceService {
         SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
         slugUtil.setSlug(serviceEntity.getServTitle());
         serviceEntity.setServSlug(slugUtil.getSlug());
-        if (cMServiceRepository.getService(serviceEntity.getServSlug()) != null)
+        ServiceEntity updateService = cMServiceRepository.getService(serviceEntity.getServSlug());
+        if (updateService != null && updateService.getServId() != serviceEntity.getServId())
             return false;
         boolean updateResult;
         try {

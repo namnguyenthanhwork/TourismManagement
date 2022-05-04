@@ -159,10 +159,16 @@ public class CMTourServiceImpl implements CMTourService {
             JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
             jsonObject.put("tourId", tour[0]);
             jsonObject.put("tourAverageRating", tour[1]);
-            CategoryEntity category = cMCategoryRepository.getCategory((Integer) tour[2]);
-            jsonObject.put("catId", category.getCatId());
-            jsonObject.put("catName", category.getCatName());
-            jsonObject.put("catSlug", category.getCatSlug());
+            if(tour[2]!=null) {
+                CategoryEntity category = cMCategoryRepository.getCategory((Integer) tour[2]);
+                jsonObject.put("catId", category.getCatId());
+                jsonObject.put("catName", category.getCatName());
+                jsonObject.put("catSlug", category.getCatSlug());
+            }else{
+                jsonObject.put("catId", null);
+                jsonObject.put("catName", null);
+                jsonObject.put("catSlug", null);
+            }
             if (tour[3] != null) {
                 SaleEntity sale = cMSaleRepository.getSale((Integer) tour[3]);
                 jsonObject.put("saleId", sale.getSaleId());
@@ -175,13 +181,37 @@ public class CMTourServiceImpl implements CMTourService {
             }
             jsonObject.put("tourTitle", tour[4]);
             jsonObject.put("tourSlug", tour[5]);
-            jsonObject.put("tourContent", tour[6]);
             jsonObject.put("tourCoverPage", tour[7]);
-            setAdditionTourInformation(jsonObject, (String) tour[5]);
             jsonArray.add(jsonObject);
         });
         return jsonArray;
     }
+
+    @Override
+    public JSONArray getTours() {
+        List<Object[]> tours = cMTourRepository.getTours();
+        JSONArray jsonArray = utilBeanFactory.getApplicationContext().getBean(JSONArray.class);
+        tours.forEach(tour->{
+            JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+            jsonObject.put("tourTitle", tour[0]);
+            jsonObject.put("tourSlug", tour[1]);
+            jsonArray.add(jsonObject);
+        });
+        return jsonArray;
+    }
+
+    @Override
+    public long getTourAmount() {
+        return cMTourRepository.getTourAmount();
+    }
+
+    @Override
+    public int getEmptySlotAmount(Integer tourId) {
+        TourEntity tour = cMTourRepository.getTour(tourId);
+//        List<TourServingObjectEntity> tourServingObjectEntities
+        return 0;
+    }
+
 
     @Override
     public TourEntity getTourAsObj(String tourSlug) {
@@ -204,15 +234,16 @@ public class CMTourServiceImpl implements CMTourService {
         jsonObject.put("catId", category.getCatId());
         jsonObject.put("catName", category.getCatName());
         jsonObject.put("catSlug", category.getCatSlug());
-        if(tour.getSaleId()!=null) {
-            SaleEntity sale=  cMSaleRepository.getSale(tour.getSaleId());
+
+        if (tour.getSaleId() != null) {
+            SaleEntity sale = cMSaleRepository.getSale(tour.getSaleId());
             jsonObject.put("saleId", sale.getSaleId());
             jsonObject.put("saleFromDate", sale.getSaleFromDate());
             jsonObject.put("saleToDate", sale.getSaleToDate());
-        }else{
+        } else {
             jsonObject.put("saleId", null);
             jsonObject.put("saleFromDate", null);
-            jsonObject.put("saleToDate",null);
+            jsonObject.put("saleToDate", null);
         }
         PostEntity post = cMPostRepository.getPost(tour.getTourId());
         jsonObject.put("tourTitle", post.getPostTitle());

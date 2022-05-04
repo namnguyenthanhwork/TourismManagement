@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CMServingObjectRepository {
     List<Object[]> getServingObjects(Integer pageIndex);
+    long getServingObjectAmount();
 
     ServingObjectEntity getServingObject(String svoSlug);
     ServingObjectEntity getServingObject(Integer svoId);

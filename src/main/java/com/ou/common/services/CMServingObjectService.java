@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 
 public interface CMServingObjectService {
     JSONArray getServingObjects(Integer pageIndex);
-
+    long getServingObjectAmount();
     ServingObjectEntity getServingObjectAsObj(String svoSlug);
     ServingObjectEntity getServingObject(Integer svoId);
 

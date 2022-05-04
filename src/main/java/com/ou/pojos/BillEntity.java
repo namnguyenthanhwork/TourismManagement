@@ -40,11 +40,16 @@ public class BillEntity implements Serializable {
     private Boolean billIsPaid = false;
 
     @Basic
+    @Column(name = "bill_departure_date")
+    private Timestamp billDepartureDate;
+
+    @Basic
     @Column(name = "acc_id")
     private int accId;
     @Basic
     @Column(name = "payt_id")
     private int paytId;
+
 
     public int getBillId() {
         return billId;
@@ -133,6 +138,14 @@ public class BillEntity implements Serializable {
 
     public void setPaytId(int paytId) {
         this.paytId = paytId;
+    }
+
+    public Timestamp getBillDepartureDate() {
+        return billDepartureDate;
+    }
+
+    public void setBillDepartureDate(Timestamp billDepartureDate) {
+        this.billDepartureDate = billDepartureDate;
     }
 
     @Override

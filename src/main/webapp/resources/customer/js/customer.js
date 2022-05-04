@@ -21,6 +21,7 @@ $(document).ready(function () {
                 $(t).parents(".memberTop").hasClass("active") || $(".memberTop").removeClass("active"),
                 $(t).parents(".menuToggle").hasClass("active") || $(".menuToggle").removeClass("active")
         }),
+
         $(".megaMenu .menuNa ul li").hover(function () {
             $(".megaMenu .menuFo").removeClass("active");
             var e = $(this).attr("data-menu");
@@ -94,6 +95,7 @@ $(document).ready(function () {
             $(this).parents(".mda-box-r").hasClass("active") ? $(this).parents(".mda-box-r").removeClass("active") : $(this).parents(".mda-box-r").addClass("active")
         })
 })
+
 $(document).ready(function () {
 
     /* 1. Visualizing things on Hover - See next part for action on click */
@@ -145,3 +147,4 @@ function responseMessage(msg) {
     $('.success-box').fadeIn(200);
     $('.success-box div.text-message').html("<span>" + msg + "</span>");
 }
+

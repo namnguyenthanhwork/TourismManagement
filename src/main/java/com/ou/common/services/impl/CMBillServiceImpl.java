@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -44,6 +45,7 @@ public class CMBillServiceImpl implements CMBillService {
         jsonObject.put("accIdCard", bill[4]);
         jsonObject.put("accPhoneNumber", bill[5]);
         jsonObject.put("accDateOfBirth", bill[6]);
+
         jsonObject.put("paytId", bill[7]);
         jsonObject.put("paytName", bill[8]);
         jsonObject.put("paytSlug", bill[9]);
@@ -57,11 +59,14 @@ public class CMBillServiceImpl implements CMBillService {
         jsonObject.put("billShipDistrict", bill[16]);
         jsonObject.put("billShipCity", bill[17]);
         jsonObject.put("billIsPaid", bill[18]);
+        jsonObject.put("billDepartureDate", bill[19]);
+
         JSONArray tourPrices = utilBeanFactory.getApplicationContext().getBean(JSONArray.class);
         List<BillTourServingObjectEntity> billTourServingObjectEntities =
                 cMBillTourServingObjectRepository.getBillTourServingObjectByBill((Integer) bill[10]);
         AtomicReference<Integer> tourId = utilBeanFactory.getApplicationContext()
                 .getBean("atomicReference", AtomicReference.class);
+
         billTourServingObjectEntities.forEach(billTourServingObjectEntity -> {
             TourServingObjectEntity tourServingObject =
                     cMTourServingObjectRepository.getTourServingObjectById(billTourServingObjectEntity.getTsvoId());
@@ -71,7 +76,7 @@ public class CMBillServiceImpl implements CMBillService {
             JSONObject jsonObject1 = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
             jsonObject1.put("tourAmount", billTourServingObjectEntity.getTourAmount());
             jsonObject1.put("tourPrice", tourServingObject.getTourPrice());
-            jsonObject.put("svoName", servingObjectEntity.getSvoName());
+            jsonObject1.put("svoName", servingObjectEntity.getSvoName());
             jsonObject1.put("svoSlug", servingObjectEntity.getSvoSlug());
             tourPrices.add(jsonObject1);
         });
@@ -88,32 +93,50 @@ public class CMBillServiceImpl implements CMBillService {
     public JSONArray getBills(Integer pageIndex) {
         List<Object[]> bills = cMBillRepository.getBills(pageIndex);
         JSONArray jsonArray = utilBeanFactory.getApplicationContext().getBean(JSONArray.class);
-        bills.forEach(bill -> jsonArray.add(getBillInfo(bill)));
+        bills.forEach(bill -> {
+            JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+            jsonObject.put("accUsername", bill[0]);
+            jsonObject.put("paymentType", bill[1]);
+            jsonObject.put("billId", bill[2]);
+            jsonObject.put("billCreatedDate", bill[3]);
+            jsonObject.put("billTotalMoney",bill[4] );
+            jsonObject.put("billTotalSaleMoney", bill[5]);
+            jsonObject.put("billIsPaid",bill[6] );
+            jsonObject.put("billDepartureDate", bill[7]);
+            jsonArray.add(jsonObject);
+        });
         return jsonArray;
+    }
+
+    @Override
+    public long getBillAmount() {
+        return cMBillRepository.getBillAmount();
     }
 
     @Override
     public BillEntity getBillAsObj(Integer billId) {
         if(billId==null)
             return null;
-        return cMBillRepository.getBill(billId);
+        return cMBillRepository.getBillAsObj(billId);
     }
 
     @Override
     public JSONObject getBillAsJson(Integer billId) {
-        if(billId==null)
+        if (billId == null)
             return null;
-        List<Object[]> bills = cMBillRepository.getBills(null);
-        bills= bills.stream().filter(bill-> Integer.valueOf((String) bill[0]).equals(billId)).toList();
-        if(bills.size()>0)
-            return getBillInfo(bills.get(0));
+        Object[] bill = cMBillRepository.getBillAsJson(billId);
+        if (bill != null)
+            return getBillInfo(bill);
 
         return null;
     }
 
     @Override
     public BillEntity createBill(BillEntity bill) {
-        return cMBillRepository.createBill(bill);
+        bill.setBillCreatedDate(utilBeanFactory.getApplicationContext().getBean("currentTimeStamp", Timestamp.class));
+        Integer billId= cMBillRepository.createBill(bill);
+        BillEntity billEntity = cMBillRepository.getBillAsObj(billId);
+        return billEntity;
     }
 
     @Override

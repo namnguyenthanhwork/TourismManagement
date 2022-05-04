@@ -276,6 +276,11 @@
         <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-bill.jsp"/>
         <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-bill.jsp"/>
     </definition>
+    <definition name="a-bill-detail" extends="a-homepage">
+        <put-attribute name="a-title" value="a-bill-detail"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/a-bill-detail.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/a-bill-detail.jsp"/>
+    </definition>
 
     <!-- News management -->
     <definition name="a-news" extends="a-homepage">
@@ -345,27 +350,22 @@
 
 
     <!-- tour booking management -->
-    <definition name="s-tour-booking" extends="a-homepage">
+    <definition name="s-tour-booking" extends="s-homepage">
         <put-attribute name="a-title" value="s-tour-booking"/>
-        <put-attribute name="a-ref" value="/WEB-INF/customer/ref/s-tour-booking.jsp"/>
-        <put-attribute name="a-content" value="/WEB-INF/customer/jsp/s-tour-booking.jsp"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/s-tour-booking.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/s-tour-booking.jsp"/>
     </definition>
-    <definition name="s-tour-booking-detail" extends="a-homepage">
+    <definition name="s-tour-booking-detail" extends="s-homepage">
         <put-attribute name="a-title" value="s-tour-booking-detail"/>
-        <put-attribute name="a-ref" value="/WEB-INF/customer/ref/s-tour-booking-detail.jsp"/>
-        <put-attribute name="a-content" value="/WEB-INF/customer/jsp/s-tour-booking-detail.jsp"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/s-tour-booking-detail.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/s-tour-booking-detail.jsp"/>
     </definition>
 
     <!-- payment management -->
-    <definition name="s-payment" extends="a-homepage">
+    <definition name="s-payment" extends="s-homepage">
         <put-attribute name="a-title" value="s-payment"/>
-        <put-attribute name="a-ref" value="/WEB-INF/customer/ref/s-payment.jsp"/>
-        <put-attribute name="a-content" value="/WEB-INF/customer/jsp/s-payment.jsp"/>
-    </definition>
-    <definition name="s-payment-detail" extends="a-homepage">
-        <put-attribute name="a-title" value="s-payment-detail"/>
-        <put-attribute name="a-ref" value="/WEB-INF/customer/ref/s-payment-detail.jsp"/>
-        <put-attribute name="a-content" value="/WEB-INF/customer/jsp/s-payment-detail.jsp"/>
+        <put-attribute name="a-ref" value="/WEB-INF/admin/ref/s-payment.jsp"/>
+        <put-attribute name="a-content" value="/WEB-INF/admin/jsp/s-payment.jsp"/>
     </definition>
 
 </tiles-definitions>

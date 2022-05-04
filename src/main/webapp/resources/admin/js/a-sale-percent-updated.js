@@ -1,5 +1,8 @@
 function getSalePercentInfo() {
-    let path = window.location.href + '/chinh-sua';
+    let href = window.location.href
+    if (href.includes('?'))
+        href = href.substring(0, href.indexOf('?'))
+    let path = href + '/chinh-sua'
     fetch(path).then(res => {
         if (res.status !== 200)
             return res.status
@@ -13,17 +16,13 @@ function getSalePercentInfo() {
     })
 }
 
-function redirectPageAfterUpdate() {
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/phan-tram-giam-gia'
-    })
-}
-
-
 $(document).ready(function () {
+    $('#loading').hide()
     $('#salePercentUpdatedForm').attr('action', window.location.href);
     getSalePercentInfo()
-    $('#salePercentUpdatedBtn').click(() => redirectPageAfterUpdate())
+    $('#salePercentUpdatedBtn').click(function () {
+        alert("Xác nhận cập nhật phần trăm giảm giá mới")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

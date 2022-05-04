@@ -2,6 +2,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMFeatureRepository;
 import com.ou.configs.BeanFactoryConfig;
+import com.ou.pojos.DepartureDateEntity;
 import com.ou.pojos.FeatureEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
@@ -37,7 +38,8 @@ public class CMFeatureRepositoryImpl implements CMFeatureRepository {
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<FeatureEntity> featureEntityRoot = criteriaQuery.from(FeatureEntity.class);
         criteriaQuery.multiselect(featureEntityRoot.get("feaId"), featureEntityRoot.get("feaName"),
-                featureEntityRoot.get("feaSlug"));
+                featureEntityRoot.get("feaSlug"))
+                .orderBy(criteriaBuilder.asc(featureEntityRoot.get("feaId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -45,6 +47,20 @@ public class CMFeatureRepositoryImpl implements CMFeatureRepository {
                     .setMaxResults(PageUtil.getPageSize()).getResultList();
         }
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public long getFeatureAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<FeatureEntity> featureEntityRoot = criteriaQuery.from(FeatureEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(featureEntityRoot.get("feaId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override

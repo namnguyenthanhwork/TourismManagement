@@ -1,5 +1,8 @@
 function getRoleInfo(){
-    let path = window.location.href + '/chinh-sua';
+    let href = window.location.href
+    if (href.includes('?'))
+        href = href.substring(0, href.indexOf('?'))
+    let path = href + '/chinh-sua'
     fetch(path).then(res => {
         if (res.status !== 200)
             return res.status
@@ -12,18 +15,13 @@ function getRoleInfo(){
         $("#roleName").val(data['roleName']);
     })
 }
-
-function redirectPageAfterUpdate(){
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/vai-tro'
-    })
-}
-
-
 $(document).ready(function () {
+    $('#loading').hide()
     $('#roleUpdateForm').attr('action', window.location.href);
     getRoleInfo()
-    $('#roleUpdatedBtn').click( () =>redirectPageAfterUpdate())
+    $('#roleUpdatedBtn').click(function (){
+        alert("Xác nhận cập nhật vai trò?")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

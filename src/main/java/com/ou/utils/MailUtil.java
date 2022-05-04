@@ -1,5 +1,6 @@
 package com.ou.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
 import javax.mail.*;
@@ -18,12 +19,12 @@ public class MailUtil {
     public MailUtil(Environment environment, Properties properties) {
         env = environment;
         this.properties = properties;
-        String s = env.getProperty("mail.smtp.auth");
         this.properties.put("mail.smtp.auth", env.getProperty("mail.smtp.auth"));
         this.properties.put("mail.smtp.starttls.enable", env.getProperty("mail.smtp.starttls.enable"));
         this.properties.put("mail.smtp.host", env.getProperty("mail.smtp.host"));
         this.properties.put("mail.smtp.port", env.getProperty("mail.smtp.port"));
         this.properties.put("mail.smtp.ssl.trust", env.getProperty("mail.smtp.ssl.trust"));
+        this.properties.put("mail.smtp.ssl.protocols", env.getProperty("mail.smtp.ssl.protocols"));
         this.properties.put("mail.username", env.getProperty("mail.username"));
         this.properties.put("mail.password", env.getProperty("mail.password"));
     }

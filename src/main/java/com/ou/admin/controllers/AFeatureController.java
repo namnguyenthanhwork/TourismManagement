@@ -3,6 +3,7 @@ package com.ou.admin.controllers;
 import com.ou.common.services.CMFeatureService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.FeatureEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,14 @@ public class AFeatureController {
         return new ResponseEntity<>(features, features.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getFeaturePageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMFeatureService.getFeatureAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
+
     // create
     @GetMapping("/tao-moi")
     public String getFeatureCreatedView() {
@@ -52,13 +61,15 @@ public class AFeatureController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createFeature(HttpServletRequest httpServletRequest)
+    public String createFeature(HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         FeatureEntity featureEntity = pojoBeanFactory.getApplicationContext().getBean(FeatureEntity.class);
         featureEntity.setFeaName(httpServletRequest.getParameter("feaName"));
         boolean createdResult = cMFeatureService.createFeature(featureEntity);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/dac-diem-ngay-khoi-hanh";
+        return "redirect:/quan-tri-vien/dac-diem-ngay-khoi-hanh/tao-moi";
     }
 
     // update
@@ -77,15 +88,17 @@ public class AFeatureController {
     }
 
     @RequestMapping(value = "/{feaSlug}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateFeature(@PathVariable String feaSlug, HttpServletRequest httpServletRequest)
+    public String updateFeature(@PathVariable String feaSlug, HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         FeatureEntity feature = cMFeatureService.getFeatureAsObj(feaSlug);
         if (feature == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return String.format("redirect:/quan-tri-vien/dac-diem-ngay-khoi-hanh/%s",feaSlug);
         feature.setFeaName(httpServletRequest.getParameter("feaName"));
         boolean updateResult = cMFeatureService.updateFeature(feature);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/dac-diem-ngay-khoi-hanh";
+        return String.format("redirect:/quan-tri-vien/dac-diem-ngay-khoi-hanh/%s",feaSlug);
     }
 
     // delete

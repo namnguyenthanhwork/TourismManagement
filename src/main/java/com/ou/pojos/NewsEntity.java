@@ -8,7 +8,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "News", schema = "TourismManagement")
 public class NewsEntity implements Serializable {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "news_id")
     private int newsId;

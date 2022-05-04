@@ -8,10 +8,13 @@
 	<div class="card-body pt-4 p-3">
 		<form id="roleUpdateForm" method="post">
 			<div class="form-group">
-				<label for="roleName">Tên vai trò</label>
+				<label for="roleName">Tên vai trò (*)</label>
 				<input type="text" class="form-control" id="roleName" name="roleName" placeholder="Nhập tên vai trò...">
 			</div>
-			<button type="submit" id="roleUpdatedBtn" class="btn btn-primary">Chỉnh sửa</button>
+			<div class="form-group">
+				<button type="submit" id="roleUpdatedBtn" class="btn btn-primary">Cập nhật</button>
+				<div class="lds-ripple" id="loading"><div></div><div></div></div>
+			</div>
 		</form>
 	</div>
 </div>

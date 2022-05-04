@@ -1,5 +1,8 @@
 function getThumbnailInfo() {
-    let path = window.location.href + '/chinh-sua';
+    let href = window.location.href
+    if (href.includes('?'))
+        href = href.substring(0, href.indexOf('?'))
+    let path = href + '/chinh-sua'
     fetch(path).then(res => {
         if (res.status !== 200)
             return res.status
@@ -9,21 +12,37 @@ function getThumbnailInfo() {
             alert("thông tin trống")
             return
         }
-        // $("#storName").val(data['storName']);
+        $('#tourSlug').val(data['tourSlug'])
     })
 }
+function getTourInfo() {
+    fetch('/TourismManagement/quan-tri-vien/tour-du-lich/thong-tin/tong-quan')
+        .then(res => {
+            if (res.status != 200)
+                return res.status
+            return res.json()
+        }).then(data => {
+        if (data == 204) {
+            alert('thông tin trống')
+            return
+        }
+        let options = '';
+        for (let i = 0; i < data.length; i++)
+            options += `
+                     <option value="${data[i]['tourSlug']}">${data[i]['tourTitle']}</option>
+                `
+        document.getElementById('tourSlug').innerHTML = options
+        getThumbnailInfo()
 
-function redirectPageAfterUpdate() {
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/hinh-thu-nho'
     })
 }
-
-
 $(document).ready(function () {
+    $('#loading').hide()
     $('#thumbnailUpdatedForm').attr('action', window.location.href);
-    getThumbnailInfo()
-    $('#thumbnailUpdatedBtn').click(() => redirectPageAfterUpdate())
+    getTourInfo()
+    $('#thumbnailUpdatedBtn').click(function () {
+        alert("Xác nhận cập nhật hình thu nhỏ mới")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

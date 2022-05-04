@@ -34,7 +34,7 @@ public class CMUserServiceImpl implements CMUserService {
         AccountEntity account = cmUserRepository.getAccountByUsername(accUsername.trim());
         if (account == null)
             throw new UsernameNotFoundException("Tài khoản không tồn tại");
-        account.setAccLastAccess(utilBeanFactory.getApplicationContext().getBean(Timestamp.class));
+        account.setAccLastAccess(utilBeanFactory.getApplicationContext().getBean("currentTimeStamp",Timestamp.class));
         cMAccountRepository.updateAccount(account);
         Set<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority(cmUserRepository.getRoleSlugOfAccount(accUsername.trim())));

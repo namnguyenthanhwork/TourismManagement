@@ -4,6 +4,7 @@ package com.ou.admin.controllers;
 import com.ou.common.services.CMSalePercentService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.SalePercentEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.Map;
 @Controller
 @RequestMapping(path = "/quan-tri-vien/phan-tram-giam-gia")
 public class ASalePercentController {
-//
+
     @Autowired
     private CMSalePercentService cMSalePercentService;
 
@@ -46,6 +47,14 @@ public class ASalePercentController {
         return new ResponseEntity<>(salePercents, salePercents.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getSalePercentPageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMSalePercentService.getSalePercentAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
+
     // create
     @GetMapping("/tao-moi")
     public String getSalePercentCreatedView() {
@@ -53,13 +62,15 @@ public class ASalePercentController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createSalePercent(HttpServletRequest httpServletRequest)
+    public String createSalePercent(HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         SalePercentEntity salePercentEntity = pojoBeanFactory.getApplicationContext().getBean(SalePercentEntity.class);
         salePercentEntity.setSperPercent(Integer.valueOf(httpServletRequest.getParameter("sperPercent")));
         boolean createdResult = cMSalePercentService.createSalePercent(salePercentEntity);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/phan-tram-giam-gia";
+        return "redirect:/quan-tri-vien/phan-tram-giam-gia/tao-moi";
     }
 
     // update
@@ -78,16 +89,18 @@ public class ASalePercentController {
     }
 
     @RequestMapping(value = "/{sperId}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateSalePercent(@PathVariable Integer sperId,
+    public String updateSalePercent(@PathVariable Integer sperId,
                                                         HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         SalePercentEntity salePercent = cMSalePercentService.getSalePercentAsObj(sperId);
         if (salePercent == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return String.format("redirect:/quan-tri-vien/phan-tram-giam-gia/%d", sperId);
         salePercent.setSperPercent(Integer.valueOf(httpServletRequest.getParameter("sperPercent")));
         boolean updateResult = cMSalePercentService.updateSalePercent(salePercent);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/phan-tram-giam-gia";
+        return String.format("redirect:/quan-tri-vien/phan-tram-giam-gia/%d", sperId);
     }
 
     // delete

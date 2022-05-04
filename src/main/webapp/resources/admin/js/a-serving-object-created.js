@@ -1,11 +1,9 @@
-function redirectPageAfterCreate(){
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/doi-tuong-phuc-vu'
-    })
-}
 
 $(document).ready(function () {
-    $('#servingObjectCreatedBtn').click( () =>redirectPageAfterCreate())
+    $('#loading').hide()
+    $('#servingObjectCreatedBtn').click( function () {
+        alert("Xác nhận tạo đối tượng phục vụ mới")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

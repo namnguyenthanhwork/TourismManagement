@@ -1,11 +1,9 @@
-function redirectPageAfterCreate() {
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/phan-tram-giam-gia'
-    })
-}
 
 $(document).ready(function () {
-    $('#salePercentCreatedBtn').click(() => redirectPageAfterCreate())
+    $('#loading').hide()
+    $('#salePercentCreatedBtn').click(function () {
+        alert("Xác nhận tạo phần trăm giảm giá mới")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

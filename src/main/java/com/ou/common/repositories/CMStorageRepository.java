@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CMStorageRepository {
     List<Object[]> getStorages(Integer pageIndex);
-
+    long getStorageAmount();
     StorageEntity getStorage(String storSlug);
 
     StorageEntity getStorage(Integer storId);

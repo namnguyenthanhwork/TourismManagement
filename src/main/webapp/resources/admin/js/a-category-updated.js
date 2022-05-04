@@ -1,48 +1,51 @@
-function getRoleInfo() {
-    let path = window.location.href + '/chinh-sua';
+function getCategoryInfo() {
+    let href = window.location.href
+    if (href.includes('?'))
+        href = href.substring(0, href.indexOf('?'))
+    let path = href + '/chinh-sua'
     fetch(path).then(res => {
         if (res.status !== 200)
             return res.status
         return res.json()
     }).then(data => {
         if (data === 204) {
-            alert("thông tin trống")
+            alert('thông tin trống')
             return
         }
-        $("#catName").val(data['catName']);
-
+        $('#catName').val(data['catName']);
+        $('#storSlug').val(data['storSlug'])
     })
 }
 
-function redirectPageAfterUpdate() {
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/loai-tour'
-    })
-}
-
-
-$(document).ready(function () {
+function  getStorageInfo(){
     fetch("/TourismManagement/quan-tri-vien/kho-chua/thong-tin")
         .then(res => {
             if (res.status != 200)
                 return res.status
             return res.json()
         }).then(data => {
-            if (data == 204) {
-                alert("thông tin trống")
-                return
-            }
-            let options = '';
-            for (let i = 0; i < data.length; i++) {
-                options += `
+        if (data == 204) {
+            alert("thông tin trống")
+            return
+        }
+        let options = '';
+        for (let i = 0; i < data.length; i++) {
+            options += `
                 <option value="${data[i]['storSlug']}">${data[i]['storName']}</option>
                 `
-            }
-            document.getElementById('storSlug').innerHTML = options
-        })
+        }
+        document.getElementById('storSlug').innerHTML = options
+        getCategoryInfo()
+    })
+}
+
+$(document).ready(function () {
+    $('#loading').hide()
     $('#categoryUpdatedForm').attr('action', window.location.href);
-    getRoleInfo()
-    $('#categoryUpdatedBtn').click(() => redirectPageAfterUpdate())
+    getStorageInfo()
+    $('#categoryUpdatedBtn').click(function (){
+        alert("Xác nhận cập nhật loại tour?")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

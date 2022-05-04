@@ -41,6 +41,11 @@ public class CMDepartureDateServiceImpl implements CMDepartureDateService {
     }
 
     @Override
+    public long getDepartureDateAmount() {
+        return cMDepartureDateRepository.getDepartureDateAmount();
+    }
+
+    @Override
     public DepartureDateEntity getDepartureDateAsObj(Integer dptId) {
         if (dptId == null)
             return null;

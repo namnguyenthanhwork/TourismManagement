@@ -8,15 +8,18 @@
     <div class="card-body pt-4 p-3">
         <form id="categoryUpdatedForm" method="post">
             <div class="form-group">
-                <label for="catName">Tên loại tour</label>
+                <label for="catName">Tên loại tour (*)</label>
                 <input type="text" class="form-control" id="catName" name="catName" placeholder="Nhập tên loại tour...">
             </div>
             <div class="form-group">
-                <label for="storSlug">Loại kho</label>
+                <label for="storSlug">Loại kho (*)</label>
                 <select name="storSlug" id="storSlug" class="multisteps-form__input form-control">
                 </select>
             </div>
-            <button type="submit" id="categoryUpdatedBtn" class="btn btn-primary">Chỉnh sửa</button>
+            <div class="form-group">
+                <button type="submit" id="categoryUpdatedBtn" class="btn btn-primary">Cập nhật</button>
+                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+            </div>
         </form>
     </div>
 </div>

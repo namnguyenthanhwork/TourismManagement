@@ -18,7 +18,7 @@ public class NoteEntity implements Serializable {
     @Column(name = "note_slug")
     private String noteSlug;
     @Basic
-    @Column(name = "note_content")
+    @Column(name = "note_content", length = Integer.MAX_VALUE)
     private String noteContent;
 
     public int getNoteId() {

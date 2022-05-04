@@ -7,6 +7,11 @@ import org.json.simple.JSONObject;
 public interface CMTourService {
     JSONArray getTours(Integer pageIndex, String ... params);
 
+    JSONArray getTours();
+    long getTourAmount();
+
+    int getEmptySlotAmount(Integer tourId);
+
     TourEntity getTourAsObj(String tourSlug);
 
     JSONObject getTourAsJsonObj(String tourSlug);

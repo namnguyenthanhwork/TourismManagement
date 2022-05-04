@@ -5,6 +5,7 @@ import com.ou.common.services.CMSaleService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.SaleEntity;
 import com.ou.pojos.SalePercentEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 @Controller
@@ -52,6 +55,14 @@ public class ASaleConroller {
         return new ResponseEntity<>(sales, sales.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getSalePageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMSaleService.getSaleAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
+
     // create
     @GetMapping("/tao-moi")
     public String getSaleCreatedView() {
@@ -59,17 +70,25 @@ public class ASaleConroller {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createSale(HttpServletRequest httpServletRequest)
-            throws UnsupportedEncodingException {
+    public String createSale(HttpServletRequest httpServletRequest)
+            throws UnsupportedEncodingException, ParseException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         SaleEntity sale = pojoBeanFactory.getApplicationContext().getBean(SaleEntity.class);
         SalePercentEntity salePercent = cMSalePercentService.getSalePercentAsObj(
                 Integer.valueOf(httpServletRequest.getParameter("sperId")));
-        sale.setSaleFromDate(Timestamp.valueOf(httpServletRequest.getParameter("saleFromDate")));
-        sale.setSaleToDate(Timestamp.valueOf(httpServletRequest.getParameter("saleToDate")));
+        Timestamp saleFromDate = utilBeanFactory.getApplicationContext().getBean("emptyTimeStamp", Timestamp.class);
+        Timestamp saleToDate = utilBeanFactory.getApplicationContext().getBean("emptyTimeStamp", Timestamp.class);
+        saleFromDate.setTime(utilBeanFactory.getApplicationContext().getBean(SimpleDateFormat.class).parse(httpServletRequest
+                .getParameter("saleFromDate") + " 00:00:00").getTime());
+        saleToDate.setTime(utilBeanFactory.getApplicationContext().getBean(SimpleDateFormat.class).parse(httpServletRequest
+                .getParameter("saleToDate") + " 00:00:00").getTime());
+        sale.setSaleFromDate(saleFromDate);
+        sale.setSaleToDate(saleToDate);
         sale.setSperId(salePercent.getSperId());
         boolean createdResult = cMSaleService.createSale(sale);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/giam-gia";
+        return "redirect:/quan-tri-vien/giam-gia/tao-moi";
     }
 
     // update
@@ -88,19 +107,27 @@ public class ASaleConroller {
     }
 
     @RequestMapping(value = "/{saleId}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateSale(@PathVariable Integer saleId, HttpServletRequest httpServletRequest)
-            throws UnsupportedEncodingException {
+    public String updateSale(@PathVariable Integer saleId, HttpServletRequest httpServletRequest)
+            throws UnsupportedEncodingException, ParseException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         SaleEntity sale = cMSaleService.getSaleAsObj(saleId);
         SalePercentEntity salePercent = cMSalePercentService.getSalePercentAsObj(
                 Integer.valueOf(httpServletRequest.getParameter("sperId")));
         if (sale == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        sale.setSaleFromDate(Timestamp.valueOf(httpServletRequest.getParameter("saleFromDate")));
-        sale.setSaleToDate(Timestamp.valueOf(httpServletRequest.getParameter("saleToDate")));
+            return String.format("redirect:/quan-tri-vien/giam-gia/%d", saleId);
+        Timestamp saleFromDate = utilBeanFactory.getApplicationContext().getBean("emptyTimeStamp", Timestamp.class);
+        Timestamp saleToDate = utilBeanFactory.getApplicationContext().getBean("emptyTimeStamp", Timestamp.class);
+        saleFromDate.setTime(utilBeanFactory.getApplicationContext().getBean(SimpleDateFormat.class).parse(httpServletRequest
+                .getParameter("saleFromDate") + " 00:00:00").getTime());
+        saleToDate.setTime(utilBeanFactory.getApplicationContext().getBean(SimpleDateFormat.class).parse(httpServletRequest
+                .getParameter("saleToDate") + " 00:00:00").getTime());
+        sale.setSaleFromDate(saleFromDate);
+        sale.setSaleToDate(saleToDate);
         sale.setSperId(salePercent.getSperId());
         boolean updateResult = cMSaleService.updateSale(sale);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/giam-gia";
+        return String.format("redirect:/quan-tri-vien/giam-gia/%d", saleId);
     }
 
     // delete

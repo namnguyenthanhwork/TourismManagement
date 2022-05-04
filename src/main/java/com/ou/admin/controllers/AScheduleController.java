@@ -5,6 +5,7 @@ import com.ou.common.services.CMTourService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.ScheduleEntity;
 import com.ou.pojos.TourEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,13 @@ public class AScheduleController {
         JSONArray schedules = cMScheduleService.getSchedules(pageIndex);
         return new ResponseEntity<>(schedules, schedules.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getSchedulePageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMScheduleService.getScheduleAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
 
     // create
     @GetMapping("/tao-moi")
@@ -57,7 +65,7 @@ public class AScheduleController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createSchedule(HttpServletRequest httpServletRequest)
+    public String createSchedule(HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         ScheduleEntity scheduleEntity = pojoBeanFactory.getApplicationContext().getBean(ScheduleEntity.class);
@@ -66,7 +74,9 @@ public class AScheduleController {
         scheduleEntity.setScheContent(httpServletRequest.getParameter("scheContent"));
         scheduleEntity.setTourId(tourEntity.getTourId());
         boolean createdResult = cMScheduleService.createSchedule(scheduleEntity);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/lich-trinh";
+        return "redirect:/quan-tri-vien/lich-trinh/tao-moi";
     }
 
     // update
@@ -85,18 +95,20 @@ public class AScheduleController {
     }
 
     @RequestMapping(value = "/{scheSlug}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateSchedule(@PathVariable String scheSlug, HttpServletRequest httpServletRequest)
+    public String updateSchedule(@PathVariable String scheSlug, HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         ScheduleEntity schedule = cMScheduleService.getScheduleAsObj(scheSlug);
         TourEntity tour = cMTourService.getTourAsObj(httpServletRequest.getParameter("tourSlug"));
         if (schedule == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return String.format("redirect:/quan-tri-vien/lich-trinh/%s", scheSlug);
         schedule.setScheTitle(httpServletRequest.getParameter("scheTitle"));
         schedule.setScheContent(httpServletRequest.getParameter("scheContent"));
         schedule.setTourId(tour.getTourId());
         boolean updateResult = cMScheduleService.updateSchedule(schedule);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/lich-trinh";
+        return String.format("redirect:/quan-tri-vien/lich-trinh/%s", scheSlug);
     }
 
     // delete

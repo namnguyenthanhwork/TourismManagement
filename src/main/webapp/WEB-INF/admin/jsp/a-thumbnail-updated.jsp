@@ -11,7 +11,15 @@
                 <label for="thumImage">Upload hình</label>
                 <input type="file" name="thumImage" class="form-control" id="thumImage">
             </div>
-            <button type="submit" id="thumbnailUpdatedBtn" class="btn btn-primary">Chỉnh sửa</button>
+            <div class="form-group">
+                <label for="tourSlug">Tour du lịch (*)</label>
+                <select name="tourSlug" id="tourSlug" class="multisteps-form__input form-control">
+                </select>
+            </div>
+            <div class="form-group">
+                 <button type="submit" id="thumbnailUpdatedBtn" class="btn btn-primary">Cập nhật</button>
+                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+            </div>
         </form>
     </div>
 </div>

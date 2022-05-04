@@ -39,7 +39,8 @@ public class CMSaleRepositoryImpl implements CMSaleRepository {
         criteriaQuery.where(criteriaBuilder.equal(saleEntityRoot.get("sperId"), salePercentEntityRoot.get("sperId")))
                 .multiselect(saleEntityRoot.get("saleId"), saleEntityRoot.get("saleFromDate"),
                         saleEntityRoot.get("saleToDate"), salePercentEntityRoot.get("sperId"),
-                        salePercentEntityRoot.get("sperPercent"));
+                        salePercentEntityRoot.get("sperPercent"))
+                .orderBy(criteriaBuilder.asc(saleEntityRoot.get("saleId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -47,6 +48,20 @@ public class CMSaleRepositoryImpl implements CMSaleRepository {
                     .setMaxResults(PageUtil.getPageSize()).getResultList();
         }
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public long getSaleAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<SaleEntity> saleEntityRoot = criteriaQuery.from(SaleEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(saleEntityRoot.get("saleId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override

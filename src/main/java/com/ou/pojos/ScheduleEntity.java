@@ -18,7 +18,7 @@ public class ScheduleEntity implements Serializable {
     @Column(name = "sche_slug")
     private String scheSlug;
     @Basic
-    @Column(name = "sche_content")
+    @Column(name = "sche_content", length = Integer.MAX_VALUE)
     private String scheContent;
     @Basic
     @Column(name = "tour_id")

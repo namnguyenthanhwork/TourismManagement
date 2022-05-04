@@ -46,8 +46,8 @@ public class CMTourServingObjectRepositoryImpl implements CMTourServingObjectRep
                         postEntityRoot.get("postId").as(Integer.class)),
                 criteriaBuilder.equal(postEntityRoot.get("postSlug").as(String.class), tourSlug))
                 .multiselect(
-                        tourServingObjectEntityRoot.get("tourId"),tourServingObjectEntityRoot.get("svoId"),
-                        tourServingObjectEntityRoot.get("tourPrice"));
+                        tourServingObjectEntityRoot.get("tsvoId"),tourServingObjectEntityRoot.get("tourId"),
+                        tourServingObjectEntityRoot.get("svoId"),tourServingObjectEntityRoot.get("tourPrice"));
 
         List<Object[]> results = session.createQuery(criteriaQuery).getResultList();
         List<TourServingObjectEntity> tourServingObjects = pojoBeanFactory.getApplicationContext()
@@ -55,9 +55,10 @@ public class CMTourServingObjectRepositoryImpl implements CMTourServingObjectRep
         results.forEach(result -> {
             TourServingObjectEntity tourServingObject = pojoBeanFactory.getApplicationContext()
                     .getBean(TourServingObjectEntity.class);
-            tourServingObject.setTourId((Integer) result[0]);
-            tourServingObject.setSvoId((Integer) result[1]);
-            tourServingObject.setTourPrice((BigDecimal) result[2]);
+            tourServingObject.setTsvoId((Integer) result[0]);
+            tourServingObject.setTourId((Integer) result[1]);
+            tourServingObject.setSvoId((Integer) result[2]);
+            tourServingObject.setTourPrice((BigDecimal) result[3]);
             tourServingObjects.add(tourServingObject);
         });
 
@@ -76,17 +77,18 @@ public class CMTourServingObjectRepositoryImpl implements CMTourServingObjectRep
                         servingObjectEntityRoot.get("svoId").as(Integer.class)),
                 criteriaBuilder.equal(servingObjectEntityRoot.get("svoSlug").as(String.class), svoSlug))
                 .multiselect(
-                tourServingObjectEntityRoot.get("tourId"),tourServingObjectEntityRoot.get("svoId"),
-                tourServingObjectEntityRoot.get("tourPrice"));
+                        tourServingObjectEntityRoot.get("tsvoId"),tourServingObjectEntityRoot.get("tourId"),
+                        tourServingObjectEntityRoot.get("svoId"),tourServingObjectEntityRoot.get("tourPrice"));
         List<Object[]> results = session.createQuery(criteriaQuery).getResultList();
         List<TourServingObjectEntity> tourServingObjects = pojoBeanFactory.getApplicationContext()
                 .getBean("tourServingObjectEntityList", List.class);
         results.forEach(result -> {
             TourServingObjectEntity tourServingObject = pojoBeanFactory.getApplicationContext()
                     .getBean(TourServingObjectEntity.class);
-            tourServingObject.setTourId((Integer) result[0]);
-            tourServingObject.setSvoId((Integer) result[1]);
-            tourServingObject.setTourPrice((BigDecimal) result[2]);
+            tourServingObject.setTsvoId((Integer) result[0]);
+            tourServingObject.setTourId((Integer) result[1]);
+            tourServingObject.setSvoId((Integer) result[2]);
+            tourServingObject.setTourPrice((BigDecimal) result[3]);
             tourServingObjects.add(tourServingObject);
         });
 

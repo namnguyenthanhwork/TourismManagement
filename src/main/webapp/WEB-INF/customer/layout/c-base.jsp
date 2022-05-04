@@ -38,11 +38,14 @@
         integrity="sha512-6PM0qYu5KExuNcKt5bURAoT6KCThUmHRewN3zUFNaoI6Di7XJPTMoT6K0nsagZKk2OB4L7E3q1uQKHNHd4stIQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="<c:url value = '/resources/customer/css/customer.css' />" rel="stylesheet" />
+    <script src="<c:url value='/resources/customer/js/c-header.js'/> "/>
 </head>
 
 <body>
     <div id="vnt-wrapper">
         <div id="vnt-container">
+            <script>
+            </script>
             <tiles:insertAttribute name="c-header" />
             <tiles:insertAttribute name="c-content" />
             <tiles:insertAttribute name="c-footer" />

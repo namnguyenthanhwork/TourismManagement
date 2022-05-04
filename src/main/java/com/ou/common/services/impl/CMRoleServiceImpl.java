@@ -34,6 +34,11 @@ public class CMRoleServiceImpl implements CMRoleService {
         return jsonArray;
     }
 
+    @Override
+    public long getRoleAmount() {
+        return cMRoleRepository.getRoleAmount();
+    }
+
 
     @Override
     public RoleEntity getRoleAsObj(String roleSlug) {

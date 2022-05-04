@@ -19,6 +19,7 @@
         <put-attribute name="c-content" value="/WEB-INF/customer/jsp/c-homepage.jsp"/>
     </definition>
 
+
     <!-- tour-detail -->
     <definition name="c-tour-detail" extends="c-homepage">
         <put-attribute name="c-title" value="c-base"/>
@@ -38,13 +39,6 @@
         <put-attribute name="c-title" value="c-base"/>
         <put-attribute name="c-ref" value="/WEB-INF/customer/ref/c-news.jsp"/>
         <put-attribute name="c-content" value="/WEB-INF/customer/jsp/c-news.jsp"/>
-    </definition>
-
-    <!-- sign up-->
-    <definition name="c-sign-up" extends="c-base">
-        <put-attribute name="c-title" value="a-sign-up"/>
-        <put-attribute name="c-ref" value="/WEB-INF/customer/ref/c-sign-up.jsp"/>
-        <put-attribute name="c-content" value="/WEB-INF/customer/jsp/c-sign-up.jsp"/>
     </definition>
 
 </tiles-definitions>

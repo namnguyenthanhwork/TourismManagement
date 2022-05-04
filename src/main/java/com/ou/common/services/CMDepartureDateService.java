@@ -7,7 +7,9 @@ import org.json.simple.JSONObject;
 public interface CMDepartureDateService {
     JSONArray getDepartureDates(Integer pageIndex);
 
+    long getDepartureDateAmount();
     DepartureDateEntity getDepartureDateAsObj(Integer dptId);
+
 
     JSONObject getDepartureDateAsJsonObj(Integer dptId);
 

@@ -5,6 +5,7 @@ import com.ou.common.services.CMFeatureService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.DepartureDateEntity;
 import com.ou.pojos.FeatureEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 @Controller
@@ -52,6 +55,15 @@ public class ADepartureDateController {
         return new ResponseEntity<>(departureDates, departureDates.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getDepartureDatePageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMDepartureDateService.getDepartureDateAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
+
+
     // create
     @GetMapping("/tao-moi")
     public String getDepartureDateCreatedView() {
@@ -59,15 +71,20 @@ public class ADepartureDateController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createDepartureDate(HttpServletRequest httpServletRequest)
-            throws UnsupportedEncodingException {
+    public String createDepartureDate(HttpServletRequest httpServletRequest)
+            throws UnsupportedEncodingException, ParseException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         DepartureDateEntity departureDate = pojoBeanFactory.getApplicationContext().getBean(DepartureDateEntity.class);
         FeatureEntity feature = cMFeatureService.getFeatureAsObj(httpServletRequest.getParameter("feaSlug"));
-        departureDate.setDptDate(Timestamp.valueOf(httpServletRequest.getParameter("dptDate")));
+        Timestamp dptDate = utilBeanFactory.getApplicationContext().getBean("emptyTimeStamp", Timestamp.class);
+        dptDate.setTime(utilBeanFactory.getApplicationContext().getBean(SimpleDateFormat.class)
+                .parse(httpServletRequest.getParameter("dptDate")+ " 00:00:00").getTime());
+        departureDate.setDptDate(dptDate);
         departureDate.setFeaId(feature.getFeaId());
         boolean createdResult = cMDepartureDateService.createDepartureDate(departureDate);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/ngay-khoi-hanh";
+        return "redirect:/quan-tri-vien/ngay-khoi-hanh/tao-moi";
     }
 
     // update
@@ -86,17 +103,22 @@ public class ADepartureDateController {
     }
 
     @RequestMapping(value = "/{dptId}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateDepartureDate(@PathVariable Integer dptId, HttpServletRequest httpServletRequest)
-            throws UnsupportedEncodingException {
+    public String updateDepartureDate(@PathVariable Integer dptId, HttpServletRequest httpServletRequest)
+            throws UnsupportedEncodingException, ParseException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         DepartureDateEntity departureDate = cMDepartureDateService.getDepartureDateAsObj(dptId);
         FeatureEntity feature = cMFeatureService.getFeatureAsObj(httpServletRequest.getParameter("feaSlug"));
         if (departureDate == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        departureDate.setDptDate(Timestamp.valueOf(httpServletRequest.getParameter("dptDate")));
+            return String.format("redirect:/quan-tri-vien/ngay-khoi-hanh/%d", dptId);
+        Timestamp dptDate = utilBeanFactory.getApplicationContext().getBean("emptyTimeStamp", Timestamp.class);
+        dptDate.setTime(utilBeanFactory.getApplicationContext().getBean(SimpleDateFormat.class)
+                .parse(httpServletRequest.getParameter("dptDate")+ " 00:00:00").getTime());
+        departureDate.setDptDate(dptDate);
         departureDate.setFeaId(feature.getFeaId());
         boolean updateResult = cMDepartureDateService.updateDepartureDate(departureDate);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/ngay-khoi-hanh";
+        return String.format("redirect:/quan-tri-vien/ngay-khoi-hanh/%d", dptId);
     }
 
     // delete

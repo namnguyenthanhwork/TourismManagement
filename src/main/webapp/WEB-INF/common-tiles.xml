@@ -16,4 +16,9 @@
         <put-attribute name="cm-content" value="/WEB-INF/common/jsp/cm-sign-in.jsp"/>
     </definition>
 
+    <!-- sign up-->
+    <definition name="cm-sign-up" extends="cm-base">
+        <put-attribute name="cm-ref" value="/WEB-INF/common/ref/cm-sign-up.jsp"/>
+        <put-attribute name="cm-content" value="/WEB-INF/common/jsp/cm-sign-up.jsp"/>
+    </definition>
 </tiles-definitions>

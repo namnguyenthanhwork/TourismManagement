@@ -7,6 +7,7 @@ import com.ou.common.services.CMTourService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.ThumbnailEntity;
 import com.ou.pojos.TourEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,13 @@ public class AThumbnailController {
         JSONArray thumbnails = cMThumbnailService.getThumbnails(pageIndex);
         return new ResponseEntity<>(thumbnails, thumbnails.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
-
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getThumbnailPageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMThumbnailService.getThumbnailAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
     // create
     @GetMapping("/tao-moi")
     public String getThumbnailCreatedView() {
@@ -61,7 +68,7 @@ public class AThumbnailController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createThumbnail(HttpServletRequest httpServletRequest,
+    public String createThumbnail(HttpServletRequest httpServletRequest,
                                                       @RequestParam(name = "thumImage", required = false) MultipartFile thumImage)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
@@ -83,7 +90,9 @@ public class AThumbnailController {
             thumbnail.setThumImage("https://res.cloudinary.com/ou-project/image/upload/v1650725562/tourThumbnail/default_agwzpr.jpg");
 
         boolean createdResult = cMThumbnailService.createThumbnail(thumbnail);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/hinh-thu-nho";
+        return "redirect:/quan-tri-vien/hinh-thu-nho/tao-moi";
     }
 
     // update
@@ -102,16 +111,16 @@ public class AThumbnailController {
     }
 
     @RequestMapping(value = "/{thumId}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateThumbnail(@PathVariable Integer thumId, HttpServletRequest httpServletRequest,
+    public String updateThumbnail(@PathVariable Integer thumId, HttpServletRequest httpServletRequest,
                                                       @RequestParam(name = "thumImage", required = false) MultipartFile thumImage)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         ThumbnailEntity thumbnail = cMThumbnailService.getThumbnailAsObj(thumId);
         TourEntity tour = cMTourService.getTourAsObj(httpServletRequest.getParameter("tourSlug"));
         if (thumbnail == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return String.format("redirect:/quan-tri-vien/hinh-thu-nho/%d", thumId);
         thumbnail.setTourId(tour.getTourId());
-        if (!thumImage.isEmpty()) {
+        if (thumImage!=null && !thumImage.isEmpty()) {
             try {
                 Cloudinary cloudinary = utilBeanFactory.getApplicationContext().getBean(Cloudinary.class);
                 Map url = cloudinary.uploader().upload(thumImage.getBytes(),
@@ -128,7 +137,9 @@ public class AThumbnailController {
                 thumbnail.setThumImage("https://res.cloudinary.com/ou-project/image/upload/v1650725562/tourThumbnail/default_agwzpr.jpg");
         }
         boolean updateResult = cMThumbnailService.updateThumbnail(thumbnail);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/hinh-thu-nho";
+        return String.format("redirect:/quan-tri-vien/hinh-thu-nho/%d", thumId);
     }
 
     // delete

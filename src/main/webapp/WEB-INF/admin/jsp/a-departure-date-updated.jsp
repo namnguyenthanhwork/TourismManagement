@@ -8,15 +8,18 @@
     <div class="card-body pt-4 p-3">
         <form id="departureDateUpdatedForm" method="post">
             <div class="form-group">
-                <label for="dptDate">Ngày khởi hành</label>
+                <label for="dptDate">Ngày khởi hành (*)</label>
                 <input type="date" class="form-control" id="dptDate" name="dptDate" placeholder="Nhập ngày khởi hành...">
             </div>
             <div class="form-group">
-                <label for="feaSlug">Đặc điểm</label>
+                <label for="feaSlug">Đặc điểm (*)</label>
                 <select name="feaSlug" id="feaSlug" class="multisteps-form__input form-control">
                 </select>
             </div>
-            <button type="submit" id="departureDateUpdatedBtn" class="btn btn-primary">Chỉnh sửa</button>
+            <div>
+                <button type="submit" id="departureDateUpdatedBtn" class="btn btn-primary">Cập nhật</button>
+                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+            </div>
         </form>
     </div>
 </div>

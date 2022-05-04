@@ -8,10 +8,12 @@ import java.util.List;
 
 public interface CMThumbnailService {
     JSONArray getThumbnails(Integer pageIndex);
-
+    long getThumbnailAmount();
     ThumbnailEntity getThumbnailAsObj(Integer thumId);
 
     List<ThumbnailEntity> getThumbnailsByTourId(Integer tourId);
+
+    JSONArray getThumbnailByTourId(Integer tourId);
 
     JSONObject getThumbnailAsJsonObj(Integer thumId);
 

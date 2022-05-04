@@ -4,6 +4,7 @@ package com.ou.common.repositories.impl;
 import com.ou.common.repositories.CMThumbnailRepository;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.PostEntity;
+import com.ou.pojos.StorageEntity;
 import com.ou.pojos.ThumbnailEntity;
 import com.ou.pojos.TourEntity;
 import com.ou.utils.PageUtil;
@@ -15,9 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.persistence.NoResultException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,17 +36,10 @@ public class CMThumbnailRepositoryImpl implements CMThumbnailRepository {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<ThumbnailEntity> thumbnailEntityRoot = criteriaQuery.from(ThumbnailEntity.class);
-        Root<TourEntity> tourEntityRoot = criteriaQuery.from(TourEntity.class);
-        Root<PostEntity> postEntityRoot = criteriaQuery.from(PostEntity.class);
-        criteriaQuery.where(
-                        criteriaBuilder.equal(thumbnailEntityRoot.get("thumId").as(Integer.class),
-                                tourEntityRoot.get("tourId").as(Integer.class)),
-                        criteriaBuilder.equal(tourEntityRoot.get("tourId").as(Integer.class),
-                                postEntityRoot.get("postId").as(Integer.class)))
-                .multiselect(
+        criteriaQuery.multiselect(
                         thumbnailEntityRoot.get("thumId"), thumbnailEntityRoot.get("thumImage"),
-                        postEntityRoot.get("postId"), postEntityRoot.get("postTitle")
-                );
+                        thumbnailEntityRoot.get("tourId"))
+                .orderBy(criteriaBuilder.asc(thumbnailEntityRoot.get("thumId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -56,6 +48,21 @@ public class CMThumbnailRepositoryImpl implements CMThumbnailRepository {
         }
         return session.createQuery(criteriaQuery).getResultList();
     }
+
+    @Override
+    public long getThumbnailAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<ThumbnailEntity> thumbnailEntityRoot = criteriaQuery.from(ThumbnailEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(thumbnailEntityRoot.get("thumId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
+    }
+
 
     @Override
     public ThumbnailEntity getThumbnail(Integer thumId) {

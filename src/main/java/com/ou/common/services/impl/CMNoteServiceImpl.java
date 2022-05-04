@@ -37,6 +37,11 @@ public class CMNoteServiceImpl implements CMNoteService {
     }
 
     @Override
+    public long getNoteAmount() {
+        return cMNoteRepository.getNoteAmount();
+    }
+
+    @Override
     public NoteEntity getNoteAsObj(String noteSlug) {
         if (noteSlug == null || noteSlug.trim().length() == 0)
             return null;

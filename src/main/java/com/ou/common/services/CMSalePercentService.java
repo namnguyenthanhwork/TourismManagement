@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 
 public interface CMSalePercentService {
     JSONArray getSalePercents(Integer pageIndex);
-
+    long getSalePercentAmount();
     SalePercentEntity getSalePercentAsObj(Integer salePercentId);
 
     JSONObject getSalePercentAsJsonObj(Integer salePercentId);

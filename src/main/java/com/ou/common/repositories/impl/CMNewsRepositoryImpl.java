@@ -2,6 +2,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMNewsRepository;
 import com.ou.configs.BeanFactoryConfig;
+import com.ou.pojos.FeatureEntity;
 import com.ou.pojos.NewsEntity;
 import com.ou.pojos.PostEntity;
 import com.ou.utils.PageUtil;
@@ -53,8 +54,8 @@ public class CMNewsRepositoryImpl implements CMNewsRepository {
                 .multiselect(
                         newsEntityRoot.get("newsId"), newsEntityRoot.get("newsCreatedDate"),
                         newsEntityRoot.get("newsLikeAmount"), postEntityRoot.get("postTitle"),
-                        postEntityRoot.get("postSlug"), postEntityRoot.get("postContent"),
-                        postEntityRoot.get("postCoverPage"));
+                        postEntityRoot.get("postSlug"), postEntityRoot.get("postCoverPage"))
+                .orderBy(criteriaBuilder.asc(newsEntityRoot.get("newsId")));
 
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
@@ -63,6 +64,20 @@ public class CMNewsRepositoryImpl implements CMNewsRepository {
                     .setMaxResults(PageUtil.getPageSize()).getResultList();
         }
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public long getNewsAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<NewsEntity> newsEntityRoot = criteriaQuery.from(NewsEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(newsEntityRoot.get("newsId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override

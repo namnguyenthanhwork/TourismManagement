@@ -2,6 +2,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMTransportRepository;
 import com.ou.configs.BeanFactoryConfig;
+import com.ou.pojos.TourEntity;
 import com.ou.pojos.TransportEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
@@ -36,7 +37,8 @@ public class CMTransportRepositoryImpl implements CMTransportRepository {
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<TransportEntity> transportEntityRoot = criteriaQuery.from(TransportEntity.class);
         criteriaQuery.multiselect(transportEntityRoot.get("tranId"), transportEntityRoot.get("tranName"),
-                transportEntityRoot.get("tranSlug"));
+                        transportEntityRoot.get("tranSlug"))
+                .orderBy(criteriaBuilder.asc(transportEntityRoot.get("tranId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -44,6 +46,20 @@ public class CMTransportRepositoryImpl implements CMTransportRepository {
                     .setMaxResults(PageUtil.getPageSize()).getResultList();
         }
         return session.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public long getTransportAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<TransportEntity> transportEntityRoot = criteriaQuery.from(TransportEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(transportEntityRoot.get("tranId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override
@@ -55,7 +71,7 @@ public class CMTransportRepositoryImpl implements CMTransportRepository {
         criteriaQuery.where(criteriaBuilder.equal(transportEntityRoot.get("tranSlug").as(String.class), tranSlug));
         try {
             return session.createQuery(criteriaQuery).getSingleResult();
-        }catch (NoResultException noResultException){
+        } catch (NoResultException noResultException) {
             return null;
         }
     }
@@ -69,7 +85,7 @@ public class CMTransportRepositoryImpl implements CMTransportRepository {
         criteriaQuery.where(criteriaBuilder.equal(transportEntityRoot.get("tranId").as(Integer.class), tranId));
         try {
             return session.createQuery(criteriaQuery).getSingleResult();
-        }catch (NoResultException noResultException){
+        } catch (NoResultException noResultException) {
             return null;
         }
     }

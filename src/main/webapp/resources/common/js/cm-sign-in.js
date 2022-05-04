@@ -7,7 +7,7 @@ $(document).ready(function () {
         $('#password').val(localStorage.getItem('password'))
     }
     document.getElementById("rememberMe").checked = localStorage.getItem('isRememberMe') === 'true';
-    localStorage.getItem('isRememberMe') ? console.log('1') : console.log('0');
+    localStorage.getItem('isRememberMe')
 
     function showPassword(button) {
         let inputPassword = $(button).parent().find('input');

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CMTransportRepository {
     List<Object[]> getTransports(Integer pageIndex);
-
+    long getTransportAmount();
     TransportEntity getTransport(String tranSlug);
 
     TransportEntity getTransport(Integer tranId);

@@ -3,6 +3,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMSalePercentRepository;
 import com.ou.configs.BeanFactoryConfig;
+import com.ou.pojos.RoleEntity;
 import com.ou.pojos.SalePercentEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
@@ -35,7 +36,8 @@ public class CMSalePercentRepositoryImpl implements CMSalePercentRepository {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<SalePercentEntity> salePercentEntityRoot = criteriaQuery.from(SalePercentEntity.class);
-        criteriaQuery.multiselect(salePercentEntityRoot.get("sperId"), salePercentEntityRoot.get("sperPercent"));
+        criteriaQuery.multiselect(salePercentEntityRoot.get("sperId"), salePercentEntityRoot.get("sperPercent"))
+                .orderBy(criteriaBuilder.asc(salePercentEntityRoot.get("sperId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -46,12 +48,27 @@ public class CMSalePercentRepositoryImpl implements CMSalePercentRepository {
     }
 
     @Override
+    public long getSalePercentAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<SalePercentEntity> salePercentEntityRoot = criteriaQuery.from(SalePercentEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(salePercentEntityRoot.get("sperId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
+    }
+
+    @Override
     public SalePercentEntity getSalePercent(Integer salePercentId) {
         Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<SalePercentEntity> criteriaQuery = criteriaBuilder.createQuery(SalePercentEntity.class);
         Root<SalePercentEntity> salePercentEntityRoot = criteriaQuery.from(SalePercentEntity.class);
-        criteriaQuery.where(criteriaBuilder.equal(salePercentEntityRoot.get("salePercentId").as(Integer.class), salePercentId));
+        criteriaQuery.where(criteriaBuilder.equal(salePercentEntityRoot.get("sperId").as(Integer.class),
+                salePercentId));
         try {
             return session.createQuery(criteriaQuery).getSingleResult();
         }catch (NoResultException noResultException){

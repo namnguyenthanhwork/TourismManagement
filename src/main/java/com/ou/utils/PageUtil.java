@@ -1,7 +1,7 @@
 package com.ou.utils;
 
 public class PageUtil {
-    private final static int PAGE_SIZE = 20;
+    private final static int PAGE_SIZE = 1;
     private int searchIndex;
 
     public PageUtil() {
@@ -15,7 +15,7 @@ public class PageUtil {
         return searchIndex;
     }
 
-    public int getPageAmount(int amountEle) {
+    public int getPageAmount(long amountEle) {
         return (int) Math.ceil(amountEle * 1.0 / PAGE_SIZE);
     }
 

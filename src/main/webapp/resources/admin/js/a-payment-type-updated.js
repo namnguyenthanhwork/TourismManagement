@@ -1,5 +1,8 @@
 function getPaymentTypeInfo() {
-    let path = window.location.href + '/chinh-sua';
+    let href = window.location.href
+    if (href.includes('?'))
+        href = href.substring(0, href.indexOf('?'))
+    let path = href + '/chinh-sua'
     fetch(path).then(res => {
         if (res.status !== 200)
             return res.status
@@ -13,17 +16,13 @@ function getPaymentTypeInfo() {
     })
 }
 
-function redirectPageAfterUpdate() {
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/hinh-thuc-thanh-toan'
-    })
-}
-
-
 $(document).ready(function () {
+    $('#loading').hide()
     $('#paymentTypeUpdatedForm').attr('action', window.location.href);
     getPaymentTypeInfo()
-    $('#paymentTypeUpdatedBtn').click(() => redirectPageAfterUpdate())
+    $('#paymentTypeUpdatedBtn').click(function (){
+        alert("Xác nhận cập nhật hình thức thanh toán?")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

@@ -17,7 +17,7 @@ public class ServiceEntity {
     @Column(name = "serv_slug")
     private String servSlug;
     @Basic
-    @Column(name = "serv_content")
+    @Column(name = "serv_content", length = Integer.MAX_VALUE)
     private String servContent;
 
     public int getServId() {

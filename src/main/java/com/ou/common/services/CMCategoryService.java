@@ -9,6 +9,7 @@ import java.util.List;
 public interface CMCategoryService {
     JSONArray getCategories(Integer pageIndex);
 
+    long getCategoryAmount();
     CategoryEntity getCategoryAsObj(String catSlug);
 
     CategoryEntity getCategoryAsObj(Integer catId);

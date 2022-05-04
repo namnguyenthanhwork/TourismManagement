@@ -9,6 +9,7 @@ public interface CMPaymentTypeRepository {
     List<Object[]> getPaymentTypes(Integer pageIndex);
 
     PaymentTypeEntity getPaymentType(String paytSlug);
+    long getPaymentTypeAmount();
 
     PaymentTypeEntity getPaymentType(Integer paytId);
 

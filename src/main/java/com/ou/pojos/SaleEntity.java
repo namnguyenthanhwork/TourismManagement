@@ -1,5 +1,7 @@
 package com.ou.pojos;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;

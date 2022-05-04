@@ -1,11 +1,9 @@
-function redirectPageAfterCreate(){
-    fetch(window.location.href).then(res => {
-        return res.status
-    }).then(data => {
-        window.location.href = '/TourismManagement/quan-tri-vien/dich-vu'
-    })
-}
 
 $(document).ready(function () {
-    $('#serviceCreatedBtn').click( () =>redirectPageAfterCreate())
+    $('#loading').hide()
+    $('#serviceCreatedBtn').click(function () {
+        alert("Xác nhận tạo dịch vụ mới")
+        $(this).hide()
+        $('#loading').show()
+    })
 })

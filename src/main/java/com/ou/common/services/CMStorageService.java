@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 
 public interface CMStorageService {
     JSONArray getStorages(Integer pageIndex);
+    long getStorageAmount();
 
     StorageEntity getStorageAsObj(String storSlug);
 

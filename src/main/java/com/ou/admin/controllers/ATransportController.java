@@ -4,6 +4,7 @@ package com.ou.admin.controllers;
 import com.ou.common.services.CMTransportService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.TransportEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,13 @@ public class ATransportController {
         JSONArray transports = cMTransportService.getTransports(pageIndex);
         return new ResponseEntity<>(transports, transports.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
-
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getTransportPageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMTransportService.getTransportAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
     // create
     @GetMapping("/tao-moi")
     public String getTransportCreatedView() {
@@ -53,13 +60,15 @@ public class ATransportController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createTransport(HttpServletRequest httpServletRequest)
+    public String createTransport(HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         TransportEntity transportEntity = pojoBeanFactory.getApplicationContext().getBean(TransportEntity.class);
         transportEntity.setTranName(httpServletRequest.getParameter("tranName"));
         boolean createdResult = cMTransportService.createTransport(transportEntity);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/phuong-tien-di-chuyen";
+        return "redirect:/quan-tri-vien/phuong-tien-di-chuyen/tao-moi";
     }
 
     // update
@@ -78,15 +87,17 @@ public class ATransportController {
     }
 
     @RequestMapping(value = "/{tranSlug}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateTransport(@PathVariable String tranSlug, HttpServletRequest httpServletRequest)
+    public String updateTransport(@PathVariable String tranSlug, HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         TransportEntity transport = cMTransportService.getTransportAsObj(tranSlug);
         if (transport == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return String.format("redirect:/quan-tri-vien/phuong-tien-di-chuyen/%s", tranSlug);
         transport.setTranName(httpServletRequest.getParameter("tranName"));
         boolean updateResult = cMTransportService.updateTransport(transport);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/phuong-tien-di-chuyen";
+        return String.format("redirect:/quan-tri-vien/phuong-tien-di-chuyen/%s", tranSlug);
     }
 
     // delete

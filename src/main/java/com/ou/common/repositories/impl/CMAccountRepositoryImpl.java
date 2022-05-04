@@ -32,7 +32,7 @@ public class CMAccountRepositoryImpl implements CMAccountRepository {
     private BeanFactoryConfig.UtilBeanFactory utilBeanFactory;
 
     @Override
-    public List<Object[]> getAccounts(Integer pageIndex,String ... params) {
+    public List<Object[]> getAccounts(Integer pageIndex, String ... params) {
         Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
@@ -56,7 +56,8 @@ public class CMAccountRepositoryImpl implements CMAccountRepository {
                         accountEntityRoot.get("accIdCard"), accountEntityRoot.get("accPhoneNumber"),
                         accountEntityRoot.get("accDateOfBirth"), accountEntityRoot.get("accJoinedDate"),
                         accountEntityRoot.get("accAvatar"), accountEntityRoot.get("accLastAccess"),
-                        roleEntityRoot.get("roleSlug"), roleEntityRoot.get("roleName"));
+                        roleEntityRoot.get("roleSlug"), roleEntityRoot.get("roleName"))
+                .orderBy(criteriaBuilder.asc(accountEntityRoot.get("accId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
             pageUtil.setSearchIndex(pageIndex);
@@ -77,6 +78,20 @@ public class CMAccountRepositoryImpl implements CMAccountRepository {
             return session.createQuery(criteriaQuery).getSingleResult();
         }catch (NoResultException noResultException){
             return null;
+        }
+    }
+
+    @Override
+    public long getAccountAmount() {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<AccountEntity> accountEntityRoot = criteriaQuery.from(AccountEntity.class);
+        criteriaQuery.multiselect(criteriaBuilder.count(accountEntityRoot.get("accId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
         }
     }
 

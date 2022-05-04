@@ -9,6 +9,7 @@ import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.AccountEntity;
 import com.ou.pojos.NewsEntity;
 import com.ou.pojos.PostEntity;
+import com.ou.utils.PageUtil;
 import com.ou.utils.SlugUtil;
 import com.ou.utils.UserUtil;
 import org.json.simple.JSONArray;
@@ -28,7 +29,7 @@ import java.util.Map;
 @Controller
 @RequestMapping(path = "/quan-tri-vien/tin-tuc")
 public class ANewsController {
-//
+    //
     @Autowired
     private CMNewsService cMNewsService;
 
@@ -56,9 +57,17 @@ public class ANewsController {
             pageIndex = Integer.parseInt(params.get("trang"));
         } catch (NumberFormatException ignored) {
         }
-        String kw= params.get("kw");
+        String kw = params.get("kw");
         JSONArray news = cMNewsService.getNews(pageIndex, kw);
         return new ResponseEntity<>(news, news.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getNewsPageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMNewsService.getNewsAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
     }
 
     // create
@@ -68,17 +77,17 @@ public class ANewsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createNews(HttpServletRequest httpServletRequest,
-            @RequestParam(name = "newsCoverPage", required = false) MultipartFile newsCoverPage)
+    public String createNews(HttpServletRequest httpServletRequest,
+                             @RequestParam(name = "newsCoverPage", required = false) MultipartFile newsCoverPage)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         NewsEntity newsEntity = pojoBeanFactory.getApplicationContext().getBean(NewsEntity.class);
         PostEntity postEntity = pojoBeanFactory.getApplicationContext().getBean(PostEntity.class);
         AccountEntity account = cMAccountService.getAccountAsObj(UserUtil.getCurrentUsername());
         postEntity.setAccId(account.getAccId());
-        postEntity.setPostTitle(httpServletRequest.getParameter("newsName"));
+        postEntity.setPostTitle(httpServletRequest.getParameter("newsTitle"));
         postEntity.setPostContent(httpServletRequest.getParameter("newsContent"));
-        if (!newsCoverPage.isEmpty()) {
+        if (newsCoverPage!=null && !newsCoverPage.isEmpty()) {
             try {
                 Cloudinary cloudinary = utilBeanFactory.getApplicationContext().getBean(Cloudinary.class);
                 Map url = cloudinary.uploader().upload(newsCoverPage.getBytes(),
@@ -87,12 +96,11 @@ public class ANewsController {
                                 "folder", "news"));
                 postEntity.setPostCoverPage((String) url.get("secure_url"));
             } catch (IOException ioException) {
-
-                    postEntity.setPostCoverPage("https://res.cloudinary.com/ou-project/image/upload/v1650725574/news/default_sh0tqg.jpg");
+                postEntity.setPostCoverPage("https://res.cloudinary.com/ou-project/image/upload/v1650725574/news/default_sh0tqg.jpg");
             }
         } else
 
-                postEntity.setPostCoverPage("https://res.cloudinary.com/ou-project/image/upload/v1650725574/news/default_sh0tqg.jpg");
+            postEntity.setPostCoverPage("https://res.cloudinary.com/ou-project/image/upload/v1650725574/news/default_sh0tqg.jpg");
 
         if (cMPostService.createPost(postEntity)) {
             SlugUtil slugUtil = utilBeanFactory.getApplicationContext().getBean(SlugUtil.class);
@@ -100,8 +108,11 @@ public class ANewsController {
             PostEntity addedPost = cMPostService.getPostAsObj(slugUtil.getSlug());
             newsEntity.setNewsId(addedPost.getPostId());
             boolean createdResult = cMNewsService.createNews(newsEntity);
-            return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
-        } else return new ResponseEntity<>(HttpStatus.CONFLICT);
+            if (createdResult)
+                return "redirect:/quan-tri-vien/tin-tuc";
+            return "redirect:/quan-tri-vien/tin-tuc/tao-moi";
+        }
+        return "redirect:/quan-tri-vien/tin-tuc/tao-moi";
 
     }
 
@@ -121,16 +132,16 @@ public class ANewsController {
     }
 
     @RequestMapping(value = "/{newsSlug}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateNews(@PathVariable String newsSlug, HttpServletRequest httpServletRequest,
-         @RequestParam(name = "newsCoverPage", required = false) MultipartFile newsCoverPage) throws UnsupportedEncodingException {
+    public String updateNews(@PathVariable String newsSlug, HttpServletRequest httpServletRequest,
+                             @RequestParam(name = "newsCoverPage", required = false) MultipartFile newsCoverPage) throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         NewsEntity news = cMNewsService.getNewsAsObj(newsSlug);
         PostEntity post = cMPostService.getPostAsObj(newsSlug);
         if (news == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        post.setPostTitle(httpServletRequest.getParameter("newsName"));
+            return String.format("redirect:/quan-tri-vien/tin-tuc/%s", newsSlug);
+        post.setPostTitle(httpServletRequest.getParameter("newsTitle"));
         post.setPostContent(httpServletRequest.getParameter("newsContent"));
-        if (!newsCoverPage.isEmpty()) {
+        if (newsCoverPage!=null && !newsCoverPage.isEmpty()) {
             try {
                 Cloudinary cloudinary = utilBeanFactory.getApplicationContext().getBean(Cloudinary.class);
                 Map url = cloudinary.uploader().upload(newsCoverPage.getBytes(),
@@ -148,21 +159,20 @@ public class ANewsController {
         }
         if (cMPostService.updatePost(post)) {
             boolean updatedResult = cMNewsService.updateNews(news);
-            return new ResponseEntity<>(updatedResult ? HttpStatus.OK : HttpStatus.CONFLICT);
-        } else return new ResponseEntity<>(HttpStatus.CONFLICT);
+            if (updatedResult)
+                return "redirect:/quan-tri-vien/tin-tuc";
+            return String.format("redirect:/quan-tri-vien/tin-tuc/%s", newsSlug);
+        }
+        return String.format("redirect:/quan-tri-vien/tin-tuc/%s", newsSlug);
     }
 
     // delete
     @RequestMapping(value = "/{newsSlug}", method = RequestMethod.DELETE)
     public ResponseEntity<HttpStatus> deleteNews(@PathVariable String newsSlug) {
-        NewsEntity news = cMNewsService.getNewsAsObj(newsSlug);
         PostEntity post = cMPostService.getPostAsObj(newsSlug);
-        if (news == null || post ==null)
+        if (post == null)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        if(cMPostService.deletePost(post)){
-            boolean deleteResult = cMNewsService.deleteNews(news);
-            return new ResponseEntity<>(deleteResult ? HttpStatus.OK : HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
+        boolean deleteResult = cMPostService.deletePost(post);
+        return new ResponseEntity<>(deleteResult ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 }

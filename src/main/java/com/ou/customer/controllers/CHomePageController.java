@@ -25,5 +25,4 @@ public class CHomePageController {
     public String getCustomerNewsDetail() {
         return "c-news-detail";
     }
-
 }

@@ -5,6 +5,7 @@ import com.ou.common.services.CMStorageService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.CategoryEntity;
 import com.ou.pojos.StorageEntity;
+import com.ou.utils.PageUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,13 @@ public class ACategoryController {
         JSONArray categories = cMCategoryService.getCategories(pageIndex);
         return new ResponseEntity<>(categories, categories.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
+    @GetMapping("/so-trang")
+    public ResponseEntity<JSONObject> getCategoryPageAmount(){
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMCategoryService.getCategoryAmount()));
+        return new ResponseEntity<>(jsonObject, HttpStatus.OK);
+    }
 
     // create
     @GetMapping("/tao-moi")
@@ -58,7 +66,7 @@ public class ACategoryController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> createCategory(HttpServletRequest httpServletRequest)
+    public String createCategory(HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         CategoryEntity category = pojoBeanFactory.getApplicationContext().getBean(CategoryEntity.class);
@@ -66,7 +74,9 @@ public class ACategoryController {
         category.setCatName(httpServletRequest.getParameter("catName"));
         category.setStorId(storage.getStorId());
         boolean createdResult = cMCategoryService.createCategory(category);
-        return new ResponseEntity<>(createdResult ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        if (createdResult)
+            return "redirect:/quan-tri-vien/loai-tour";
+        return "redirect:/quan-tri-vien/loai-tour/tao-moi";
     }
 
     // update
@@ -85,17 +95,19 @@ public class ACategoryController {
     }
 
     @RequestMapping(value = "/{catSlug}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> updateCategory(@PathVariable String catSlug, HttpServletRequest httpServletRequest)
+    public String updateCategory(@PathVariable String catSlug, HttpServletRequest httpServletRequest)
             throws UnsupportedEncodingException {
         httpServletRequest.setCharacterEncoding("UTF-8");
         CategoryEntity category = cMCategoryService.getCategoryAsObj(catSlug);
         StorageEntity storage = cMStorageService.getStorageAsObj(httpServletRequest.getParameter("storSlug"));
         if (category == null)
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return String.format("redirect:/quan-tri-vien/loai-tour/%s", catSlug);
         category.setCatName(httpServletRequest.getParameter("catName"));
         category.setStorId(storage.getStorId());
         boolean updateResult = cMCategoryService.updateCategory(category);
-        return new ResponseEntity<>(updateResult ? HttpStatus.OK : HttpStatus.CONFLICT);
+        if (updateResult)
+            return "redirect:/quan-tri-vien/loai-tour";
+        return String.format("redirect:/quan-tri-vien/loai-tour/%s", catSlug);
     }
 
     // delete

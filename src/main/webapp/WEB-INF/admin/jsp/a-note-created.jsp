@@ -3,20 +3,28 @@
 
 <div class="card">
     <div class="card-header pb-0 px-3">
-        <h5 class="mb-0">Thêm ghi chú</h5>
+        <h5 class="mb-0">Tạo mới ghi chú</h5>
     </div>
     <div class="card-body pt-4 p-3">
         <form action="<c:url value='/quan-tri-vien/ghi-chu' />" method="post">
             <div class="form-group">
-                <label for="noteTitle">Tiêu đề</label>
+                <label for="noteTitle">Tiêu đề (*)</label>
                 <input type="text" class="form-control" id="noteTitle" name="noteTitle" placeholder="Nhập tiêu đề...">
             </div>
+
             <div class="form-group">
-                <label for="noteContent">Nội dung</label>
-                <input type="text" class="form-control" id="noteContent" name="noteContent"
-                    placeholder="Nhập nội dung...">
+                <label for="editor">Nội dung (*)</label>
+                <textarea name="noteContent" id="editor"></textarea>
             </div>
-            <button id="noteCreatedBtn" type="submit" class="btn btn-primary">Tạo mới</button>
+
+            <div class="form-group">
+                <button id="noteCreatedBtn" type="submit" class="btn btn-primary">Tạo mới</button>
+                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+            </div>
         </form>
+        <script src="<c:url value = '/resources/ckeditor/build/ckeditor.js' />"></script>
+        <script>
+            ClassicEditor.create(document.querySelector('#editor'))
+        </script>
     </div>
 </div>
