@@ -29,6 +29,7 @@ function getBillInfo(pageIndex=null) {
                 </td>
                 <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['billCreatedDate']).toLocaleDateString()}</span>
+
                 </td>
           
                 <td class="align-middle text-center">

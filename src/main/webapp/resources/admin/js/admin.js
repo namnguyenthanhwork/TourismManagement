@@ -310,7 +310,6 @@ function toggleSidenav() {
     }
 }
 
-
 $(window).ready(function () {
     let classes = ['position-sticky', 'blur', 'shadow-blur', 'mt-4', 'left-auto', 'top-1', 'z-index-sticky'];
     const navbar = document.getElementById('navbarBlur');
@@ -318,12 +317,12 @@ $(window).ready(function () {
     navbar.setAttribute('navbar-scroll', 'true');
     navbarBlurOnScroll('navbarBlur');
 
-    // active sidebar
-    $('sidenav .nav-item .nav-link').click(function () {
-        $('.nav-item .nav-link').removeClass('active')
-        $(this).addClass('active')
-    })
-
- 
-
+    //  active sidebar
+    const currentLocation = location.href;
+    const menuItem = document.querySelectorAll('.nav-link');
+    for (let i = 0; i < menuItem.length; i++) {
+        if (menuItem[i].href === currentLocation) {
+            menuItem[i].classList.add('active');
+        }
+    }
 });

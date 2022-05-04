@@ -23,7 +23,7 @@ function getDepartureDateInfo(pageIndex = null) {
                     <span class="text-secondary text-xs font-weight-bold">${data[i]['dptId']}</span>
                 </td>
                 <td>
-                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['dptDate']).toLocaleDateString()}</span>
+                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['dptDate']).toISOString().split('T')[0]}</span>
                 </td>
                 <td class="align-middle text-center">
                     <p class="text-xs font-weight-bold mb-0">${data[i]['feaName']}</p>

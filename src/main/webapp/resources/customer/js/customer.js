@@ -1,69 +1,11 @@
-$('.slideFluid').owlCarousel({
-    loop: true,
-    margin: 10,
-    nav: true,
-    responsive: {
-        0: {
-            items: 1
-        },
-        500: {
-            items: 2
-        },
-        770: {
-            items: 3
-        },
-        1200: {
-            items: 4
-        }
-    }
-})
-$('.slick-init').slick({
-    dots: false,
-    infinite: false,
-    speed: 300,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    responsive: [{
-        breakpoint: 1024,
-        settings: {
-            slidesToShow: 3,
-            slidesToScroll: 3,
-            infinite: true,
-        }
-    },
-        {
-            breakpoint: 600,
-            settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2
-            }
-        },
-        {
-            breakpoint: 480,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-            }
-        }
-    ]
-});
-$('.slick-init-banner').slick({
-    dots: true,
-    infinite: true,
-    autoplay: true,
-    speed: 300,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    nav: false
-});
 $(".mda-tour-sort li").click(function () {
-    $(this).parents(".mda-box-r").hasClass("active") && $(this).parents(".mda-box-r").removeClass("active")
-}),
+        $(this).parents(".mda-box-r").hasClass("active") && $(this).parents(".mda-box-r").removeClass("active")
+    }),
     $(window).resize(function () {})
 $(document).ready(function () {
     $(".menuSidebar .title").click(function () {
-        $(this).parents(".menuSidebar").hasClass("active") ? $(this).parents(".menuSidebar").removeClass("active") : $(this).parents(".menuSidebar").addClass("active")
-    }),
+            $(this).parents(".menuSidebar").hasClass("active") ? $(this).parents(".menuSidebar").removeClass("active") : $(this).parents(".menuSidebar").addClass("active")
+        }),
         $(".hotlineTop .icon").click(function () {
             $(this).parents(".hotlineTop").hasClass("active") ? $(this).parents(".hotlineTop").removeClass("active") : $(this).parents(".hotlineTop").addClass("active")
         }),
@@ -76,8 +18,8 @@ $(document).ready(function () {
         $(window).bind("click", function (e) {
             var t = e.target;
             $(t).parents(".hotlineTop").hasClass("active") || $(".hotlineTop").removeClass("active"),
-            $(t).parents(".memberTop").hasClass("active") || $(".memberTop").removeClass("active"),
-            $(t).parents(".menuToggle").hasClass("active") || $(".menuToggle").removeClass("active")
+                $(t).parents(".memberTop").hasClass("active") || $(".memberTop").removeClass("active"),
+                $(t).parents(".menuToggle").hasClass("active") || $(".menuToggle").removeClass("active")
         }),
 
         $(".megaMenu .menuNa ul li").hover(function () {
@@ -96,15 +38,15 @@ $(document).ready(function () {
 })
 $(document).ready(function () {
     $("body").on("click tap", ".formMenuTour .icon", function () {
-        var e = $(this).parents(".col");
-        0 == e.find(".wrapPos").length && e.append(wrapPos[e.index()]),
-            e.siblings().find(".icon").removeClass("active"),
-            e.siblings().find(".wrapPos").removeClass("active"),
-            e.find(".wrapPos").hasClass("active") ? ($(this).removeClass("active"),
-                e.find(".wrapPos").removeClass("active")) : ($(this).addClass("active"),
-                e.find(".wrapPos").addClass("active")),
-            $(".formMenuTour .wrapPos.active") ? $(".formMenuTour .bgBlack").addClass("active") : $(".formMenuTour .bgBlack").removeClass("active")
-    }),
+            var e = $(this).parents(".col");
+            0 == e.find(".wrapPos").length && e.append(wrapPos[e.index()]),
+                e.siblings().find(".icon").removeClass("active"),
+                e.siblings().find(".wrapPos").removeClass("active"),
+                e.find(".wrapPos").hasClass("active") ? ($(this).removeClass("active"),
+                    e.find(".wrapPos").removeClass("active")) : ($(this).addClass("active"),
+                    e.find(".wrapPos").addClass("active")),
+                $(".formMenuTour .wrapPos.active") ? $(".formMenuTour .bgBlack").addClass("active") : $(".formMenuTour .bgBlack").removeClass("active")
+        }),
         $("body").on("click tap", ".formMenuTour .bgBlack, .formMenuTour .closez", function () {
             $(".formMenuTour").find(".wrapPos").removeClass("active"),
                 $(".formMenuTour .bgBlack").removeClass("active"),
@@ -126,14 +68,14 @@ $(document).ready(function () {
             var e = $(this).attr("href"),
                 t = $(e).offset().top - $("#vnt-header").outerHeight() - 5;
             return $("html,body").animate({
-                scrollTop: t
-            }, 1e3),
+                    scrollTop: t
+                }, 1e3),
                 !1
         }),
         $(".listDay .day .titDay").click(function () {
             if ($(this).parents(".day").hasClass("active"))
                 $(this).parents(".day").removeClass("active"),
-                    $(this).parents(".day").find(".contDay").hide();
+                $(this).parents(".day").find(".contDay").hide();
             else {
                 $(this).parents(".day").addClass("active"),
                     $(this).parents(".day").find(".contDay").show();
@@ -154,35 +96,55 @@ $(document).ready(function () {
         })
 })
 
-function getTourMenu(){
-    fetch('/TourismManagement/thanh-dieu-huong')
-        .then(res=>res.json()).then(data=>{
-        console.info(data)
-        let storages = ''
-        let categories =''
-        for(let i=1; i<= data.length; i++){
-            storages+=`
-                 <li data-menu="menu${i}"><a href="javascript:;">${data[i-1]['storName']}</a></li>
-            `
-            let catInfo = ''
-            for(let j=0; j<data[i-1]['categories'].length; j++) {
-                let cat = data[i-1]['categories'][j]
-                catInfo += `
-                       <li><a href="javascript:;">${cat['catName']}</a></li>
-                `
+$(document).ready(function () {
+
+    /* 1. Visualizing things on Hover - See next part for action on click */
+    $('#stars li').on('mouseover', function () {
+        var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
+
+        // Now highlight all the stars that's not after the current hovered star
+        $(this).parent().children('li.star').each(function (e) {
+            if (e < onStar) {
+                $(this).addClass('hover');
+            } else {
+                $(this).removeClass('hover');
             }
-            categories+=`
-                    <div class="menuFo ${i===1?'active':''}" data-menu="menu${i}">
-                        <div class="wrap">
-                            <ul>
-                                ${catInfo}
-                            </ul>
-                        </div>
-                        <div class="linkAllMenu"><ahref="javascript:;"><span>Tất cả tour</span></a></div>
-                    </div>
-            `
+        });
+
+    }).on('mouseout', function () {
+        $(this).parent().children('li.star').each(function (e) {
+            $(this).removeClass('hover');
+        });
+    });
+
+
+    /* 2. Action to perform on click */
+    $('#stars li').on('click', function () {
+        var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+        var stars = $(this).parent().children('li.star');
+
+        for (i = 0; i < stars.length; i++) {
+            $(stars[i]).removeClass('selected');
         }
-        $('#storages').html(storages)
-        $('#categories').html(categories)
-    })
+
+        for (i = 0; i < onStar; i++) {
+            $(stars[i]).addClass('selected');
+        }
+
+        // JUST RESPONSE (Not needed)
+        var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
+        var msg = "";
+        if (ratingValue > 1) {
+            msg = "Thanks! You rated this " + ratingValue + " stars.";
+        } else {
+            msg = "We will improve ourselves. You rated this " + ratingValue + " stars.";
+        }
+        responseMessage(msg);
+    });
+});
+
+function responseMessage(msg) {
+    $('.success-box').fadeIn(200);
+    $('.success-box div.text-message').html("<span>" + msg + "</span>");
 }
+
