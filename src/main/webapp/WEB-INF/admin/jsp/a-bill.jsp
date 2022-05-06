@@ -15,32 +15,38 @@
                             <tr>
                                 <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
                                     Tuỳ chỉnh</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mã hóa đơn
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mã hóa
+                                    đơn
                                 </th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ngày tạo
                                 </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tài khoản tạo
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tài
+                                    khoản tạo
                                 </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Hình thức thanh toán
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Hình
+                                    thức thanh toán
                                 </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tổng tiền giảm giá
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tổng
+                                    tiền giảm giá
                                 </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tổng tiền
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tổng
+                                    tiền
                                 </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ngày khởi hành
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ngày
+                                    khởi hành
                                 </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Trạng thái thanh toán
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Trạng
+                                    thái thanh toán
                                 </th>
                             </tr>
                         </thead>
                         <tbody id="billInfo">
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <ul class="pagination" id ="pagination">
+        <ul class="pagination" id="pagination">
         </ul>
     </div>
 </div>

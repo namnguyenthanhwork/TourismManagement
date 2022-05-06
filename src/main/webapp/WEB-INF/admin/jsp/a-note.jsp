@@ -15,7 +15,7 @@
                         <thead>
                             <tr>
                                 <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     Tuỳ chỉnh</th>
                                 <th
                                     class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -26,17 +26,15 @@
                                 <th
                                     class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     Slug</th>
-
                             </tr>
                         </thead>
                         <tbody id="noteInfo">
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <ul class="pagination" id ="pagination">
+        <ul class="pagination" id="pagination">
         </ul>
     </div>
 </div>

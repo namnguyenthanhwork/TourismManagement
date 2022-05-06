@@ -28,6 +28,6 @@
 <body>
 <tiles:insertAttribute name="cm-content"/>
 
-<script src="<c:url value ='/resources/common/js/cm-sign-in.js'/>"></script>
+
 </body>
 </html>

@@ -5740,6 +5740,7 @@ fieldset:disabled .btn {
 
 .pagination {
     display: flex;
+    justify-content: center;
     padding-left: 0;
     list-style: none;
 }
@@ -24884,4 +24885,27 @@ pre[class*="language-"] {
 
 .table-responsive tbody tr:hover {
     background: #fff1f1;
+}
+
+.required,
+.error {
+    color: #f00;
+}
+
+.icon-search {
+    position: absolute;
+    right: 10px;
+    top: 13px;
+}
+
+#search {
+    padding: 0.5rem 1.5rem 0.5rem 1rem;
+}
+
+select.form-control option {
+    padding: 7px 5px;
+}
+
+.tourImgCover {
+    object-fit: cover;
 }

@@ -51,7 +51,8 @@ public class CSignUpController {
                                 HttpServletRequest httpServletRequest,
                                 MultipartFile accAvatar) throws ParseException {
         accountEntity.setAccUsername(httpServletRequest.getParameter("accUsername"));
-        accountEntity.setAccPassword(passwordEncoder.encode(httpServletRequest.getParameter("accPassword")));
+        if (httpServletRequest.getParameter("accPassword") != null)
+            accountEntity.setAccPassword(passwordEncoder.encode(httpServletRequest.getParameter("accPassword")));
         accountEntity.setAccFirstName(httpServletRequest.getParameter("accFirstName"));
         accountEntity.setAccLastName(httpServletRequest.getParameter("accLastName"));
         accountEntity.setAccSex(Byte.valueOf(httpServletRequest.getParameter("accSex")));
@@ -95,7 +96,7 @@ public class CSignUpController {
         boolean createdResult = cMAccountService.createAccount(account);
         if (createdResult)
             return "redirect:/auth/dang-nhap";
-        return "redirect:/dang-ki-tai-khoan";
+        return "redirect:/dang-ki-tai-khoan?dangky=thatbai";
     }
 
     @PostMapping("/otp")

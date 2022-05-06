@@ -12,13 +12,16 @@
                 <input type="file" name="thumImage" class="form-control" id="thumImage">
             </div>
             <div class="form-group">
-                <label for="tourSlug">Tour du lịch (*)</label>
-                <select name="tourSlug" id="tourSlug" class="multisteps-form__input form-control">
+                <label for="tourSlug">Tour du lịch <span class="required">(*)</span></label>
+                <select name="tourSlug" id="tourSlug" class="multisteps-form__input form-control" required>
                 </select>
             </div>
             <div class="form-group">
-                 <button type="submit" id="thumbnailUpdatedBtn" class="btn btn-primary">Cập nhật</button>
-                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+                <button type="submit" id="thumbnailUpdatedBtn" class="btn btn-primary">Cập nhật</button>
+                <div class="lds-ripple" id="loading">
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </form>
     </div>

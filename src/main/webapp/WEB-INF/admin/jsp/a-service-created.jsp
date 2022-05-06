@@ -7,20 +7,24 @@
         <h5 class="mb-0">Tạo mới dịch vụ</h5>
     </div>
     <div class="card-body pt-4 p-3">
-        <form action="<c:url value='/quan-tri-vien/dich-vu' />" method="post">
+        <form action="<c:url value='/quan-tri-vien/dich-vu' />" method="post" id="serviceCreatedForm">
             <div class="form-group">
-                <label for="servTitle">Tiêu đề (*)</label>
-                <input type="text" class="form-control" id="servTitle" name="servTitle" placeholder="Nhập tiêu đề...">
+                <label for="servTitle">Tiêu đề <span class="required">(*)</span></label>
+                <input type="text" class="form-control" id="servTitle" name="servTitle" placeholder="Nhập tiêu đề..."
+                    required>
             </div>
 
             <div class="form-group">
-                <label for="editor">Nội dung (*)</label>
-                <textarea name="servContent" id="editor"></textarea>
+                <label for="editor">Nội dung <span class="required">(*)</span></label>
+                <textarea name="servContent" id="editor" required></textarea>
             </div>
 
             <div class="form-group">
                 <button id="serviceCreatedBtn" type="submit" class="btn btn-primary">Tạo mới</button>
-                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+                <div class="lds-ripple" id="loading">
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </form>
         <script src="<c:url value = '/resources/ckeditor/build/ckeditor.js' />"></script>

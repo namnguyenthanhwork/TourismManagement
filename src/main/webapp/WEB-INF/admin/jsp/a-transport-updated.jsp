@@ -8,12 +8,16 @@
     <div class="card-body pt-4 p-3">
         <form id="transportUpdatedForm" method="post">
             <div class="form-group">
-                <label for="tranName">Tên phương tiện (*)</label>
-                <input type="text" class="form-control" id="tranName" name="tranName" placeholder="Nhập tên phương tiện...">
+                <label for="tranName">Tên phương tiện <span class="required">(*)</span></label>
+                <input type="text" class="form-control" id="tranName" name="tranName"
+                    placeholder="Nhập tên phương tiện..." required>
             </div>
             <div class="form-group">
                 <button type="submit" id="transportUpdatedBtn" class="btn btn-primary">Cập nhật</button>
-                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+                <div class="lds-ripple" id="loading">
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </form>
     </div>

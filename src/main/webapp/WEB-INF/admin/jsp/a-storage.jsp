@@ -15,7 +15,7 @@
                         <thead>
                             <tr>
                                 <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     Tuỳ chỉnh</th>
                                 <th
                                     class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -29,13 +29,12 @@
                             </tr>
                         </thead>
                         <tbody id="storageInfo">
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <ul class="pagination" id ="pagination">
+        <ul class="pagination" id="pagination">
         </ul>
     </div>
 </div>

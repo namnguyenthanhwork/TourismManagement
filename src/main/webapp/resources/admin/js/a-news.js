@@ -1,6 +1,6 @@
 let currentPageIndex = 1;
 
-function getNewsInfo(pageIndex =null,kw=null){
+function getNewsInfo(pageIndex = null, kw = null) {
     let path = '/TourismManagement/quan-tri-vien/tin-tuc/thong-tin'
     if (kw != null)
         path += `?kw=${kw}`
@@ -12,9 +12,9 @@ function getNewsInfo(pageIndex =null,kw=null){
                 return res.status
             return res.json()
         }).then(data => {
-        let rows=''
-        for(let i=0; i<data.length; i++)
-            rows+=`
+            let rows = ''
+            for (let i = 0; i < data.length; i++)
+                rows += `
                  <tr>
                     <td class="text-center">
                         <a href="/TourismManagement/quan-tri-vien/tin-tuc/${data[i]['newsSlug']}" 
@@ -32,7 +32,7 @@ function getNewsInfo(pageIndex =null,kw=null){
                         <span class="text-secondary text-xs font-weight-bold">${data[i]['newsSlug']}</span>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['newsCreatedDate']).toLocaleDateString()}</span>
+                        <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['newsCreatedDate']).toISOString().split('T')[0]}</span>
                     </td>
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">${data[i]['newsLikeAmount']}</span>
@@ -44,11 +44,11 @@ function getNewsInfo(pageIndex =null,kw=null){
                     </td>
                  </tr>
             `
-        $('#newsInfo').html(rows)
-    })
+            $('#newsInfo').html(rows)
+        })
 }
 
-function deleteNews(newsSlug){
+function deleteNews(newsSlug) {
     Swal.fire({
         title: 'Bạn có thực sự muốn xoá ?',
         text: "Dữ liệu sẽ bị mất nếu bạn xoá nó!",
@@ -87,28 +87,29 @@ function deleteNews(newsSlug){
 function getPageAmount() {
     fetch('/TourismManagement/quan-tri-vien/tin-tuc/so-trang')
         .then(res => res.json()).then(data => {
-        let pageAmount = data['pageAmount']
-        if(pageAmount==1)
-            return
-        let rows = ''
-        for (let i = 1; i <= pageAmount; i++)
-            rows += `
+            let pageAmount = data['pageAmount']
+            if (pageAmount == 1)
+                return
+            let rows = ''
+            for (let i = 1; i <= pageAmount; i++)
+                rows += `
                  <li class="page-item" onclick="changePage(${i}, ${pageAmount})"><a class="page-link" href="javascript:;">${i}</a></li>
             `
-        if (pageAmount > 1) {
-            let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
-                                    <a class="page-link" href="javascript:;">Trước</a></li>`
-            let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
-                                <a class="page-link" href="javascript:;">Sau</a></li>`
-            rows = preBtn + rows
-            rows += nextBtn
-        }
-        $('#pagination').html(rows)
-        $(`#pagination li:nth-child(${pageAmount > 1 ? 2 : 1})`).addClass('active')
-        if (currentPageIndex == 1)
-            $('#preBtn').hide()
-    })
+            if (pageAmount > 1) {
+                let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
+            <a class="page-link" href="javascript:;"><</a></li>`
+                let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
+        <a class="page-link" href="javascript:;">></a></li>`
+                rows = preBtn + rows
+                rows += nextBtn
+            }
+            $('#pagination').html(rows)
+            $(`#pagination li:nth-child(${pageAmount > 1 ? 2 : 1})`).addClass('active')
+            if (currentPageIndex == 1)
+                $('#preBtn').hide()
+        })
 }
+
 function getPreviousPage(pageAmount) {
     $('#search').val('')
 
@@ -122,7 +123,7 @@ function getPreviousPage(pageAmount) {
         $('#preBtn').hide()
     if (currentPageIndex != 1)
         $('#preBtn').show()
-    if ( currentPageIndex != pageAmount)
+    if (currentPageIndex != pageAmount)
         $('#nextBtn').show()
 }
 
@@ -161,14 +162,14 @@ function getNextPage(pageAmount) {
         $('#nextBtn').hide()
     if (currentPageIndex != pageAmount)
         $('#nextBtn').show()
-    if (currentPageIndex != 1 )
+    if (currentPageIndex != 1)
         $('#preBtn').show()
 }
 
-$(document).ready(function (){
+$(document).ready(function () {
     getNewsInfo(currentPageIndex)
     getPageAmount()
-    $('#search').keyup(function (){
+    $('#search').keyup(function () {
         getNewsInfo(currentPageIndex, $(this).val().length > 0 ? $(this).val().trim() : null)
     })
 })

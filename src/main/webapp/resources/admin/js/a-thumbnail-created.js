@@ -5,25 +5,68 @@ function getTourInfo() {
                 return res.status
             return res.json()
         }).then(data => {
-        if (data == 204) {
-            alert("thông tin trống")
-            return
-        }
-        let options = '';
-        for (let i = 0; i < data.length; i++)
-            options += `
+            if (data == 204) {
+                Swal.fire({
+                    title: 'Thông báo !',
+                    text: "Thông tin trống!",
+                    icon: 'warning',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Ok'
+                })
+                return
+            }
+            let options = '';
+            for (let i = 0; i < data.length; i++)
+                options += `
                      <option value="${data[i]['tourSlug']}">${data[i]['tourTitle']}</option>
                 `
-        document.getElementById('tourSlug').innerHTML = options
-    })
+            document.getElementById('tourSlug').innerHTML = options
+        })
 }
 
+function validateCreatedNote() {
+    let thumImage = $('#thumImage').val()
+
+    if (thumImage == '') {
+        Swal.fire({
+            title: 'Thông báo !',
+            text: "Vui lòng kiểm tra lại thông tin còn thiếu trước khi tạo!",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
+        return false
+    }
+    return true
+}
+
+
 $(document).ready(function () {
+    // validate
+    $("#thumbnailCreatedForm").validate({
+        rules: {
+            thumImage: {
+                required: true
+            }
+        },
+        messages: {
+            thumImage: {
+                required: "Chưa upload hình"
+            }
+        }
+    });
     $('#loading').hide()
     getTourInfo()
     $('#thumbnailCreatedBtn').click(function () {
-        alert('Xác nhận tạo hình thu nhỏ mới')
-        $(this).hide()
-        $('#loading').show()
+        if (validateCreatedNote()) {
+            Swal.fire({
+                title: 'Thông báo !',
+                text: "Tạo thành công",
+                icon: 'success',
+                confirmButtonColor: '#3085d6'
+            })
+            $(this).hide()
+            $('#loading').show()
+        }
     })
 })
