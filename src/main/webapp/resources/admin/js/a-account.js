@@ -1,3 +1,4 @@
+
 var currentPageIndex = 1;
 
 function getAccountInfo(pageIndex = null, kw = null) {

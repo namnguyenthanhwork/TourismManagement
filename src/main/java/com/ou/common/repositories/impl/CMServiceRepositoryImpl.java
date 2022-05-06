@@ -2,7 +2,6 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMServiceRepository;
 import com.ou.configs.BeanFactoryConfig;
-import com.ou.pojos.ScheduleEntity;
 import com.ou.pojos.ServiceEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;

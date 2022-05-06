@@ -107,6 +107,7 @@ public class ANewsController {
             slugUtil.setSlug(postEntity.getPostTitle());
             PostEntity addedPost = cMPostService.getPostAsObj(slugUtil.getSlug());
             newsEntity.setNewsId(addedPost.getPostId());
+            newsEntity.setNewsDescription(httpServletRequest.getParameter("newsDescription"));
             boolean createdResult = cMNewsService.createNews(newsEntity);
             if (createdResult)
                 return "redirect:/quan-tri-vien/tin-tuc";
@@ -139,6 +140,7 @@ public class ANewsController {
         PostEntity post = cMPostService.getPostAsObj(newsSlug);
         if (news == null)
             return String.format("redirect:/quan-tri-vien/tin-tuc/%s", newsSlug);
+        news.setNewsDescription(httpServletRequest.getParameter("newsDescription"));
         post.setPostTitle(httpServletRequest.getParameter("newsTitle"));
         post.setPostContent(httpServletRequest.getParameter("newsContent"));
         if (newsCoverPage!=null && !newsCoverPage.isEmpty()) {

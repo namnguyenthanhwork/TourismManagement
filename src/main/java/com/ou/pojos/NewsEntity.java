@@ -18,6 +18,10 @@ public class NewsEntity implements Serializable {
     @Column(name = "news_like_amount")
     private Integer newsLikeAmount;
 
+    @Basic
+    @Column(name = "news_description", length = Integer.MAX_VALUE)
+    private String newsDescription;
+
     public int getNewsId() {
         return newsId;
     }
@@ -42,16 +46,25 @@ public class NewsEntity implements Serializable {
         this.newsLikeAmount = newsLikeAmount;
     }
 
+    public String getNewsDescription() {
+        return newsDescription;
+    }
+
+    public void setNewsDescription(String newsDescription) {
+        this.newsDescription = newsDescription;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NewsEntity that = (NewsEntity) o;
-        return newsId == that.newsId && Objects.equals(newsCreatedDate, that.newsCreatedDate) && Objects.equals(newsLikeAmount, that.newsLikeAmount);
+        return newsId == that.newsId && Objects.equals(newsCreatedDate, that.newsCreatedDate) &&
+                Objects.equals(newsLikeAmount, that.newsLikeAmount) && Objects.equals(newsDescription,  that.newsDescription);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(newsId, newsCreatedDate, newsLikeAmount);
+        return Objects.hash(newsId, newsCreatedDate, newsLikeAmount, newsDescription);
     }
 }

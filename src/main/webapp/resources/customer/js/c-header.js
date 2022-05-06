@@ -1,7 +1,7 @@
 function getTourMenu(){
     fetch('/TourismManagement/thanh-dieu-huong')
         .then(res=>res.json()).then(data=>{
-            console.info(data)
+            // console.info(data)
         // let storages = ''
         // let categories =''
         // for(let i=1; i<= data.length; i++){

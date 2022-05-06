@@ -43,9 +43,8 @@ public class CMAccountRepositoryImpl implements CMAccountRepository {
         predicates.add(criteriaBuilder.equal(accountEntityRoot.get("roleId").as(Integer.class),
                 roleEntityRoot.get("roleId").as(Integer.class)));
         if (params != null && params.length > 0 && params[0]!=null) {
-            predicates.add(criteriaBuilder.like(criteriaBuilder.concat(
-                    criteriaBuilder.concat(accountEntityRoot.get("accLastName").as(String.class), " "),
-                    accountEntityRoot.get("accFirstName").as(String.class)), String.format("%%%s%%", params[0].trim())));
+            predicates.add(criteriaBuilder.like(accountEntityRoot.get("accFirstName").as(String.class),
+                    String.format("%%%s%%", params[0].trim())));
         }
 
         criteriaQuery.where(predicates.toArray(predicates.toArray(utilBeanFactory.getApplicationContext()
@@ -74,6 +73,20 @@ public class CMAccountRepositoryImpl implements CMAccountRepository {
         CriteriaQuery<AccountEntity> criteriaQuery = criteriaBuilder.createQuery(AccountEntity.class);
         Root<AccountEntity> accountEntityRoot = criteriaQuery.from(AccountEntity.class);
         criteriaQuery.where(criteriaBuilder.equal(accountEntityRoot.get("accUsername").as(String.class), username));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }catch (NoResultException noResultException){
+            return null;
+        }
+    }
+
+    @Override
+    public AccountEntity getAccount(Integer accId) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<AccountEntity> criteriaQuery = criteriaBuilder.createQuery(AccountEntity.class);
+        Root<AccountEntity> accountEntityRoot = criteriaQuery.from(AccountEntity.class);
+        criteriaQuery.where(criteriaBuilder.equal(accountEntityRoot.get("accId").as(Integer.class), accId));
         try {
             return session.createQuery(criteriaQuery).getSingleResult();
         }catch (NoResultException noResultException){

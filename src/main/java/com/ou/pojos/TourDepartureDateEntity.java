@@ -20,6 +20,10 @@ public class TourDepartureDateEntity implements Serializable {
     @Column(name = "tour_amount")
     private Integer tourAmount = 1;
 
+    @Basic
+    @Column(name = "tour_sell_amount")
+    private Integer tourSellAmount = 0;
+
     public int getTourId() {
         return tourId;
     }
@@ -44,16 +48,24 @@ public class TourDepartureDateEntity implements Serializable {
         this.tourAmount = tourAmount;
     }
 
+    public Integer getTourSellAmount() {
+        return tourSellAmount;
+    }
+
+    public void setTourSellAmount(Integer tourSellAmount) {
+        this.tourSellAmount = tourSellAmount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TourDepartureDateEntity that = (TourDepartureDateEntity) o;
-        return tourId == that.tourId && dptId == that.dptId && Objects.equals(tourAmount, that.tourAmount);
+        return tourId == that.tourId && dptId == that.dptId && Objects.equals(tourAmount, that.tourAmount) && Objects.equals(tourSellAmount, that.tourSellAmount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tourId, dptId, tourAmount);
+        return Objects.hash(tourId, dptId, tourAmount, tourSellAmount);
     }
 }

@@ -2,7 +2,6 @@ package com.ou.common.repositories;
 
 
 import com.ou.pojos.BillEntity;
-import org.cloudinary.json.JSONObject;
 
 import java.util.List;
 

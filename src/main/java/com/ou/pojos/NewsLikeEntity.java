@@ -15,6 +15,10 @@ public class NewsLikeEntity implements Serializable {
     @Column(name = "acc_id")
     private int accId;
 
+    @Basic
+    @Column(name = "like_status")
+    private boolean likeStatus;
+
     public int getNewsId() {
         return newsId;
     }
@@ -31,17 +35,24 @@ public class NewsLikeEntity implements Serializable {
         this.accId = accId;
     }
 
+    public boolean getLikeStatus() {
+        return likeStatus;
+    }
+
+    public void setLikeStatus(boolean likeStatus) {
+        this.likeStatus = likeStatus;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NewsLikeEntity that = (NewsLikeEntity) o;
-        return newsId == that.newsId && accId == that.accId ;
+        return newsId == that.newsId && accId == that.accId && likeStatus==that.likeStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(newsId, accId);
+        return Objects.hash(newsId, accId, likeStatus);
     }
 }

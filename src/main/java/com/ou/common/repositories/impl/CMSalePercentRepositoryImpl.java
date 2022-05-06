@@ -3,7 +3,6 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMSalePercentRepository;
 import com.ou.configs.BeanFactoryConfig;
-import com.ou.pojos.RoleEntity;
 import com.ou.pojos.SalePercentEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -88,6 +89,61 @@ public class CMTourRatingRepositoryImpl implements CMTourRatingRepository {
             tourRatings.add(tourRating);
         });
         return tourRatings;
+    }
+
+    @Override
+    public int getTourRatingAmount(Integer tourId, Integer ratingAmount) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<TourRatingEntity> criteriaQuery = criteriaBuilder.createQuery(TourRatingEntity.class);
+        Root<TourRatingEntity> tourRatingEntityRoot = criteriaQuery.from(TourRatingEntity.class);
+        criteriaQuery.where(
+                criteriaBuilder.equal(tourRatingEntityRoot.get("tourId").as(Integer.class),tourId),
+                criteriaBuilder.equal(tourRatingEntityRoot.get("rateAmount").as(Integer.class),ratingAmount));
+        return session.createQuery(criteriaQuery).getResultList().size();
+    }
+
+    @Override
+    public TourRatingEntity getTourRating(Integer tourId, Integer accId) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<TourRatingEntity> criteriaQuery = criteriaBuilder.createQuery(TourRatingEntity.class);
+        Root<TourRatingEntity> tourRatingEntityRoot = criteriaQuery.from(TourRatingEntity.class);
+        criteriaQuery.where(
+                criteriaBuilder.equal(tourRatingEntityRoot.get("tourId").as(Integer.class), tourId),
+                criteriaBuilder.equal(tourRatingEntityRoot.get("accId").as(Integer.class), accId));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return null;
+        }
+    }
+
+    @Override
+    public int getTourRatingAmount(Integer tourId) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<TourRatingEntity> criteriaQuery = criteriaBuilder.createQuery(TourRatingEntity.class);
+        Root<TourRatingEntity> tourRatingEntityRoot = criteriaQuery.from(TourRatingEntity.class);
+        criteriaQuery.where(
+                criteriaBuilder.equal(tourRatingEntityRoot.get("tourId").as(Integer.class),tourId));
+        return session.createQuery(criteriaQuery).getResultList().size();
+    }
+
+    @Override
+    public int getTotalTourRatingAmount(Integer tourId) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<TourRatingEntity> tourRatingEntityRoot = criteriaQuery.from(TourRatingEntity.class);
+        criteriaQuery.where(
+                criteriaBuilder.equal(tourRatingEntityRoot.get("tourId").as(Integer.class),tourId))
+                .multiselect(criteriaBuilder.sum(tourRatingEntityRoot.get("rateAmount")));
+        try {
+            return Math.toIntExact(session.createQuery(criteriaQuery).getSingleResult());
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
     }
 
     @Override

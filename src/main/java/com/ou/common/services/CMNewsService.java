@@ -10,6 +10,8 @@ public interface CMNewsService {
 
     NewsEntity getNewsAsObj(String newsSlug);
 
+    JSONObject getNewsLikeAmount(String newsSlug);
+
     JSONObject getNewsAsJsonObj(String newsSlug);
 
     boolean createNews(NewsEntity newsEntity);

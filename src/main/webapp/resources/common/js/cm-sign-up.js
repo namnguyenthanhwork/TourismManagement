@@ -19,7 +19,6 @@ function getOTP() {
             'Content-Type': 'application/json'
         }
     }).then(res => res.json()).then(data => {
-        console.info(data)
         if (validateSignUp()) {
             $('#accUsername').attr("readonly", true);
             $('#accPassword').attr("readonly", true)
@@ -182,7 +181,6 @@ $(document).ready(function () {
         }
     });
     $('#loading').hide()
-    $('#receiveOTPArea').hide()
     $('#signUpConfirmArea').hide()
     $('#otpSendBtn').click(function () {
         if (validateSignUp())

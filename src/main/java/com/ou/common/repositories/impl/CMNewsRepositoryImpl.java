@@ -2,7 +2,6 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMNewsRepository;
 import com.ou.configs.BeanFactoryConfig;
-import com.ou.pojos.FeatureEntity;
 import com.ou.pojos.NewsEntity;
 import com.ou.pojos.PostEntity;
 import com.ou.utils.PageUtil;
@@ -54,7 +53,8 @@ public class CMNewsRepositoryImpl implements CMNewsRepository {
                 .multiselect(
                         newsEntityRoot.get("newsId"), newsEntityRoot.get("newsCreatedDate"),
                         newsEntityRoot.get("newsLikeAmount"), postEntityRoot.get("postTitle"),
-                        postEntityRoot.get("postSlug"), postEntityRoot.get("postCoverPage"))
+                        postEntityRoot.get("postSlug"), postEntityRoot.get("postCoverPage"),
+                        newsEntityRoot.get("newsDescription"))
                 .orderBy(criteriaBuilder.asc(newsEntityRoot.get("newsId")));
 
         if (pageIndex != null) {
@@ -91,13 +91,14 @@ public class CMNewsRepositoryImpl implements CMNewsRepository {
                         postEntityRoot.get("postId").as(Integer.class)),
                 criteriaBuilder.equal(postEntityRoot.get("postSlug").as(String.class), newsSlug))
                 .multiselect( newsEntityRoot.get("newsId"), newsEntityRoot.get("newsCreatedDate"),
-                        newsEntityRoot.get("newsLikeAmount"));
+                        newsEntityRoot.get("newsLikeAmount"),newsEntityRoot.get("newsDescription"));
         try {
             Object[] result = session.createQuery(criteriaQuery).getSingleResult();
             NewsEntity news = pojoBeanFactory.getApplicationContext().getBean(NewsEntity.class);
             news.setNewsId((Integer) result[0]);
             news.setNewsCreatedDate(Timestamp.valueOf(result[1].toString()));
             news.setNewsLikeAmount((Integer) result[2]);
+            news.setNewsDescription((String) result[3]);
             return news;
         }catch (NoResultException noResultException){
             return null;

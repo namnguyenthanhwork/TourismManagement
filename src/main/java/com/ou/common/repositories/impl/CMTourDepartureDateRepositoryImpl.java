@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -84,6 +85,22 @@ public class CMTourDepartureDateRepositoryImpl implements CMTourDepartureDateRep
             tourDepartureDates.add(tourDepartureDate);
         });
         return tourDepartureDates;
+    }
+
+    @Override
+    public TourDepartureDateEntity getTourDepartureDateEntity(Integer tourId, Integer dptId) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<TourDepartureDateEntity> criteriaQuery = criteriaBuilder.createQuery(TourDepartureDateEntity.class);
+        Root<TourDepartureDateEntity> root = criteriaQuery.from(TourDepartureDateEntity.class);
+        criteriaQuery.where(
+                criteriaBuilder.equal(root.get("tourId").as(Integer.class),tourId),
+                criteriaBuilder.equal(root.get("dptId").as(Integer.class), dptId));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return null;
+        }
     }
 
     @Override

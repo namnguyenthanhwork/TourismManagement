@@ -37,6 +37,7 @@ public class CMNewsServiceImpl implements CMNewsService {
             jsonObject.put("newsTitle", news[3]);
             jsonObject.put("newsSlug", news[4]);
             jsonObject.put("newsCoverPage", news[5]);
+            jsonObject.put("newsDescription", news[6]);
             jsonArray.add(jsonObject);
         });
         return jsonArray;
@@ -55,6 +56,16 @@ public class CMNewsServiceImpl implements CMNewsService {
     }
 
     @Override
+    public JSONObject getNewsLikeAmount(String newsSlug) {
+        if (newsSlug == null || newsSlug.trim().length() == 0)
+            return null;
+        NewsEntity news = cMNewsRepository.getNews(newsSlug);
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        jsonObject.put("newsLikeAmount", news.getNewsLikeAmount());
+        return jsonObject;
+    }
+
+    @Override
     public JSONObject getNewsAsJsonObj(String newsSlug) {
         if (newsSlug == null || newsSlug.trim().length() == 0)
             return null;
@@ -65,6 +76,7 @@ public class CMNewsServiceImpl implements CMNewsService {
         jsonObject.put("newsId", news.getNewsId());
         jsonObject.put("newsCreatedDate", news.getNewsCreatedDate());
         jsonObject.put("newsLikeAmount", news.getNewsLikeAmount());
+        jsonObject.put("newsDescription", news.getNewsDescription());
         PostEntity post = cMPostRepository.getPost(news.getNewsId());
         jsonObject.put("newsTitle", post.getPostTitle());
         jsonObject.put("newsSlug", post.getPostSlug());

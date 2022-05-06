@@ -2,8 +2,9 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMTourRepository;
 import com.ou.configs.BeanFactoryConfig;
+import com.ou.pojos.DepartureDateEntity;
 import com.ou.pojos.PostEntity;
-import com.ou.pojos.ThumbnailEntity;
+import com.ou.pojos.TourDepartureDateEntity;
 import com.ou.pojos.TourEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
@@ -18,6 +19,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 
@@ -95,6 +97,55 @@ public class CMTourRepositoryImpl implements CMTourRepository {
             return 0;
         }
     }
+
+    @Override
+    public long getTotalTourSlot(Integer tourId, Timestamp timestamp) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<TourEntity> tourEntityRoot = criteriaQuery.from(TourEntity.class);
+        Root<TourDepartureDateEntity> tourDepartureDateEntityRoot = criteriaQuery.from(TourDepartureDateEntity.class);
+        Root<DepartureDateEntity> departureDateEntityRoot = criteriaQuery.from(DepartureDateEntity.class);
+        criteriaQuery.where(
+                        criteriaBuilder.equal(tourEntityRoot.get("tourId").as(Integer.class),
+                                tourDepartureDateEntityRoot.get("tourId").as(Integer.class)),
+                        criteriaBuilder.equal(tourDepartureDateEntityRoot.get("dptId").as(Integer.class),
+                                departureDateEntityRoot.get("dptId").as(Integer.class)),
+                        criteriaBuilder.equal(tourEntityRoot.get("tourId"), tourId),
+                        criteriaBuilder.greaterThanOrEqualTo(departureDateEntityRoot.get("dptDate").as(Timestamp.class), timestamp))
+                .multiselect(criteriaBuilder.sum(tourDepartureDateEntityRoot.get("tourAmount")));
+
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (Exception noResultException) {
+            return 0;
+        }
+    }
+
+    @Override
+    public long getTotalSellTourSlot(Integer tourId, Timestamp timestamp) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<TourEntity> tourEntityRoot = criteriaQuery.from(TourEntity.class);
+        Root<TourDepartureDateEntity> tourDepartureDateEntityRoot = criteriaQuery.from(TourDepartureDateEntity.class);
+        Root<DepartureDateEntity> departureDateEntityRoot = criteriaQuery.from(DepartureDateEntity.class);
+        criteriaQuery.where(
+                        criteriaBuilder.equal(tourEntityRoot.get("tourId").as(Integer.class),
+                                tourDepartureDateEntityRoot.get("tourId").as(Integer.class)),
+                        criteriaBuilder.equal(tourDepartureDateEntityRoot.get("dptId").as(Integer.class),
+                                departureDateEntityRoot.get("dptId").as(Integer.class)),
+                        criteriaBuilder.equal(tourEntityRoot.get("tourId"), tourId),
+                        criteriaBuilder.greaterThanOrEqualTo(departureDateEntityRoot.get("dptDate").as(Timestamp.class),
+                                timestamp))
+                .multiselect(criteriaBuilder.sum(tourDepartureDateEntityRoot.get("tourSellAmount")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (Exception noResultException) {
+            return 0;
+        }
+    }
+
 
     @Override
     public TourEntity getTour(String tourSlug) {

@@ -2,7 +2,6 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMStorageRepository;
 import com.ou.configs.BeanFactoryConfig;
-import com.ou.pojos.ServingObjectEntity;
 import com.ou.pojos.StorageEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;

@@ -37,6 +37,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"
         integrity="sha512-6PM0qYu5KExuNcKt5bURAoT6KCThUmHRewN3zUFNaoI6Di7XJPTMoT6K0nsagZKk2OB4L7E3q1uQKHNHd4stIQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment-with-locales.min.js"></script>
     <link href="<c:url value = '/resources/customer/css/customer.css' />" rel="stylesheet" />
     <script src="<c:url value='/resources/customer/js/c-header.js'/> "></script>
 
@@ -45,7 +46,6 @@
 <body>
     <div id="vnt-wrapper">
         <div id="vnt-container">
-
             <tiles:insertAttribute name="c-header" />
             <tiles:insertAttribute name="c-content" />
             <tiles:insertAttribute name="c-footer" />
@@ -58,6 +58,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
         integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="<c:url value ='/resources/customer/js/customer.js'/>"></script>
     <tiles:insertAttribute name="c-ref" />
 </body>

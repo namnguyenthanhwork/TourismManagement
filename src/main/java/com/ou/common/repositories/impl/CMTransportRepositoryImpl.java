@@ -2,7 +2,6 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMTransportRepository;
 import com.ou.configs.BeanFactoryConfig;
-import com.ou.pojos.TourEntity;
 import com.ou.pojos.TransportEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;

@@ -8,6 +8,7 @@ import java.util.List;
 public interface CMNewsLikeService {
     List<NewsLikeEntity> getNewsLikeByAccount(String accUsername);
     List<NewsLikeEntity> getNewsLikeByNews(String newsSlug);
+    NewsLikeEntity getNewsLike(Integer newsId, Integer accId);
 
     boolean createNewsLike(NewsLikeEntity newsLikeEntity);
 
