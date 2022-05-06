@@ -6,15 +6,18 @@
         <h5 class="mb-0">Tạo mới phần trăm giảm giá</h5>
     </div>
     <div class="card-body pt-4 p-3">
-        <form action="<c:url value='/quan-tri-vien/phan-tram-giam-gia' />" method="post">
+        <form action="<c:url value='/quan-tri-vien/phan-tram-giam-gia' />" method="post" id="salePercentCreatedForm">
             <div class="form-group">
-                <label for="sperPercent">Phần trăm giảm giá (*)</label>
+                <label for="sperPercent">Phần trăm giảm giá <span class="required">(*)</span></label>
                 <input type="number" class="form-control" id="sperPercent" name="sperPercent"
-                    placeholder="Nhập phần trăm giảm giá...">
+                    placeholder="Nhập phần trăm giảm giá..." required>
             </div>
             <div class="form-group">
                 <button id="salePercentCreatedBtn" type="submit" class="btn btn-primary">Tạo mới</button>
-                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+                <div class="lds-ripple" id="loading">
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </form>
     </div>

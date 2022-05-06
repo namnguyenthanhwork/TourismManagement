@@ -29,7 +29,6 @@
                             </tr>
                         </thead>
                         <tbody id="departureDateInfo">
-
                         </tbody>
                     </table>
                 </div>

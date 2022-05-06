@@ -9,12 +9,19 @@ function getThumbnailInfo() {
         return res.json()
     }).then(data => {
         if (data === 204) {
-            alert("thông tin trống")
+            Swal.fire({
+                title: 'Thông báo !',
+                text: "Thông tin trống!",
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            })
             return
         }
         $('#tourSlug').val(data['tourSlug'])
     })
 }
+
 function getTourInfo() {
     fetch('/TourismManagement/quan-tri-vien/tour-du-lich/thong-tin/tong-quan')
         .then(res => {
@@ -22,27 +29,38 @@ function getTourInfo() {
                 return res.status
             return res.json()
         }).then(data => {
-        if (data == 204) {
-            alert('thông tin trống')
-            return
-        }
-        let options = '';
-        for (let i = 0; i < data.length; i++)
-            options += `
+            if (data == 204) {
+                Swal.fire({
+                    title: 'Thông báo !',
+                    text: "Thông tin trống!",
+                    icon: 'warning',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Ok'
+                })
+                return
+            }
+            let options = '';
+            for (let i = 0; i < data.length; i++)
+                options += `
                      <option value="${data[i]['tourSlug']}">${data[i]['tourTitle']}</option>
                 `
-        document.getElementById('tourSlug').innerHTML = options
-        getThumbnailInfo()
+            document.getElementById('tourSlug').innerHTML = options
+            getThumbnailInfo()
 
-    })
+        })
 }
 $(document).ready(function () {
     $('#loading').hide()
     $('#thumbnailUpdatedForm').attr('action', window.location.href);
     getTourInfo()
     $('#thumbnailUpdatedBtn').click(function () {
-        alert("Xác nhận cập nhật hình thu nhỏ mới")
+        Swal.fire({
+            title: 'Thông báo !',
+            text: "Cập nhật thành công",
+            icon: 'success',
+            confirmButtonColor: '#3085d6'
+        })
         $(this).hide()
         $('#loading').show()
-    })
+    }) 
 })

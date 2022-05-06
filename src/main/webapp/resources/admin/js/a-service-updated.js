@@ -9,7 +9,13 @@ function getServiceInfo(editor) {
         return res.json()
     }).then(data => {
         if (data === 204) {
-            alert("thông tin trống")
+            Swal.fire({
+                title: 'Thông báo !',
+                text: "Thông tin trống!",
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            })
             return
         }
         $("#servTitle").val(data['servTitle']);
@@ -17,12 +23,62 @@ function getServiceInfo(editor) {
     })
 }
 
+function validateUpdatedService() {
+    let servTitle = $('#servTitle').val()
+
+    if (servTitle == '') {
+        Swal.fire({
+            title: 'Thông báo !',
+            text: "Vui lòng kiểm tra lại thông tin còn thiếu trước khi cập nhật!",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
+        return false
+    }
+    if (servTitle.length < 5) {
+        Swal.fire({
+            title: 'Thông báo !',
+            text: "Không đủ độ dài yêu cầu!",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
+        return false
+    }
+    return true
+}
+
 $(document).ready(function () {
+    // validate
+    $("#serviceUpdatedForm").validate({
+        rules: {
+            servTitle: {
+                required: true,
+                minlength: 5,
+                maxlength: 100
+            }
+        },
+        messages: {
+            servTitle: {
+                required: "Tiêu đề không được để trống",
+                minlength: "Độ dài phải từ 5 ký tự",
+                maxlength: "Độ dài không vượt quá 100 ký tự"
+            }
+        }
+    });
     $('#loading').hide()
     $('#serviceUpdatedForm').attr('action', window.location.href);
     $('#serviceUpdatedBtn').click(function () {
-        alert("Xác nhận cập nhật lịch trình")
-        $(this).hide()
-        $('#loading').show()
+        if (validateUpdatedService()) {
+            Swal.fire({
+                title: 'Thông báo !',
+                text: "Cập nhật thành công",
+                icon: 'success',
+                confirmButtonColor: '#3085d6'
+            })
+            $(this).hide()
+            $('#loading').show()
+        }
     })
 })

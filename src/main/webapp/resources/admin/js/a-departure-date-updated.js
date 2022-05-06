@@ -9,7 +9,13 @@ function getDepartureDateInfo() {
         return res.json()
     }).then(data => {
         if (data === 204) {
-            alert("thông tin trống")
+            Swal.fire({
+                title: 'Thông báo !',
+                text: "Thông tin trống!",
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            })
             return
         }
         $('#dptDate').val(new Date(data['dptDate']).toISOString().split('T')[0]);
@@ -17,35 +23,81 @@ function getDepartureDateInfo() {
     })
 }
 
-function getFeatureInfo () {
+function getFeatureInfo() {
     fetch("/TourismManagement/quan-tri-vien/dac-diem-ngay-khoi-hanh/thong-tin")
         .then(res => {
             if (res.status != 200)
                 return res.status
             return res.json()
         }).then(data => {
-        if (data == 204) {
-            alert("thông tin trống")
-            return
-        }
-        let options = '';
-        for (let i = 0; i < data.length; i++)
-            options += `
+            if (data == 204) {
+                Swal.fire({
+                    title: 'Thông báo !',
+                    text: "Thông tin trống!",
+                    icon: 'warning',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Ok'
+                })
+                return
+            }
+            let options = '';
+            for (let i = 0; i < data.length; i++)
+                options += `
                      <option value="${data[i]['feaSlug']}">${data[i]['feaName']}</option>
                 `
 
-        document.getElementById('feaSlug').innerHTML = options
-        getDepartureDateInfo()
-    })
+            document.getElementById('feaSlug').innerHTML = options
+            getDepartureDateInfo()
+        })
+}
+
+
+function validateUpdatedDepartureDate() {
+    let dptDate = $('#dptDate').val()
+
+    if (dptDate == '') {
+        Swal.fire({
+            title: 'Thông báo !',
+            text: "Vui lòng kiểm tra lại thông tin còn thiếu trước khi cập nhật!",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
+        return false
+    }
+    return true
 }
 
 $(document).ready(function () {
+    // validate
+    $("#departureDateUpdatedForm").validate({
+        rules: {
+            dptDate: {
+                required: true,
+                date: true
+            },
+        },
+        messages: {
+            dptDate: {
+                required: "Ngày khởi hành không được để trống",
+                data: "Ngày khởi hành không được để trống",
+            },
+        }
+    });
+
     $('#loading').hide()
     $('#departureDateUpdatedForm').attr('action', window.location.href);
     getFeatureInfo()
     $('#departureDateUpdatedBtn').click(function () {
-        alert("Xác nhận cập nhật ngày khởi hành")
-        $(this).hide()
-        $('#loading').show()
+        if (validateUpdatedDepartureDate()) {
+            Swal.fire({
+                title: 'Thông báo !',
+                text: "Cập nhật thành công",
+                icon: 'success',
+                confirmButtonColor: '#3085d6'
+            })
+            $(this).hide()
+            $('#loading').show()
+        }
     })
 })

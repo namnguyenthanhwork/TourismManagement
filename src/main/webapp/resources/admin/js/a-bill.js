@@ -1,6 +1,6 @@
-
 var currentPageIndex = 1;
-function getBillInfo(pageIndex=null) {
+
+function getBillInfo(pageIndex = null) {
     let path = "/TourismManagement/quan-tri-vien/hoa-don/thong-tin"
     if (pageIndex != null)
         path += `?trang=${pageIndex}`
@@ -11,16 +11,22 @@ function getBillInfo(pageIndex=null) {
             return res.json()
         }).then(data => {
             if (data == 204) {
-                alert("thông tin trống")
+                Swal.fire({
+                    title: 'Thông báo !',
+                    text: "Thông tin trống!",
+                    icon: 'warning',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Ok'
+                })
                 return
             }
             let rows = ''
             for (let i = 0; i < data.length; i++) {
                 let billStatus = data[i]['billIsPaid'];
-                billStatus? billStatus = 'Đã thanh toán' : billStatus = 'Chưa thanh toán';
+                billStatus ? billStatus = 'Đã thanh toán' : billStatus = 'Chưa thanh toán';
                 rows += `
                 <tr>
-                  <td class="text-center">
+                <td class="text-center">
                     <a href="/TourismManagement/quan-tri-vien/hoa-don/${data[i]['billId']}" 
                     class="badge badge-success text-capitalize">Xem chi tiết</a>
                 </td>
@@ -31,14 +37,14 @@ function getBillInfo(pageIndex=null) {
                     <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['billCreatedDate']).toLocaleDateString()}</span>
 
                 </td>
-          
+    
                 <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold">${data[i]['accUsername']}</span>
                 </td>
                 <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold">${data[i]['paymentType']}</span>
                 </td>
-                 <td class="align-middle text-center">
+                <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold">${data[i]['billTotalSaleMoney']}</span>
                 </td>
                 <td class="align-middle text-center">
@@ -61,28 +67,29 @@ function getBillInfo(pageIndex=null) {
 function getPageAmount() {
     fetch('/TourismManagement/quan-tri-vien/hoa-don/so-trang')
         .then(res => res.json()).then(data => {
-        let pageAmount = data['pageAmount']
-        if(pageAmount==1)
-            return
-        let rows = ''
-        for (let i = 1; i <= pageAmount; i++)
-            rows += `
-                 <li class="page-item" onclick="changePage(${i}, ${pageAmount})"><a class="page-link" href="javascript:;">${i}</a></li>
+            let pageAmount = data['pageAmount']
+            if (pageAmount == 1)
+                return
+            let rows = ''
+            for (let i = 1; i <= pageAmount; i++)
+                rows += `
+                <li class="page-item" onclick="changePage(${i}, ${pageAmount})"><a class="page-link" href="javascript:;">${i}</a></li>
             `
-        if (pageAmount > 1) {
-            let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
-                                    <a class="page-link" href="javascript:;">Trước</a></li>`
-            let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
-                                <a class="page-link" href="javascript:;">Sau</a></li>`
-            rows = preBtn + rows
-            rows += nextBtn
-        }
-        $('#pagination').html(rows)
-        $(`#pagination li:nth-child(${pageAmount > 1 ? 2 : 1})`).addClass('active')
-        if (currentPageIndex == 1)
-            $('#preBtn').hide()
-    })
+            if (pageAmount > 1) {
+                let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
+            <a class="page-link" href="javascript:;"><</a></li>`
+                let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
+        <a class="page-link" href="javascript:;">></a></li>`
+                rows = preBtn + rows
+                rows += nextBtn
+            }
+            $('#pagination').html(rows)
+            $(`#pagination li:nth-child(${pageAmount > 1 ? 2 : 1})`).addClass('active')
+            if (currentPageIndex == 1)
+                $('#preBtn').hide()
+        })
 }
+
 function getPreviousPage(pageAmount) {
     if (currentPageIndex > 1) {
         $(`#pagination li:nth-child(${currentPageIndex + 1})`).removeClass('active')

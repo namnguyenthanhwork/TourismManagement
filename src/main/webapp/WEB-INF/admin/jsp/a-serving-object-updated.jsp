@@ -8,12 +8,16 @@
     <div class="card-body pt-4 p-3">
         <form id="servingObjectUpdatedForm" method="post">
             <div class="form-group">
-                <label for="svoName">Tên đối tượng (*)</label>
-                <input type="text" class="form-control" id="svoName" name="svoName" placeholder="Nhập tên đối tượng...">
+                <label for="svoName">Tên đối tượng <span class="required">(*)</span></label>
+                <input type="text" class="form-control" id="svoName" name="svoName" placeholder="Nhập tên đối tượng..."
+                    required>
             </div>
             <div class="form-group">
                 <button type="submit" id="servingObjectUpdatedBtn" class="btn btn-primary">Cập nhật</button>
-                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+                <div class="lds-ripple" id="loading">
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </form>
     </div>

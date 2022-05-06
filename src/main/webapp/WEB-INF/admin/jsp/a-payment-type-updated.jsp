@@ -8,10 +8,11 @@
 	<div class="card-body pt-4 p-3">
 		<form id="paymentTypeUpdatedForm" method="post">
 			<div class="form-group">
-				<label for="paytName">Tên hình thức thanh toán (*)</label>
-				<input type="text" class="form-control" id="paytName" name="paytName" placeholder="Nhập tên hình thức thanh toán...">
+				<label for="paytName">Tên hình thức thanh toán <span class="required">(*)</span></label>
+				<input type="text" class="form-control" id="paytName" name="paytName"
+					placeholder="Nhập tên hình thức thanh toán..." required>
 			</div>
-			<div><
+			<div>
 				<button type="submit" id="paymentTypeUpdatedBtn" class="btn btn-primary">Cập nhật</button>
 			</div>
 		</form>
