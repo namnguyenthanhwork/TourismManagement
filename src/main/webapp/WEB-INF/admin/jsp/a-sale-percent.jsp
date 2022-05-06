@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        <ul class="pagination" id ="pagination">
+        <ul class="pagination" id="pagination">
         </ul>
     </div>
 </div>

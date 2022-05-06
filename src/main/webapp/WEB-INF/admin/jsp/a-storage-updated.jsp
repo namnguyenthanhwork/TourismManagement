@@ -8,13 +8,16 @@
     <div class="card-body pt-4 p-3">
         <form id="storageUpdatedForm" method="post">
             <div class="form-group">
-                <label for="storName">Tên kho chứa (*)</label>
+                <label for="storName">Tên kho chứa <span class="required">(*)</span></label>
                 <input type="text" class="form-control" id="storName" name="storName"
-                    placeholder="Nhập tên kho chứa...">
+                    placeholder="Nhập tên kho chứa..." required>
             </div>
             <div class="form-group">
-                 <button type="submit" id="storageUpdatedBtn" class="btn btn-primary">Cập nhật</button>
-                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+                <button type="submit" id="storageUpdatedBtn" class="btn btn-primary">Cập nhật</button>
+                <div class="lds-ripple" id="loading">
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </form>
     </div>

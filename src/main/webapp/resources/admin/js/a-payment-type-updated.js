@@ -9,20 +9,76 @@ function getPaymentTypeInfo() {
         return res.json()
     }).then(data => {
         if (data === 204) {
-            alert("thông tin trống")
+            Swal.fire({
+                title: 'Thông báo !',
+                text: "Thông tin trống!",
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            })
             return
         }
         $("#paytName").val(data['paytName']);
     })
 }
 
+function validateUpdatedPaymentType() {
+    let paytName = $('#paytName').val()
+
+    if (paytName == '') {
+        Swal.fire({
+            title: 'Thông báo !',
+            text: "Vui lòng kiểm tra lại thông tin còn thiếu trước khi cập nhật!",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
+        return false
+    }
+    if (paytName.length < 5) {
+        Swal.fire({
+            title: 'Thông báo !',
+            text: "Không đủ độ dài yêu cầu!",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
+        return false
+    }
+    return true
+}
+
 $(document).ready(function () {
+    // validate
+    $("#paymentTypeUpdatedForm").validate({
+        rules: {
+            paytName: {
+                required: true,
+                minlength: 5,
+                maxlength: 100
+            }
+        },
+        messages: {
+            paytName: {
+                required: "Tiêu đề không được để trống",
+                minlength: "Độ dài phải từ 5 ký tự",
+                maxlength: "Độ dài không vượt quá 100 ký tự"
+            }
+        }
+    });
     $('#loading').hide()
     $('#paymentTypeUpdatedForm').attr('action', window.location.href);
     getPaymentTypeInfo()
-    $('#paymentTypeUpdatedBtn').click(function (){
-        alert("Xác nhận cập nhật hình thức thanh toán?")
-        $(this).hide()
-        $('#loading').show()
+    $('#paymentTypeUpdatedBtn').click(function () {
+        if (validateUpdatedPaymentType()) {
+            Swal.fire({
+                title: 'Thông báo !',
+                text: "Cập nhật thành công",
+                icon: 'success',
+                confirmButtonColor: '#3085d6'
+            })
+            $(this).hide()
+            $('#loading').show()
+        }
     })
 })

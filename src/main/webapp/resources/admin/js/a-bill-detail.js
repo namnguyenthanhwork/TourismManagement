@@ -6,58 +6,65 @@ function getBillInfo() {
         return res.json()
     }).then(data => {
         if (data === 204) {
-            alert('thông tin trống')
+            Swal.fire({
+                title: 'Thông báo !',
+                text: "Thông tin trống!",
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            })
             return
         }
         let accInfo = `
-            <p>Mã tài khoản: ${data['accId']}</p>
-            <p>Tên tài khoản: ${data['accUsername']}</p>
-            <p>Tên người dùng: ${data['accLastName']} ${data['accFirstName']}</p>
-            <p>Ngày sinh: ${data['accLastName']}</p>
-            <p>Mã căn cước công dân: ${data['accLastName']}</p>
-            <p>Số điện thoại: ${data['accLastName']}</p>
+            <p class="text-sm text-justify p-0 my-2"><soan class="font-weight-bolder">Mã tài khoản:</soan> ${data['accId']}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Tên tài khoản:</span> ${data['accUsername']}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Tên người dùng:</span> ${data['accLastName']} ${data['accFirstName']}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Ngày sinh:</span> ${data['accLastName']}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Mã căn cước công dân:</span> ${data['accLastName']}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder"
+            >Số điện thoại:</span> ${data['accLastName']}</p>
         `
 
         let paymentTypeInfo = `
-             <p>Mã hình thức thanh toán: ${data['paytId']}</p>
-             <p>Tên hình thức thanh toán: ${data['paytName']}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Mã hình thức thanh toán:</span> ${data['paytId']}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Tên hình thức thanh toán:</span> ${data['paytName']}</p>
         `
-        let billDepartureDate = new Date(data['billDepartureDate']).toLocaleDateString()
+        let billDepartureDate = new Date(data['billDepartureDate']).toISOString().split('T')[0]
         let billIsPaid = data['billIsPaid'] ? "Đã thanh toán" : "Chưa thanh toán"
-        let billShipDate = new Date(data['billShipDate']).toLocaleDateString()
+        let billShipDate = new Date(data['billShipDate']).toISOString().split('T')[0]
         let billShipCity = data['billShipCity'] === null ? "Không có" : data['billShipCity']
         let billShipDistrict = data['billShipDistrict'] === null ? "Không có" : data['billShipDistrict']
         let billShipAddress = data['billShipAddress'] === null ? "Không có" : data['billShipAddress']
 
         let billInfo = `
-            <p>Mã hóa đơn: ${data['billId']}</p>
-            <p>Tổng tiền giảm giá: ${data['billTotalSaleMoney']} VNĐ</p>
-            <p>Tổng tiền: ${data['billTotalMoney']}</p>
-            <p>Ngày khởi hành: ${billDepartureDate}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Mã hóa đơn:</span> ${data['billId']}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Tổng tiền giảm giá:</span> ${data['billTotalSaleMoney'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Tổng tiền:</span> ${data['billTotalMoney'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Ngày khởi hành:</span> ${billDepartureDate}</p>
             <div>
-                <h3>Địa điểm giao hàng</h3>
-                <p>Thành phố: ${billShipCity}</p>
-                <p>Quận/Huyện: ${billShipDistrict}</p>
-                <p>Địa chỉ: ${billShipAddress}</p>
-                <p>Thời gian giao hàng: ${billShipDate}</p>
+                <h5 class="font-weight-bolder mt-4">Địa điểm giao hàng</h5>
+                <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Thành phố:</span> ${billShipCity}</p>
+                <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Quận/Huyện:</span> ${billShipDistrict}</p>
+                <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Địa chỉ:</span> ${billShipAddress}</p>
+                <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Thời gian giao hàng:</span> ${billShipDate}</p>
             </div>
-            <p>Trạng thái hóa đơn: ${billIsPaid}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Trạng thái hóa đơn:</span> ${billIsPaid}</p>
         `
 
         let tourInfo = `
-            <p>Mã tour du lịch: ${data['postId']}</p>
-            <p>Tên tour du lịch: ${data['postTitle']}</p>
-            <p>Mức đánh giá: ${data['tourAverageRating']}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Mã tour du lịch:</span> ${data['postId']}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Tên tour du lịch:</span> ${data['postTitle']}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Mức đánh giá:</span> ${data['tourAverageRating']}</p>
         `
 
         let tourPrices = ``
 
         for (let i = 0; i < data['tourPrices'].length; i++)
             tourPrices += `
-                 <p>Đối tượng phục vụ: ${data['tourPrices'][i]['svoName']}</p>
-                 <p>Số lượng đặt: ${data['tourPrices'][i]['tourAmount']}</p>
-                 <p>Giá tour / đối tượng: ${data['tourPrices'][i]['tourPrice']}</p>
-                 <br><br>
+                <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Đối tượng phục vụ:</span> ${data['tourPrices'][i]['svoName']}</p>
+                <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Số lượng đặt</span>: ${data['tourPrices'][i]['tourAmount']}</p>
+                <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Giá tour / đối tượng:</span> ${data['tourPrices'][i]['tourPrice'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</p>
+                <p>----------------</p>
             `
         $('#accountInfo').html(accInfo)
         $('#paymentTypeInfo').html(paymentTypeInfo)
@@ -67,6 +74,6 @@ function getBillInfo() {
     })
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
     getBillInfo()
 })

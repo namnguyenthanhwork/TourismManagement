@@ -1,5 +1,6 @@
 var currentPageIndex = 1;
-function getAccountInfo(pageIndex =null, kw= null) {
+
+function getAccountInfo(pageIndex = null, kw = null) {
     let path = '/TourismManagement/quan-tri-vien/tai-khoan/thong-tin'
     if (kw != null)
         path += `?kw=${kw}`
@@ -11,61 +12,61 @@ function getAccountInfo(pageIndex =null, kw= null) {
                 return res.status
             return res.json()
         }).then(data => {
-        let rows = ''
-        for (let i = 0; i < data.length; i++) {
-            let accSex = data[i]['accSex'];
-            accSex == 1 ? accSex = 'Nam' : accSex = 'Nữ';
-            rows += `
+            let rows = ''
+            for (let i = 0; i < data.length; i++) {
+                let accSex = data[i]['accSex'];
+                accSex == 1 ? accSex = 'Nam' : accSex = 'Nữ';
+                rows += `
                 <tr>
-                <td class="text-center">
-                    <a href="/TourismManagement/quan-tri-vien/tai-khoan/${data[i]['accUsername']}" 
-                    class="badge badge-success text-capitalize">Chỉnh sửa</a>
-                    <a href="javascript:;" class="badge badge-danger text-capitalize"
-                       onclick="deleteAccount('${data[i]['accUsername']}')">Xoá</a>
-                </td>
-                <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${data[i]['accId']}</span>
-                </td>
-                <td>
-                    <p class="text-xs font-weight-bold mb-0">${data[i]['accUsername']}</p>
-                </td>
-                <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${data[i]['accPassword']}</span>
-                </td>
-                <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${data[i]['accLastName']} ${data[i]['accFirstName']}</span>
-                </td>
-                <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${accSex}</span>
-                </td>
-                <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${data[i]['accIdCard']}</span>
-                </td>
-                <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${data[i]['accPhoneNumber']}</span>
-                </td>
-                <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['accDateOfBirth']).toISOString().split('T')[0]}</span>
-                </td>
-                <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['accJoinedDate']).toISOString().split('T')[0]}</span>
-                </td>
-                <td class="align-middle text-center">
-                <div> 
-                  <img src="${data[i]['accAvatar']}" class="avatar avatar-sm me-3" alt="user1"> 
-                </div>
-                </td>
-                <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['accLastAccess']).toLocaleString()}</span>
-                </td>
-                <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">${data[i]['roleName']}</span>
-                </td>
-            </tr>  
+                    <td class="text-center">
+                        <a href="/TourismManagement/quan-tri-vien/tai-khoan/${data[i]['accUsername']}" 
+                        class="badge badge-success text-capitalize">Chỉnh sửa</a>
+                        <a href="javascript:;" class="badge badge-danger text-capitalize"
+                        onclick="deleteAccount('${data[i]['accUsername']}')">Xoá</a>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">${data[i]['accId']}</span>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0">${data[i]['accUsername']}</p>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">${data[i]['accPassword']}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">${data[i]['accLastName']} ${data[i]['accFirstName']}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">${accSex}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">${data[i]['accIdCard']}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">${data[i]['accPhoneNumber']}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['accDateOfBirth']).toISOString().split('T')[0]}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['accJoinedDate']).toISOString().split('T')[0]}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                    <div> 
+                        <img src="${data[i]['accAvatar']}" class="avatar avatar-sm me-3" alt="user1"> 
+                    </div>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">${new Date(data[i]['accLastAccess']).toLocaleString()}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">${data[i]['roleName']}</span>
+                    </td>
+                </tr>  
                 `
-        }
-        document.getElementById('accountInfo').innerHTML = rows
-    })
+            }
+            document.getElementById('accountInfo').innerHTML = rows
+        })
 }
 
 function deleteAccount(accUsername) {
@@ -91,13 +92,14 @@ function deleteAccount(accUsername) {
                         'warning'
                     )
                     return
+                } else {
+                    Swal.fire(
+                        'Đã xoá',
+                        'Dữ liệu đã được xoá thành công.',
+                        'success'
+                    )
+                    getAccountInfo()
                 }
-                Swal.fire(
-                    'Đã xoá',
-                    'Dữ liệu đã được xoá thành công.',
-                    'success'
-                )
-                getAccountInfo()
             })
         }
     })
@@ -106,28 +108,31 @@ function deleteAccount(accUsername) {
 function getPageAmount() {
     fetch('/TourismManagement/quan-tri-vien/tai-khoan/so-trang')
         .then(res => res.json()).then(data => {
-        let pageAmount = data['pageAmount']
-        if(pageAmount==1)
-            return
-        let rows = ''
-        for (let i = 1; i <= pageAmount; i++)
-            rows += `
-                 <li class="page-item" onclick="changePage(${i}, ${pageAmount})"><a class="page-link" href="javascript:;">${i}</a></li>
-            `
-        if (pageAmount > 1) {
-            let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
-                                    <a class="page-link" href="javascript:;">Trước</a></li>`
-            let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
-                                <a class="page-link" href="javascript:;">Sau</a></li>`
-            rows = preBtn + rows
-            rows += nextBtn
-        }
-        $('#pagination').html(rows)
-        $(`#pagination li:nth-child(${pageAmount > 1 ? 2 : 1})`).addClass('active')
-        if (currentPageIndex == 1)
-            $('#preBtn').hide()
-    })
+            let pageAmount = data['pageAmount']
+            if (pageAmount == 1)
+                return
+            let rows = ''
+            for (let i = 1; i <= pageAmount; i++)
+                rows += `
+                    <li class="page-item" onclick="changePage(${i}, ${pageAmount})">
+                        <a class="page-link" href="javascript:;">${i}</a>
+                    </li>
+                `
+            if (pageAmount > 1) {
+                let preBtn = `<li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
+                <a class="page-link" href="javascript:;"><</a></li>`
+                let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
+            <a class="page-link" href="javascript:;">></a></li>`
+                rows = preBtn + rows
+                rows += nextBtn
+            }
+            $('#pagination').html(rows)
+            $(`#pagination li:nth-child(${pageAmount > 1 ? 2 : 1})`).addClass('active')
+            if (currentPageIndex == 1)
+                $('#preBtn').hide()
+        })
 }
+
 function getPreviousPage(pageAmount) {
     $('#search').val('')
 
@@ -146,7 +151,6 @@ function getPreviousPage(pageAmount) {
 }
 
 function changePage(pageIndex, pageAmount) {
-
     $('#search').val('')
     $(`#pagination li:nth-child(${currentPageIndex + 1})`).removeClass('active')
     currentPageIndex = pageIndex
@@ -180,19 +184,14 @@ function getNextPage(pageAmount) {
         $('#nextBtn').hide()
     if (currentPageIndex != pageAmount)
         $('#nextBtn').show()
-    if (currentPageIndex != 1 )
+    if (currentPageIndex != 1)
         $('#preBtn').show()
 }
 
 $(document).ready(function () {
-    getAccountInfo( currentPageIndex)
+    getAccountInfo(currentPageIndex)
     getPageAmount()
     $('#search').keyup(function () {
         getAccountInfo(currentPageIndex, $(this).val().length > 0 ? $(this).val().trim() : null)
-
     })
-
 })
-
-fetch('/TourismManagement/quan-tri-vien/bao-cao/thong-tin?loai=doanh-thu&thoi-gian=thang&tg1=1&tg2=12')
-.then(res=>res.json()).then(data=>console.info(data))

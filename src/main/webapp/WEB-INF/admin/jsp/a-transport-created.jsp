@@ -6,15 +6,18 @@
         <h5 class="mb-0">Tạo mới phương tiện</h5>
     </div>
     <div class="card-body pt-4 p-3">
-        <form action="<c:url value='/quan-tri-vien/phuong-tien-di-chuyen' />" method="post">
+        <form action="<c:url value='/quan-tri-vien/phuong-tien-di-chuyen' />" method="post" id="transportCreatedForm">
             <div class="form-group">
-                <label for="tranName">Tên phương tiện (*)</label>
+                <label for="tranName">Tên phương tiện <span class="required">(*)</span></label>
                 <input type="text" class="form-control" id="tranName" name="tranName"
-                    placeholder="Nhập tên phương tiện...">
+                    placeholder="Nhập tên phương tiện..." required>
             </div>
             <div class="form-group">
                 <button id="transportCreatedBtn" type="submit" class="btn btn-primary">Tạo mới</button>
-                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+                <div class="lds-ripple" id="loading">
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </form>
     </div>

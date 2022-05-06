@@ -8924,7 +8924,6 @@ html[xmlns] .flexslider .slides {
 
 .flexslider .slides img {
     height: auto;
-    -moz-user-select: none
 }
 
 .flex-viewport {
@@ -9286,7 +9285,7 @@ a:hover {
     border: 1px solid #ccc
 }
 
-@media {
+@media screen  {
 
     #mda-arrival .mda-arrival-remove:hover,
     .mda-autocomplete-remove:hover,
@@ -20077,7 +20076,7 @@ a:hover {
     }
 }
 
-@media {
+@media screen {
 
     .mda-hotel-left .mda-box-1:after,
     .mda-hotel-position li:after,

@@ -13,38 +13,41 @@
                             </h4>
                         </div>
                         <div class="card-body">
-                            <form action="<c:url value="/auth/dang-nhap" />" method="post">
-                                <label for="username">Tên đăng nhập</label>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" name="username" id="username"
-                                           placeholder="Nhập tài khoản" value="username1"></div>
-                                <label for="password">Mật khẩu</label>
-                                <div class="mb-3 position-relative">
-                                    <input type="password" class="form-control" name="password" id="password"
-                                           placeholder="Nhập mật khẩu" value="12345678">
-                                    <div class="show-password">
-                                        <i class="far fa-eye"></i>
-                                    </div>
+                            <form action="<c:url value='/auth/dang-nhap' />" method="post">
+                            <label for="username">Tên đăng nhập</label>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" name="username" id="username"
+                                    placeholder="Nhập tài khoản" value="username1"></div>
+                            <label for="password">Mật khẩu</label>
+                            <div class="mb-3 position-relative">
+                                <input type="password" class="form-control" name="password" id="password"
+                                    placeholder="Nhập mật khẩu" value="12345678">
+                                <div class="show-password">
+                                    <i class="far fa-eye"></i>
                                 </div>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="rememberMe">
-                                    <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
-                                </div>
-                                <div>
-                                    <a href="<c:url value="/dang-ki-tai-khoan"/> ">Đăng ký tài khoản</a>
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0" id="signin">Đăng nhập
-                                    </button>
-                                </div>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="rememberMe">
+                                <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
+                            </div>
+                            <div class=" text-center">
+                                <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0" id="signin">Đăng
+                                    nhập
+                                </button>
+                            </div>
                             </form>
+                        </div>
+                        <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                            <p class="mb-4 text-sm mx-auto"> Chưa có tài khoản? <a
+                                    href="<c:url value='/dang-ki-tai-khoan'/>"
+                                    class="text-info text-gradient font-weight-bold">Đăng ký</a> </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n4">
                         <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6"
-                             style="background-image:url('../resources/common/img/curved-images/curved6.jpg')"></div>
+                            style="background-image:url('../resources/common/img/curved-images/curved6.jpg')"></div>
                     </div>
                 </div>
             </div>
@@ -54,8 +57,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 mb-4 mx-auto text-center">
-                    <a href="javascript:;"
-                       class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+                    <a href="javascript:;" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
                         Dự án quản lý du lịch - Lập trình Java
                     </a>
                 </div>
@@ -88,4 +90,3 @@
         </div>
     </footer>
 </main>
-

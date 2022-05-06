@@ -9,23 +9,27 @@
     <div class="card-body pt-4 p-3">
         <form id="noteUpdatedForm" method="post">
             <div class="form-group">
-                <label for="noteTitle">Tiêu đề (*)</label>
-                <input type="text" class="form-control" id="noteTitle" name="noteTitle" placeholder="Nhập tiêu đề...">
+                <label for="noteTitle">Tiêu đề <span class="required">(*)</span></label>
+                <input type="text" class="form-control" id="noteTitle" name="noteTitle" placeholder="Nhập tiêu đề..."
+                    required>
             </div>
 
             <div class="form-group">
-                <label for="editor">Nội dung (*)</label>
-                <textarea name="noteContent" id="editor"></textarea>
+                <label for="editor">Nội dung <span class="required">(*)</span></label>
+                <textarea name="noteContent" id="editor" required></textarea>
             </div>
 
             <div class="form-group">
                 <button type="submit" id="noteUpdatedBtn" class="btn btn-primary">Cập nhật</button>
-                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+                <div class="lds-ripple" id="loading">
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </form>
         <script src="<c:url value = '/resources/ckeditor/build/ckeditor.js' />"></script>
         <script>
-            ClassicEditor.create(document.querySelector('#editor')),then(editor=>getNoteInfo(editor))
+            ClassicEditor.create(document.querySelector('#editor')).then(editor => getNoteInfo(editor))
         </script>
     </div>
 </div>

@@ -8,23 +8,26 @@
     <div class="card-body pt-4 p-3">
         <form id="saleUpdatedForm" method="post">
             <div class="form-group">
-                <label for="saleFromDate">Ngày bắt đầu (*)</label>
+                <label for="saleFromDate">Ngày bắt đầu <span class="required">(*)</span></label>
                 <input type="date" class="form-control" id="saleFromDate" name="saleFromDate"
-                    placeholder="Nhập ngày bắt đầu...">
+                    placeholder="Nhập ngày bắt đầu..." required>
             </div>
             <div class="form-group">
-                <label for="saleToDate">Ngày kết thúc (*)</label>
+                <label for="saleToDate">Ngày kết thúc <span class="required">(*)</span></label>
                 <input type="date" class="form-control" id="saleToDate" name="saleToDate"
-                    placeholder="Nhập ngày kết thúc...">
+                    placeholder="Nhập ngày kết thúc..." required>
             </div>
             <div class="form-group">
-                <label for="sperId">Phần trăm giảm giá (*)</label>
-                <select name="sperId" id="sperId" class="multisteps-form__input form-control">
+                <label for="sperId">Phần trăm giảm giá <span class="required">(*)</span></label>
+                <select name="sperId" id="sperId" class="multisteps-form__input form-control" required>
                 </select>
             </div>
             <div class="form-group">
                 <button type="submit" id="saleUpdatedBtn" class="btn btn-primary">Cập nhật</button>
-                <div class="lds-ripple" id="loading"><div></div><div></div></div>
+                <div class="lds-ripple" id="loading">
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </form>
     </div>

@@ -1,7 +1,7 @@
 let currentPageIndex = 1;
 
 function getRoleInfo(pageIndex = null) {
-    let path ="/TourismManagement/quan-tri-vien/vai-tro/thong-tin"
+    let path = "/TourismManagement/quan-tri-vien/vai-tro/thong-tin"
     if (pageIndex != null)
         path += `?trang=${pageIndex}`
     fetch(path)
@@ -10,9 +10,9 @@ function getRoleInfo(pageIndex = null) {
                 return res.status
             return res.json()
         }).then(data => {
-        let rows = ''
-        for (let i = 0; i < data.length; i++) {
-            rows += `
+            let rows = ''
+            for (let i = 0; i < data.length; i++) {
+                rows += `
                 <tr>
                    <td class="text-center">
                         <a href="/TourismManagement/quan-tri-vien/vai-tro/${data[i]['roleSlug']}" 
@@ -32,9 +32,9 @@ function getRoleInfo(pageIndex = null) {
 
                 </tr>     
                 `
-        }
-        document.getElementById('roleInfo').innerHTML = rows
-    })
+            }
+            document.getElementById('roleInfo').innerHTML = rows
+        })
 }
 
 
@@ -76,28 +76,29 @@ function deleteRole(roleSlug) {
 function getPageAmount() {
     fetch('/TourismManagement/quan-tri-vien/vai-tro/so-trang')
         .then(res => res.json()).then(data => {
-        let pageAmount = data['pageAmount']
-        if(pageAmount==1)
-            return
-        let rows = ''
-        for (let i = 1; i <= pageAmount; i++)
-            rows += `
+            let pageAmount = data['pageAmount']
+            if (pageAmount == 1)
+                return
+            let rows = ''
+            for (let i = 1; i <= pageAmount; i++)
+                rows += `
                  <li class="page-item" onclick="changePage(${i}, ${pageAmount})"><a class="page-link" href="javascript:;">${i}</a></li>
             `
-        if (pageAmount > 1) {
-            let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
-                                    <a class="page-link" href="javascript:;">Trước</a></li>`
-            let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
-                                <a class="page-link" href="javascript:;">Sau</a></li>`
-            rows = preBtn + rows
-            rows += nextBtn
-        }
-        $('#pagination').html(rows)
-        $(`#pagination li:nth-child(${pageAmount > 1 ? 2 : 1})`).addClass('active')
-        if (currentPageIndex == 1)
-            $('#preBtn').hide()
-    })
+            if (pageAmount > 1) {
+                let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
+            <a class="page-link" href="javascript:;"><</a></li>`
+                let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
+        <a class="page-link" href="javascript:;">></a></li>`
+                rows = preBtn + rows
+                rows += nextBtn
+            }
+            $('#pagination').html(rows)
+            $(`#pagination li:nth-child(${pageAmount > 1 ? 2 : 1})`).addClass('active')
+            if (currentPageIndex == 1)
+                $('#preBtn').hide()
+        })
 }
+
 function getPreviousPage(pageAmount) {
     if (currentPageIndex > 1) {
         $(`#pagination li:nth-child(${currentPageIndex + 1})`).removeClass('active')
@@ -109,7 +110,7 @@ function getPreviousPage(pageAmount) {
         $('#preBtn').hide()
     if (currentPageIndex != 1)
         $('#preBtn').show()
-    if ( currentPageIndex != pageAmount)
+    if (currentPageIndex != pageAmount)
         $('#nextBtn').show()
 }
 
@@ -145,7 +146,7 @@ function getNextPage(pageAmount) {
         $('#nextBtn').hide()
     if (currentPageIndex != pageAmount)
         $('#nextBtn').show()
-    if (currentPageIndex != 1 )
+    if (currentPageIndex != 1)
         $('#preBtn').show()
 }
 

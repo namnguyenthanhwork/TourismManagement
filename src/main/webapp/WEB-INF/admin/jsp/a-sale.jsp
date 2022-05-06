@@ -26,7 +26,7 @@
                                     % giảm giá
                                 </th>
                                 <th
-                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                     Ngày bắt đầu</th>
                                 <th
                                     class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -34,13 +34,12 @@
                             </tr>
                         </thead>
                         <tbody id="saleInfo">
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <ul class="pagination" id ="pagination">
+        <ul class="pagination" id="pagination">
         </ul>
     </div>
 </div>
