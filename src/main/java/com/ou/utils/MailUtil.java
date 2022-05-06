@@ -1,6 +1,5 @@
 package com.ou.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
 import javax.mail.*;

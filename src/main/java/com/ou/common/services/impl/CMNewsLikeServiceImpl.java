@@ -28,7 +28,15 @@ public class CMNewsLikeServiceImpl implements CMNewsLikeService {
     }
 
     @Override
+    public NewsLikeEntity getNewsLike(Integer newsId, Integer accId) {
+        if (newsId == null || accId == null)
+            return null;
+        return cMNewsLikeRepository.getNewsLike(newsId, accId);
+    }
+
+    @Override
     public boolean createNewsLike(NewsLikeEntity newsLikeEntity) {
+        newsLikeEntity.setLikeStatus(true);
         return cMNewsLikeRepository.createNewsLike(newsLikeEntity);
     }
 

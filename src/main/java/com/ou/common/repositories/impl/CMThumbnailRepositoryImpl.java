@@ -3,10 +3,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMThumbnailRepository;
 import com.ou.configs.BeanFactoryConfig;
-import com.ou.pojos.PostEntity;
-import com.ou.pojos.StorageEntity;
 import com.ou.pojos.ThumbnailEntity;
-import com.ou.pojos.TourEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.persistence.NoResultException;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Objects;
 

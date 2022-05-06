@@ -70,7 +70,8 @@ public class CMPostCommentRepositoryImpl implements CMPostCommentRepository {
                 .multiselect(
                         postCommentEntityRoot.get("cmtId"), postCommentEntityRoot.get("postId"),
                         postCommentEntityRoot.get("accId"), postCommentEntityRoot.get("cmtCreatedDate"),
-                        postCommentEntityRoot.get("cmtContent"));
+                        postCommentEntityRoot.get("cmtContent"))
+                .orderBy(criteriaBuilder.desc(postCommentEntityRoot.get("cmtCreatedDate")));
         List<Object[]> results = session.createQuery(criteriaQuery).getResultList();
         List<PostCommentEntity> postComments = pojoBeanFactory.getApplicationContext().getBean("postCommentEntityList", List.class);
         results.forEach(result -> {

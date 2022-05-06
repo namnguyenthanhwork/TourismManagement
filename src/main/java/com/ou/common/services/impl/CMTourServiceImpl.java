@@ -2,7 +2,6 @@ package com.ou.common.services.impl;
 
 
 import com.ou.common.repositories.*;
-import com.ou.common.services.CMScheduleService;
 import com.ou.common.services.CMThumbnailService;
 import com.ou.common.services.CMTourService;
 import com.ou.configs.BeanFactoryConfig;
@@ -12,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -59,7 +59,10 @@ public class CMTourServiceImpl implements CMTourService {
     private CMTourTransportRepository cMTourTransportRepository;
 
     @Autowired
-    private CMScheduleService cMScheduleService;
+    private CMScheduleRepository cMScheduleRepository;
+
+    @Autowired
+    private CMFeatureRepository cMFeatureRepository;
 
     @Autowired
     private CMThumbnailService cMThumbnailService;
@@ -115,6 +118,12 @@ public class CMTourServiceImpl implements CMTourService {
             dptJson.put("dptId", departureDateEntity.getDptId());
             dptJson.put("dptDate", departureDateEntity.getDptDate());
             dptJson.put("tourAmount", tourDepartureDateEntity.getTourAmount());
+            FeatureEntity feature = cMFeatureRepository.getFeature(departureDateEntity.getFeaId());
+            dptJson.put("feaName", feature.getFeaName());
+            dptJson.put("feaId", feature.getFeaId());
+            TourDepartureDateEntity tourDepartureDate = cMTourDepartureDateRepository.getTourDepartureDateEntity(
+                    tour.getTourId(), departureDateEntity.getDptId());
+            dptJson.put("tourEmptySlot", tourDepartureDate.getTourAmount()-tourDepartureDate.getTourSellAmount());
             departureDates.add(dptJson);
         });
 
@@ -127,7 +136,7 @@ public class CMTourServiceImpl implements CMTourService {
             transports.add(tranJson);
         });
 
-        cMScheduleService.getSchedulesByTourId(tour.getTourId()).forEach(scheduleEntity -> {
+        cMScheduleRepository.getSchedulesByTourId(tour.getTourId()).forEach(scheduleEntity -> {
             JSONObject scheduleJson = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
             scheduleJson.put("scheId", scheduleEntity.getScheId());
             scheduleJson.put("scheTitle", scheduleEntity.getScheTitle());
@@ -206,18 +215,38 @@ public class CMTourServiceImpl implements CMTourService {
     }
 
     @Override
-    public int getEmptySlotAmount(Integer tourId) {
-        TourEntity tour = cMTourRepository.getTour(tourId);
-//        List<TourServingObjectEntity> tourServingObjectEntities
-        return 0;
+    public int getTotalTourSlot(Integer tourId) {
+        if (tourId == null)
+            return 0;
+        Timestamp timestamp = utilBeanFactory.getApplicationContext().getBean("currentTimeStamp", Timestamp.class);
+        return (int) cMTourRepository.getTotalTourSlot(tourId, timestamp);
     }
 
+    @Override
+    public int getEmptySlotAmount(Integer tourId) {
+        if (tourId == null)
+            return 0;
+        Timestamp timestamp = utilBeanFactory.getApplicationContext().getBean("currentTimeStamp", Timestamp.class);
+        long totalTourSlot = cMTourRepository.getTotalTourSlot(tourId, timestamp);
+        long totalTourSellSlot = cMTourRepository.getTotalSellTourSlot(tourId, timestamp);
+        return (int) (totalTourSlot - totalTourSellSlot);
+    }
 
     @Override
     public TourEntity getTourAsObj(String tourSlug) {
         if (tourSlug == null || tourSlug.trim().length() == 0)
             return null;
         return cMTourRepository.getTour(tourSlug.trim());
+    }
+
+    @Override
+    public JSONObject getTourAverageRating(String tourSlug) {
+        if (tourSlug == null || tourSlug.trim().length() == 0)
+            return null;
+        TourEntity tour = cMTourRepository.getTour(tourSlug);
+        JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
+        jsonObject.put("tourAverageRating", tour.getTourAverageRating());
+        return jsonObject;
     }
 
     @Override

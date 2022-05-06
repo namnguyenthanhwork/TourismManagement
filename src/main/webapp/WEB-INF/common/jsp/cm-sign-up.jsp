@@ -58,12 +58,9 @@
 					<h5>Xác nhận tạo tài khoản</h5>
 					<div  class="form-group" id="sendOTPArea" >
 						<label for="cusEmail">Nhập email của bạn để nhận mã OTP</label>
-						<input type="email" id="cusEmail" placeholder="Nhập email ...">
-						<button id="otpSendBtn" type="button">Gửi mã OTP</button>
-					</div>
-					<div  class="form-group" id="receiveOTPArea">
-						<label for="otpInp">Mã OTP</label>
-						<input type="text" id="otpInp" placeholder="Nhập mã OTP ...">
+						<input type="email" id="cusEmail" placeholder="Nhập email ..." >
+						<button class="btn btn-primary" data-toggle="modal" data-target="#otpModal"
+						        id="otpSendBtn" type="button">Gửi mã OTP</button>
 					</div>
 				</div>
 				<div class="form-group" id="signUpConfirmArea">
@@ -71,5 +68,27 @@
 				</div>
 				<div class="lds-ripple" id="loading"><div></div><div></div></div>
 		</form>
+
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+
+				<div  class="form-group">
+					<label for="otpInp">Mã OTP</label>
+					<input type="text" id="otpInp" placeholder="Nhập mã OTP ...">
+				</div>
+
+			</div>
+		</div>
 	</div>
 </div>

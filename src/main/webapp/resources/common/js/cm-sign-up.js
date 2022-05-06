@@ -15,35 +15,36 @@ function getOTP() {
         }
     }).then(res => res.json()).then(data => {
         console.info(data)
-        $('#accUsername').attr("disabled", true);
-        $('#accPassword').attr("disabled", true)
-        $('#accFirstName').attr("disabled", true)
-        $('#accLastName').attr("disabled", true)
-        $('#accSex').attr("disabled", true)
-        $('#accPhoneNumber').attr("disabled", true)
-        $('#accIdCard').attr("disabled", true)
-        $('#accDateOfBirth').attr("disabled", true)
-        $('#accAvatar').attr("disabled", true)
-        $('#cusEmail').attr("disabled", true)
-        $('#receiveOTPArea').show()
+        $('#accUsername').attr("readonly", true);
+        $('#accPassword').attr("readonly", true)
+        $('#accFirstName').attr("readonly", true)
+        $('#accLastName').attr("readonly", true)
+        $('#accSex').attr("readonly", true)
+        $('#accPhoneNumber').attr("readonly", true)
+        $('#accIdCard').attr("readonly", true)
+        $('#accDateOfBirth').attr("readonly", true)
+        $('#accAvatar').attr("readonly", true)
+        $('#cusEmail').attr("readonly", true)
+
         confirmOTP(data['otp'])
     })
 }
 function confirmOTP(otp){
     $('#otpInp').keyup(function (){
         if($(this).val()===otp){
-            $(this).attr('disabled', true)
+           $('#otpModal').modal('hide')
+            $('#otpConfirmArea').hide()
             $('#signUpConfirmArea').show()
         }
     })
 }
 $(document).ready(function (){
     $('#loading').hide()
-    $('#receiveOTPArea').hide()
     $('#signUpConfirmArea').hide()
     $('#otpSendBtn').click(function(){
         getOTP()
     })
+
     $('#signUpConfirmBtn').click(function(){
         alert("Xác nhận tạo tài khoản?")
         $(this).hide()

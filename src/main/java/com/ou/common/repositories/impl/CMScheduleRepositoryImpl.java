@@ -3,7 +3,6 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMScheduleRepository;
 import com.ou.configs.BeanFactoryConfig;
-import com.ou.pojos.SaleEntity;
 import com.ou.pojos.ScheduleEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;

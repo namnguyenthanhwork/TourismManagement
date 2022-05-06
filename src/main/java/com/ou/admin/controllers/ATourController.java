@@ -146,7 +146,7 @@ public class ATourController {
         }
         String kw = params.get("kw");
         JSONArray tours = cMTourService.getTours(pageIndex, kw);
-        return new ResponseEntity<>(tours, tours.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(tours, HttpStatus.OK );
     }
 
     @GetMapping("/thong-tin/tong-quan")

@@ -2,7 +2,6 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMPaymentTypeRepository;
 import com.ou.configs.BeanFactoryConfig;
-import com.ou.pojos.NoteEntity;
 import com.ou.pojos.PaymentTypeEntity;
 import com.ou.utils.PageUtil;
 import org.hibernate.Session;

@@ -3,12 +3,10 @@ package com.ou.common.services.impl;
 
 import com.ou.common.repositories.CMPostRepository;
 import com.ou.common.repositories.CMScheduleRepository;
-import com.ou.common.repositories.CMTourRepository;
 import com.ou.common.services.CMScheduleService;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.PostEntity;
 import com.ou.pojos.ScheduleEntity;
-import com.ou.pojos.TourEntity;
 import com.ou.utils.SlugUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

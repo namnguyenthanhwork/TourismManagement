@@ -1,4 +1,5 @@
-var currentPageIndex = 1;
+let currentPageIndex = 1;
+
 function getAccountInfo(pageIndex =null, kw= null) {
     let path = '/TourismManagement/quan-tri-vien/tai-khoan/thong-tin'
     if (kw != null)
@@ -193,6 +194,3 @@ $(document).ready(function () {
     })
 
 })
-
-fetch('/TourismManagement/quan-tri-vien/bao-cao/thong-tin?loai=doanh-thu&thoi-gian=thang&tg1=1&tg2=12')
-.then(res=>res.json()).then(data=>console.info(data))

@@ -8,6 +8,8 @@ public interface CMAccountRepository {
     List<Object[]> getAccounts(Integer pageIndex, String ... params);
 
     AccountEntity getAccount(String username);
+
+    AccountEntity getAccount(Integer accId);
     long getAccountAmount();
 
     boolean createAccount(AccountEntity accountEntity);

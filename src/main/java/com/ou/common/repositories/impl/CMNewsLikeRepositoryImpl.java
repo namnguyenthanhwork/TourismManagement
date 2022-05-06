@@ -2,10 +2,7 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMNewsLikeRepository;
 import com.ou.configs.BeanFactoryConfig;
-import com.ou.pojos.AccountEntity;
-import com.ou.pojos.NewsEntity;
-import com.ou.pojos.NewsLikeEntity;
-import com.ou.pojos.PostEntity;
+import com.ou.pojos.*;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -13,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -74,6 +72,22 @@ public class CMNewsLikeRepositoryImpl implements CMNewsLikeRepository {
             newsLikeEntities.add(newsLike);
         });
         return newsLikeEntities;
+    }
+
+    @Override
+    public NewsLikeEntity getNewsLike(Integer newsId, Integer accId) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<NewsLikeEntity> criteriaQuery = criteriaBuilder.createQuery(NewsLikeEntity.class);
+        Root<NewsLikeEntity> newsLikeEntityRoot = criteriaQuery.from(NewsLikeEntity.class);
+        criteriaQuery.where(
+                criteriaBuilder.equal(newsLikeEntityRoot.get("newsId").as(Integer.class), newsId),
+                criteriaBuilder.equal(newsLikeEntityRoot.get("accId").as(Integer.class), accId));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return null;
+        }
     }
 
     @Override

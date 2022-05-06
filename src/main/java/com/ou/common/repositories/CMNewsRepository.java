@@ -11,6 +11,7 @@ public interface CMNewsRepository {
     long getNewsAmount();
     NewsEntity getNews(String newsSlug);
 
+
     NewsEntity getNews(Integer newsId);
 
     boolean createNews(NewsEntity newsEntity);

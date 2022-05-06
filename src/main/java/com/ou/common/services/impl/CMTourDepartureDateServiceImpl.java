@@ -31,6 +31,13 @@ public class CMTourDepartureDateServiceImpl implements CMTourDepartureDateServic
     }
 
     @Override
+    public TourDepartureDateEntity getTourDepartureDateEntity(Integer tourId, Integer dptId) {
+        if (tourId == null || dptId == null)
+            return null;
+        return cMTourDepartureDateRepository.getTourDepartureDateEntity(tourId, dptId);
+    }
+
+    @Override
     public boolean createTourDepartureDate(TourDepartureDateEntity tourDepartureDateEntity) {
         return cMTourDepartureDateRepository.createTourDepartureDate(tourDepartureDateEntity);
     }

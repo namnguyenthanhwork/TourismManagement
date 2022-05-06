@@ -10,9 +10,12 @@ public interface CMTourService {
     JSONArray getTours();
     long getTourAmount();
 
+    int getTotalTourSlot(Integer tourId);
     int getEmptySlotAmount(Integer tourId);
 
     TourEntity getTourAsObj(String tourSlug);
+
+    JSONObject getTourAverageRating(String tourSlug);
 
     JSONObject getTourAsJsonObj(String tourSlug);
 

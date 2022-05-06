@@ -3,7 +3,6 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMCategoryRepository;
 import com.ou.configs.BeanFactoryConfig;
-import com.ou.pojos.BillEntity;
 import com.ou.pojos.CategoryEntity;
 import com.ou.pojos.StorageEntity;
 import com.ou.utils.PageUtil;

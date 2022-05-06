@@ -54,8 +54,8 @@ function getTourInfo(pageIndex=null, kw=null){
                     </td>
                 </tr>
             `
-            $('#tourInfo').html(rows)
         }
+        $('#tourInfo').html(rows)
     })
 }
 

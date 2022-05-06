@@ -280,6 +280,13 @@ public class BeanFactoryConfig {
         public List<CategoryEntity> categoryEntities() {
             return new ArrayList<>();
         }
+
+        @Bean(name = "departureDateEntities")
+        @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+        public List<DepartureDateEntity> departureDateEntities() {
+            return new ArrayList<>();
+        }
+
     }
 
 
