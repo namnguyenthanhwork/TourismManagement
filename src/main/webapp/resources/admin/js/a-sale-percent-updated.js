@@ -80,8 +80,8 @@ $(document).ready(function () {
     $('#salePercentUpdatedForm').attr('action', window.location.href);
     getSalePercentInfo()
     $('#salePercentUpdatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateUpdatedSalePercent()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

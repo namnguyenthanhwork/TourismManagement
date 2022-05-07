@@ -82,8 +82,8 @@ $(document).ready(function () {
     $('#loading').hide()
     getStoreInfo()
     $('#categoryCreatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateCreatedCategory()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

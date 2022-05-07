@@ -79,8 +79,8 @@ $(document).ready(function () {
     $('#roleUpdateForm').attr('action', window.location.href);
     getRoleInfo()
     $('#roleUpdatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateUpdateRole()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

@@ -79,8 +79,8 @@ $(document).ready(function () {
     $('#transportUpdatedForm').attr('action', window.location.href);
     getTransportInfo()
     $('#transportUpdatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateUpdatedTransport()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

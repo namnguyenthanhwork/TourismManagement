@@ -54,8 +54,8 @@ $(document).ready(function () {
 
     $('#loading').hide()
     $('#roleCreatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateCreateRole()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

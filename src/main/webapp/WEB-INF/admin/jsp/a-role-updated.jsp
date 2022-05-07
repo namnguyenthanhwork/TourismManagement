@@ -13,10 +13,17 @@
 			</div>
 			<div class="form-group">
 				<button type="submit" id="roleUpdatedBtn" class="btn btn-primary">Cập nhật</button>
-				<div class="lds-ripple" id="loading">
-					<div></div>
-					<div></div>
-				</div>
+				<div id="overlayLoading"></div>
+                <div class="lds-roller" id="loading">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
 			</div>
 		</form>
 	</div>

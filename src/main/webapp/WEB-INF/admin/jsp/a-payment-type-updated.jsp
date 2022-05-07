@@ -14,6 +14,17 @@
 			</div>
 			<div>
 				<button type="submit" id="paymentTypeUpdatedBtn" class="btn btn-primary">Cập nhật</button>
+				<div id="overlayLoading"></div>
+                <div class="lds-roller" id="loading">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
 			</div>
 		</form>
 	</div>

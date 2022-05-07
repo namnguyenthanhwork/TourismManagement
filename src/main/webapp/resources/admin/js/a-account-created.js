@@ -62,7 +62,7 @@ function validateCreateAccount() {
 $(document).ready(function () {
 
     let error = new URLSearchParams(window.location.search).get('error')
-    if(error!==null && parseInt(error)===1) {
+    if (error !== null && parseInt(error) === 1) {
         Swal.fire({
             title: 'Tạo tài khoản thất bại',
             icon: 'error',
@@ -156,12 +156,10 @@ $(document).ready(function () {
     $('#loading').hide()
     getRoleInfo()
     $('#accountCreatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateCreateAccount()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }
     })
-
-
 })

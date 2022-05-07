@@ -79,8 +79,8 @@ $(document).ready(function () {
     $('#paymentTypeUpdatedForm').attr('action', window.location.href);
     getPaymentTypeInfo()
     $('#paymentTypeUpdatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateUpdatedPaymentType()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

@@ -53,8 +53,8 @@ $(document).ready(function () {
     });
     $('#loading').hide()
     $('#storageCreatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateCreatedStorage()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

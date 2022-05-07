@@ -53,8 +53,8 @@ $(document).ready(function () {
     });
     $('#loading').hide()
     $('#paymentTypeCreatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateCreatedPaymentType()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }
