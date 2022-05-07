@@ -8,5 +8,8 @@ public interface CHomePageService {
     JSONArray getTourByCategory(String catSlug);
     JSONArray getTours(TourQueryTypeUtil tourQueryTypeUtil, Integer pageIndex, String params);
 
+    long getTourAmount(TourQueryTypeUtil tourQueryTypeUtil, String...params);
+
+
     JSONObject  getTour(String tourSlug);
 }

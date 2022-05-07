@@ -86,7 +86,7 @@ public class AAccountController {
     }
 
     @GetMapping("/thong-tin")
-    public ResponseEntity<JSONArray> getAccountsInfo(@RequestParam Map<String, String> params) {
+    public ResponseEntity<JSONArray> getAccountsInfo(@RequestParam(required = false)Map<String, String> params) {
         Integer pageIndex = null;
         try {
             pageIndex = Integer.parseInt(params.get("trang"));
@@ -98,10 +98,10 @@ public class AAccountController {
     }
 
     @GetMapping("/so-trang")
-    public ResponseEntity<JSONObject> getAccountPageAmount(){
+    public ResponseEntity<JSONObject> getAccountPageAmount(@RequestParam(required = false) Map<String, String> params){
         JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
         PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
-        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMAccountService.getAccountAmount()));
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMAccountService.getAccountAmount(params.get("kw"))));
         return new ResponseEntity<>(jsonObject, HttpStatus.OK);
     }
 
@@ -122,7 +122,7 @@ public class AAccountController {
         boolean createdResult = cMAccountService.createAccount(account);
         if (createdResult)
             return "redirect:/quan-tri-vien/tai-khoan";
-        return "redirect:/quan-tri-vien/tai-khoan/tao-moi";
+        return "redirect:/quan-tri-vien/tai-khoan/tao-moi?error=1";
     }
 
     // update
@@ -147,7 +147,7 @@ public class AAccountController {
         httpServletRequest.setCharacterEncoding("UTF-8");
         AccountEntity account = cMAccountService.getAccountAsObj(accUsername);
         if (account == null)
-            return String.format("redirect:/quan-tri-vien/tai-khoan/%s", accUsername);
+            return String.format("redirect:/quan-tri-vien/tai-khoan/%s?error=1", accUsername);
         String password = account.getAccPassword();
         RoleEntity role = cMRoleService.getRoleAsObj(httpServletRequest.getParameter("roleSlug"));
         setAccountInfo(account, role, httpServletRequest, accAvatar);
@@ -155,7 +155,7 @@ public class AAccountController {
         boolean updateResult = cMAccountService.updateAccount(account);
         if (updateResult)
             return "redirect:/quan-tri-vien/tai-khoan";
-        return String.format("redirect:/quan-tri-vien/tai-khoan/%s", accUsername);
+        return String.format("redirect:/quan-tri-vien/tai-khoan/%s?error=1", accUsername);
     }
 
     // delete

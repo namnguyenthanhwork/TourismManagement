@@ -85,11 +85,19 @@ public class CMTourRepositoryImpl implements CMTourRepository {
     }
 
     @Override
-    public long getTourAmount() {
+    public long getTourAmount(String ... params) {
         Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
         Root<TourEntity> tourEntityRoot = criteriaQuery.from(TourEntity.class);
+        if (params != null && params.length > 0 && params[0] != null) {
+            Root<PostEntity> postEntityRoot = criteriaQuery.from(PostEntity.class);
+            criteriaQuery.where(
+                    criteriaBuilder.equal(tourEntityRoot.get("tourId").as(Integer.class),
+                            postEntityRoot.get("postId").as(Integer.class)),
+                    criteriaBuilder.like(postEntityRoot.get("postTitle").as(String.class),
+                            String.format("%%%s%%", params[0].trim())));
+        }
         criteriaQuery.multiselect(criteriaBuilder.count(tourEntityRoot.get("tourId")));
         try {
             return session.createQuery(criteriaQuery).getSingleResult();

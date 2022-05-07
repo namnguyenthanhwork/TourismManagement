@@ -76,7 +76,7 @@ public class AScheduleController {
         boolean createdResult = cMScheduleService.createSchedule(scheduleEntity);
         if (createdResult)
             return "redirect:/quan-tri-vien/lich-trinh";
-        return "redirect:/quan-tri-vien/lich-trinh/tao-moi";
+        return "redirect:/quan-tri-vien/lich-trinh/tao-moi?error=1";
     }
 
     // update
@@ -101,14 +101,14 @@ public class AScheduleController {
         ScheduleEntity schedule = cMScheduleService.getScheduleAsObj(scheSlug);
         TourEntity tour = cMTourService.getTourAsObj(httpServletRequest.getParameter("tourSlug"));
         if (schedule == null)
-            return String.format("redirect:/quan-tri-vien/lich-trinh/%s", scheSlug);
+            return String.format("redirect:/quan-tri-vien/lich-trinh/%s?error=1", scheSlug);
         schedule.setScheTitle(httpServletRequest.getParameter("scheTitle"));
         schedule.setScheContent(httpServletRequest.getParameter("scheContent"));
         schedule.setTourId(tour.getTourId());
         boolean updateResult = cMScheduleService.updateSchedule(schedule);
         if (updateResult)
             return "redirect:/quan-tri-vien/lich-trinh";
-        return String.format("redirect:/quan-tri-vien/lich-trinh/%s", scheSlug);
+        return String.format("redirect:/quan-tri-vien/lich-trinh/%s?error=1", scheSlug);
     }
 
     // delete

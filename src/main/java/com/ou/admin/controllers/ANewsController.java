@@ -51,7 +51,7 @@ public class ANewsController {
     }
 
     @GetMapping("/thong-tin")
-    public ResponseEntity<JSONArray> getNewsInfo(@RequestParam Map<String, String> params) {
+    public ResponseEntity<JSONArray> getNewsInfo(@RequestParam(required = false) Map<String, String> params) {
         Integer pageIndex = null;
         try {
             pageIndex = Integer.parseInt(params.get("trang"));
@@ -63,10 +63,10 @@ public class ANewsController {
     }
 
     @GetMapping("/so-trang")
-    public ResponseEntity<JSONObject> getNewsPageAmount(){
+    public ResponseEntity<JSONObject> getNewsPageAmount(@RequestParam(required = false) Map<String, String> params){
         JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
         PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
-        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMNewsService.getNewsAmount()));
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMNewsService.getNewsAmount(params.get("kw"))));
         return new ResponseEntity<>(jsonObject, HttpStatus.OK);
     }
 
@@ -111,9 +111,9 @@ public class ANewsController {
             boolean createdResult = cMNewsService.createNews(newsEntity);
             if (createdResult)
                 return "redirect:/quan-tri-vien/tin-tuc";
-            return "redirect:/quan-tri-vien/tin-tuc/tao-moi";
+            return "redirect:/quan-tri-vien/tin-tuc/tao-moi?error=1";
         }
-        return "redirect:/quan-tri-vien/tin-tuc/tao-moi";
+        return "redirect:/quan-tri-vien/tin-tuc/tao-moi?error=1";
 
     }
 
@@ -139,7 +139,7 @@ public class ANewsController {
         NewsEntity news = cMNewsService.getNewsAsObj(newsSlug);
         PostEntity post = cMPostService.getPostAsObj(newsSlug);
         if (news == null)
-            return String.format("redirect:/quan-tri-vien/tin-tuc/%s", newsSlug);
+            return String.format("redirect:/quan-tri-vien/tin-tuc/%s?error=1", newsSlug);
         news.setNewsDescription(httpServletRequest.getParameter("newsDescription"));
         post.setPostTitle(httpServletRequest.getParameter("newsTitle"));
         post.setPostContent(httpServletRequest.getParameter("newsContent"));
@@ -163,9 +163,9 @@ public class ANewsController {
             boolean updatedResult = cMNewsService.updateNews(news);
             if (updatedResult)
                 return "redirect:/quan-tri-vien/tin-tuc";
-            return String.format("redirect:/quan-tri-vien/tin-tuc/%s", newsSlug);
+            return String.format("redirect:/quan-tri-vien/tin-tuc/%s?error=1", newsSlug);
         }
-        return String.format("redirect:/quan-tri-vien/tin-tuc/%s", newsSlug);
+        return String.format("redirect:/quan-tri-vien/tin-tuc/%s?error=1", newsSlug);
     }
 
     // delete

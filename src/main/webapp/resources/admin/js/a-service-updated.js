@@ -50,6 +50,15 @@ function validateUpdatedService() {
 }
 
 $(document).ready(function () {
+    let error = new URLSearchParams(window.location.search).get('error')
+    if(error!==null && parseInt(error)===1) {
+        Swal.fire({
+            title: 'Cập nhật dịch vụ thất bại',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+        })
+    }
     // validate
     $("#serviceUpdatedForm").validate({
         rules: {
@@ -71,12 +80,6 @@ $(document).ready(function () {
     $('#serviceUpdatedForm').attr('action', window.location.href);
     $('#serviceUpdatedBtn').click(function () {
         if (validateUpdatedService()) {
-            Swal.fire({
-                title: 'Thông báo !',
-                text: "Cập nhật thành công",
-                icon: 'success',
-                confirmButtonColor: '#3085d6'
-            })
             $(this).hide()
             $('#loading').show()
         }

@@ -69,7 +69,7 @@ public class AFeatureController {
         boolean createdResult = cMFeatureService.createFeature(featureEntity);
         if (createdResult)
             return "redirect:/quan-tri-vien/dac-diem-ngay-khoi-hanh";
-        return "redirect:/quan-tri-vien/dac-diem-ngay-khoi-hanh/tao-moi";
+        return "redirect:/quan-tri-vien/dac-diem-ngay-khoi-hanh/tao-moi?error=1";
     }
 
     // update
@@ -93,12 +93,12 @@ public class AFeatureController {
         httpServletRequest.setCharacterEncoding("UTF-8");
         FeatureEntity feature = cMFeatureService.getFeatureAsObj(feaSlug);
         if (feature == null)
-            return String.format("redirect:/quan-tri-vien/dac-diem-ngay-khoi-hanh/%s",feaSlug);
+            return String.format("redirect:/quan-tri-vien/dac-diem-ngay-khoi-hanh/%s?error=1",feaSlug);
         feature.setFeaName(httpServletRequest.getParameter("feaName"));
         boolean updateResult = cMFeatureService.updateFeature(feature);
         if (updateResult)
             return "redirect:/quan-tri-vien/dac-diem-ngay-khoi-hanh";
-        return String.format("redirect:/quan-tri-vien/dac-diem-ngay-khoi-hanh/%s",feaSlug);
+        return String.format("redirect:/quan-tri-vien/dac-diem-ngay-khoi-hanh/%s?error=1",feaSlug);
     }
 
     // delete

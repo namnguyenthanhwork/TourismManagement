@@ -61,6 +61,39 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="<c:url value ='/resources/customer/js/customer.js'/>"></script>
     <tiles:insertAttribute name="c-ref" />
+
+
+<%--    <!-- Messenger Chat Plugin Code -->--%>
+<%--    <div id="fb-root"></div>--%>
+
+<%--    <!-- Your Chat Plugin code -->--%>
+<%--    <div id="fb-customer-chat" class="fb-customerchat"></div>--%>
+
+<%--    <script>--%>
+<%--        var chatbox = document.getElementById('fb-customer-chat');--%>
+<%--        chatbox.setAttribute("page_id", "105825651245887");--%>
+<%--        chatbox.setAttribute("attribution", "biz_inbox");--%>
+<%--    </script>--%>
+
+<%--    <!-- Your SDK code -->--%>
+<%--    <script>--%>
+<%--        window.fbAsyncInit = function () {--%>
+<%--            FB.init({--%>
+<%--                xfbml: true,--%>
+<%--                version: 'v12.0'--%>
+<%--            });--%>
+<%--        };--%>
+
+<%--        (function (d, s, id) {--%>
+<%--            var js, fjs = d.getElementsByTagName(s)[0];--%>
+<%--            if (d.getElementById(id)) return;--%>
+<%--            js = d.createElement(s);--%>
+<%--            js.id = id;--%>
+<%--            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';--%>
+<%--            fjs.parentNode.insertBefore(js, fjs);--%>
+<%--        }(document, 'script', 'facebook-jssdk'));--%>
+<%--    </script>--%>
+
 </body>
 
 </html>

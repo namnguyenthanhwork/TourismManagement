@@ -2,7 +2,10 @@ package com.ou.common.repositories.impl;
 
 import com.ou.common.repositories.CMNewsLikeRepository;
 import com.ou.configs.BeanFactoryConfig;
-import com.ou.pojos.*;
+import com.ou.pojos.AccountEntity;
+import com.ou.pojos.NewsEntity;
+import com.ou.pojos.NewsLikeEntity;
+import com.ou.pojos.PostEntity;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;

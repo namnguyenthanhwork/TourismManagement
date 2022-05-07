@@ -82,7 +82,7 @@ public class STourBookingController {
     }
 
     @GetMapping("/thong-tin")
-    public ResponseEntity<JSONArray> getToursInfoInStaff(@RequestParam Map<String, String> params) {
+    public ResponseEntity<JSONArray> getToursInfoInStaff(@RequestParam(required = false) Map<String, String> params) {
         Integer pageIndex = null;
         try {
             pageIndex = Integer.parseInt(params.get("trang"));
@@ -90,7 +90,7 @@ public class STourBookingController {
         }
         String kw = params.get("kw");
         JSONArray tours = cMTourService.getTours(pageIndex, kw);
-        return new ResponseEntity<>(tours, tours.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(tours, HttpStatus.OK);
     }
 
     @GetMapping("/{tourSlug}")
@@ -99,10 +99,10 @@ public class STourBookingController {
         return "s-tour-booking-detail";
     }
     @GetMapping("/so-trang")
-    public ResponseEntity<JSONObject> getTourBookingPageAmount() {
+    public ResponseEntity<JSONObject> getTourBookingPageAmount(@RequestParam(required = false) Map<String, String> params) {
         JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
         PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
-        jsonObject.put("pageAmount", pageUtil.getPageAmount(cMTourService.getTourAmount()));
+        jsonObject.put("pageAmount", pageUtil.getPageAmount(cMTourService.getTourAmount(params.get("kw"))));
         return new ResponseEntity<>(jsonObject, HttpStatus.OK);
     }
 

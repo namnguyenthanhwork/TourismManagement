@@ -69,7 +69,7 @@ public class APaymentTypeController {
         boolean createdResult = cMPaymentTypeService.createPaymentType(paymentType);
         if (createdResult)
             return "redirect:/quan-tri-vien/hinh-thuc-thanh-toan";
-        return "redirect:/quan-tri-vien/hinh-thuc-thanh-toan/tao-moi";
+        return "redirect:/quan-tri-vien/hinh-thuc-thanh-toan/tao-moi?error=1";
     }
 
     // update
@@ -94,12 +94,12 @@ public class APaymentTypeController {
         httpServletRequest.setCharacterEncoding("UTF-8");
         PaymentTypeEntity paymentType = cMPaymentTypeService.getPaymentTypeAsObj(paytSlug);
         if (paymentType == null)
-            return String.format("redirect:/quan-tri-vien/hinh-thuc-thanh-toan/%s", paytSlug);
+            return String.format("redirect:/quan-tri-vien/hinh-thuc-thanh-toan/%s?error=1", paytSlug);
         paymentType.setPaytName(httpServletRequest.getParameter("paytName"));
         boolean updateResult = cMPaymentTypeService.updatePaymentType(paymentType);
         if (updateResult)
             return "redirect:/quan-tri-vien/hinh-thuc-thanh-toan";
-        return String.format("redirect:/quan-tri-vien/hinh-thuc-thanh-toan/%s", paytSlug);
+        return String.format("redirect:/quan-tri-vien/hinh-thuc-thanh-toan/%s?error=1", paytSlug);
     }
 
     // delete

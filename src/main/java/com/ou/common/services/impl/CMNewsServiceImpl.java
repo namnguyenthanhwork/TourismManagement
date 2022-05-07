@@ -26,7 +26,7 @@ public class CMNewsServiceImpl implements CMNewsService {
     private BeanFactoryConfig.UtilBeanFactory utilBeanFactory;
 
     @Override
-    public JSONArray getNews(Integer pageIndex, String ... params) {
+    public JSONArray getNews(Integer pageIndex, String... params) {
         List<Object[]> newsList = cMNewsRepository.getNewsList(pageIndex, params);
         JSONArray jsonArray = utilBeanFactory.getApplicationContext().getBean(JSONArray.class);
         newsList.forEach(news -> {
@@ -44,8 +44,8 @@ public class CMNewsServiceImpl implements CMNewsService {
     }
 
     @Override
-    public long getNewsAmount() {
-        return cMNewsRepository.getNewsAmount();
+    public long getNewsAmount(String... params) {
+        return cMNewsRepository.getNewsAmount(params);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class CMNewsServiceImpl implements CMNewsService {
     @Override
     public boolean createNews(NewsEntity newsEntity) {
         newsEntity.setNewsLikeAmount(0);
-        newsEntity.setNewsCreatedDate(utilBeanFactory.getApplicationContext().getBean("currentTimeStamp",Timestamp.class));
+        newsEntity.setNewsCreatedDate(utilBeanFactory.getApplicationContext().getBean("currentTimeStamp", Timestamp.class));
         return cMNewsRepository.createNews(newsEntity);
     }
 

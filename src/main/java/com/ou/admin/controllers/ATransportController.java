@@ -68,7 +68,7 @@ public class ATransportController {
         boolean createdResult = cMTransportService.createTransport(transportEntity);
         if (createdResult)
             return "redirect:/quan-tri-vien/phuong-tien-di-chuyen";
-        return "redirect:/quan-tri-vien/phuong-tien-di-chuyen/tao-moi";
+        return "redirect:/quan-tri-vien/phuong-tien-di-chuyen/tao-moi?error=1";
     }
 
     // update
@@ -92,12 +92,12 @@ public class ATransportController {
         httpServletRequest.setCharacterEncoding("UTF-8");
         TransportEntity transport = cMTransportService.getTransportAsObj(tranSlug);
         if (transport == null)
-            return String.format("redirect:/quan-tri-vien/phuong-tien-di-chuyen/%s", tranSlug);
+            return String.format("redirect:/quan-tri-vien/phuong-tien-di-chuyen/%s?error=1", tranSlug);
         transport.setTranName(httpServletRequest.getParameter("tranName"));
         boolean updateResult = cMTransportService.updateTransport(transport);
         if (updateResult)
             return "redirect:/quan-tri-vien/phuong-tien-di-chuyen";
-        return String.format("redirect:/quan-tri-vien/phuong-tien-di-chuyen/%s", tranSlug);
+        return String.format("redirect:/quan-tri-vien/phuong-tien-di-chuyen/%s?error=1", tranSlug);
     }
 
     // delete

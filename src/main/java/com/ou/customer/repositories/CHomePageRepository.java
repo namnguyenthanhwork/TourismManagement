@@ -9,6 +9,8 @@ public interface CHomePageRepository {
 
     List<Object[]> getTours(TourQueryTypeUtil tourQueryTypeUtil, Integer pageIndex, String params);
 
+    long getTourAmount(TourQueryTypeUtil tourQueryTypeUtil, String...params);
+
     Object[] getTour(String tourSlug);
 
 }

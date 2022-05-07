@@ -67,7 +67,9 @@ function deleteFeature(feaSlug) {
                     'Dữ liệu đã được xoá thành công.',
                     'success'
                 )
-                getFeatureInfo()
+                currentPageIndex=1
+                getPageAmount()
+                getFeatureInfo(currentPageIndex)
             })
         }
     })
@@ -76,27 +78,26 @@ function deleteFeature(feaSlug) {
 function getPageAmount() {
     fetch('/TourismManagement/quan-tri-vien/dac-diem-ngay-khoi-hanh/so-trang')
         .then(res => res.json()).then(data => {
-            let pageAmount = data['pageAmount']
-            if (pageAmount == 1)
-                return
-            let rows = ''
-            for (let i = 1; i <= pageAmount; i++)
-                rows += `
+        let pageAmount = data['pageAmount']
+        let rows = ''
+        for (let i = 1; i <= pageAmount; i++)
+            rows += `
                  <li class="page-item" onclick="changePage(${i}, ${pageAmount})"><a class="page-link" href="javascript:;">${i}</a></li>
             `
-            if (pageAmount > 1) {
-                let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
-            <a class="page-link" href="javascript:;"><</a></li>`
-                let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
-        <a class="page-link" href="javascript:;">></a></li>`
-                rows = preBtn + rows
-                rows += nextBtn
-            }
-            $('#pagination').html(rows)
-            $(`#pagination li:nth-child(${pageAmount > 1 ? 2 : 1})`).addClass('active')
-            if (currentPageIndex == 1)
-                $('#preBtn').hide()
-        })
+        if (pageAmount > 1) {
+            let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
+                                <a class="page-link" href="javascript:;"><</a></li>`
+            let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
+                                <a class="page-link" href="javascript:;">></a></li>`
+            rows = preBtn + rows
+            rows += nextBtn
+        }
+        $('#pagination').html(pageAmount !== 1 ? rows : '')
+        if (pageAmount !== 1)
+            $(`#pagination li:nth-child(2)`).addClass('active')
+        if (currentPageIndex === 1)
+            $('#preBtn').hide()
+    })
 }
 
 function getPreviousPage(pageAmount) {

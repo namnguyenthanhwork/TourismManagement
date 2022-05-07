@@ -84,7 +84,7 @@ public class ADepartureDateController {
         boolean createdResult = cMDepartureDateService.createDepartureDate(departureDate);
         if (createdResult)
             return "redirect:/quan-tri-vien/ngay-khoi-hanh";
-        return "redirect:/quan-tri-vien/ngay-khoi-hanh/tao-moi";
+        return "redirect:/quan-tri-vien/ngay-khoi-hanh/tao-moi?error=1";
     }
 
     // update
@@ -109,7 +109,7 @@ public class ADepartureDateController {
         DepartureDateEntity departureDate = cMDepartureDateService.getDepartureDateAsObj(dptId);
         FeatureEntity feature = cMFeatureService.getFeatureAsObj(httpServletRequest.getParameter("feaSlug"));
         if (departureDate == null)
-            return String.format("redirect:/quan-tri-vien/ngay-khoi-hanh/%d", dptId);
+            return String.format("redirect:/quan-tri-vien/ngay-khoi-hanh/%d?error=1", dptId);
         Timestamp dptDate = utilBeanFactory.getApplicationContext().getBean("emptyTimeStamp", Timestamp.class);
         dptDate.setTime(utilBeanFactory.getApplicationContext().getBean(SimpleDateFormat.class)
                 .parse(httpServletRequest.getParameter("dptDate")+ " 00:00:00").getTime());
@@ -118,7 +118,7 @@ public class ADepartureDateController {
         boolean updateResult = cMDepartureDateService.updateDepartureDate(departureDate);
         if (updateResult)
             return "redirect:/quan-tri-vien/ngay-khoi-hanh";
-        return String.format("redirect:/quan-tri-vien/ngay-khoi-hanh/%d", dptId);
+        return String.format("redirect:/quan-tri-vien/ngay-khoi-hanh/%d?error=1", dptId);
     }
 
     // delete

@@ -8,7 +8,7 @@ public interface CMTourService {
     JSONArray getTours(Integer pageIndex, String ... params);
 
     JSONArray getTours();
-    long getTourAmount();
+    long getTourAmount(String ... params);
 
     int getTotalTourSlot(Integer tourId);
     int getEmptySlotAmount(Integer tourId);

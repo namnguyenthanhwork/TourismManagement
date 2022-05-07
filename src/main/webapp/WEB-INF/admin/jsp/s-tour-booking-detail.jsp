@@ -15,11 +15,11 @@
 				</div>
 				<div class="row justify-content-center mt-3">
 					<div class="col-10"></div>
-					<p class="text-sm text-justify">Các khoản phí phát sinh (nếu có) như: phụ thu dành cho khách nước
+					<p class="text-sm text-justify required">Các khoản phí phát sinh (nếu có) như: phụ thu dành cho khách nước
 						ngoài, việt kiều; phụ thu phòng đơn; phụ thu chênh lệch giá tour… Nhân viên Du Lịch Việt sẽ gọi
 						điện thoại tư vấn cho quý khách ngay sau khi có phiếu xác nhận booking. (Trong giờ hành chính)
 					</p>
-					<p class="text-sm text-justify">Trường hợp quý khách không đồng ý các khoản phát sinh, phiếu xác
+					<p class="text-sm text-justify required">Trường hợp quý khách không đồng ý các khoản phát sinh, phiếu xác
 						nhận booking của quý khách sẽ không có hiệu lực.</p>
 				</div>
 				<hr class="horizontal dark my-3">

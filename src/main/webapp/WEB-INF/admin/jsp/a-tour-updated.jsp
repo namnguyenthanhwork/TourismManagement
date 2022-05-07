@@ -84,7 +84,10 @@
 		</form>
 		<script src="<c:url value = '/resources/ckeditor/build/ckeditor.js' />"></script>
 		<script>
-			ClassicEditor.create(document.querySelector('#editor')).then(editor => getTourInfo(editor))
+			ClassicEditor.create(document.querySelector('#editor')).then(editor => {
+                gEditor = editor
+                getTourInfo(editor)
+            })
 		</script>
 	</div>
 </div>

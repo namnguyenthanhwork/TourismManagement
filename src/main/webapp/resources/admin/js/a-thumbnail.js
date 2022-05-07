@@ -4,7 +4,7 @@ fetch('/TourismManagement/quan-tri-vien/hinh-thu-nho/thong-tin').then(res=>res.j
 
 let currentPageIndex = 1;
 function getThumbnailInfo(pageIndex = null) {
-    let path ="/TourismManagement/quan-tri-vien/hinh-thu-nho/thong-tin"
+    let path = "/TourismManagement/quan-tri-vien/hinh-thu-nho/thong-tin"
     if (pageIndex != null)
         path += `?trang=${pageIndex}`
     fetch(path)
@@ -13,9 +13,9 @@ function getThumbnailInfo(pageIndex = null) {
                 return res.status
             return res.json()
         }).then(data => {
-            let rows = ''
-            for (let i = 0; i < data.length; i++) {
-                rows += `
+        let rows = ''
+        for (let i = 0; i < data.length; i++) {
+            rows += `
                 <tr>
                  <td class="text-center">
                     <a href="/TourismManagement/quan-tri-vien/hinh-thu-nho/${data[i]['thumId']}" 
@@ -36,9 +36,9 @@ function getThumbnailInfo(pageIndex = null) {
                 </td>
                 </tr>     
                 `
-            }
-            document.getElementById('thumbnailInfo').innerHTML = rows
-        })
+        }
+        document.getElementById('thumbnailInfo').innerHTML = rows
+    })
 
 }
 
@@ -71,7 +71,9 @@ function deleteThumbnail(thumId) {
                     'Dữ liệu đã được xoá thành công.',
                     'success'
                 )
-                getThumbnailInfo()
+                currentPageIndex = 1
+                getPageAmount()
+                getThumbnailInfo(currentPageIndex)
             })
         }
     })
@@ -81,8 +83,6 @@ function getPageAmount() {
     fetch('/TourismManagement/quan-tri-vien/hinh-thu-nho/so-trang')
         .then(res => res.json()).then(data => {
         let pageAmount = data['pageAmount']
-        if(pageAmount==1)
-            return
         let rows = ''
         for (let i = 1; i <= pageAmount; i++)
             rows += `
@@ -90,15 +90,16 @@ function getPageAmount() {
             `
         if (pageAmount > 1) {
             let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
-            <a class="page-link" href="javascript:;"><</a></li>`
-                let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
-        <a class="page-link" href="javascript:;">></a></li>`
+                                <a class="page-link" href="javascript:;"><</a></li>`
+            let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
+                                <a class="page-link" href="javascript:;">></a></li>`
             rows = preBtn + rows
             rows += nextBtn
         }
-        $('#pagination').html(rows)
-        $(`#pagination li:nth-child(${pageAmount > 1 ? 2 : 1})`).addClass('active')
-        if (currentPageIndex == 1)
+        $('#pagination').html(pageAmount !== 1 ? rows : '')
+        if (pageAmount !== 1)
+            $(`#pagination li:nth-child(2)`).addClass('active')
+        if (currentPageIndex === 1)
             $('#preBtn').hide()
     })
 }

@@ -127,6 +127,11 @@ public class CHomePageServiceImpl implements CHomePageService {
     }
 
     @Override
+    public long getTourAmount(TourQueryTypeUtil tourQueryTypeUtil, String... params) {
+        return cHomePageRepository.getTourAmount(tourQueryTypeUtil, params);
+    }
+
+    @Override
     public JSONObject getTour(String tourSlug) {
         if (tourSlug == null || tourSlug.trim().length() == 0)
             return null;

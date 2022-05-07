@@ -95,11 +95,15 @@ public class CMAccountRepositoryImpl implements CMAccountRepository {
     }
 
     @Override
-    public long getAccountAmount() {
+    public long getAccountAmount(String... params) {
         Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
         Root<AccountEntity> accountEntityRoot = criteriaQuery.from(AccountEntity.class);
+        if (params != null && params.length > 0 && params[0]!=null) {
+            criteriaQuery.where(criteriaBuilder.like(accountEntityRoot.get("accFirstName").as(String.class),
+                    String.format("%%%s%%", params[0].trim())));
+        }
         criteriaQuery.multiselect(criteriaBuilder.count(accountEntityRoot.get("accId")));
         try {
             return session.createQuery(criteriaQuery).getSingleResult();

@@ -110,10 +110,10 @@ public class CTourController {
     }
 
     @GetMapping("/so-trang")
-    public ResponseEntity<JSONObject> getTourPageAmountCustomer() {
+    public ResponseEntity<JSONObject> getTourPageAmountCustomer(@RequestParam(required = false) Map<String, String> params) {
         JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
         PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
-        jsonObject.put("pageAmount", pageUtil.getPageAmount(cMTourService.getTourAmount()));
+        jsonObject.put("pageAmount", pageUtil.getPageAmount(cMTourService.getTourAmount(params.get("kw"))));
         return new ResponseEntity<>(jsonObject, HttpStatus.OK);
     }
 

@@ -49,6 +49,15 @@ function validateUpdatedTransport() {
 }
 
 $(document).ready(function () {
+    let error = new URLSearchParams(window.location.search).get('error')
+    if(error!==null && parseInt(error)===1) {
+        Swal.fire({
+            title: 'Cập nhật phương tiện di chuyển thất bại',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+        })
+    }
     // validate
     $("#transportUpdatedForm").validate({
         rules: {
@@ -71,12 +80,6 @@ $(document).ready(function () {
     getTransportInfo()
     $('#transportUpdatedBtn').click(function () {
         if (validateUpdatedTransport()) {
-            Swal.fire({
-                title: 'Thông báo !',
-                text: "Cập nhật thành công",
-                icon: 'success',
-                confirmButtonColor: '#3085d6'
-            })
             $(this).hide()
             $('#loading').show()
         }

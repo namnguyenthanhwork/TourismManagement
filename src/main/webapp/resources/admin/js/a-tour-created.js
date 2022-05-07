@@ -1,3 +1,4 @@
+let gEditor
 function getCategoryInfo() {
     fetch("/TourismManagement/quan-tri-vien/loai-tour/thong-tin")
         .then(res => {
@@ -208,7 +209,8 @@ function getNoteInfo() {
 
 function validateCreateTour() {
     let tourTitle = $('#tourTitle').val()
-    if (tourTitle == '') {
+    let tourContent = gEditor.getData()
+    if (tourTitle === '' || tourContent==='') {
         Swal.fire({
             title: 'Thông báo !',
             text: "Vui lòng kiểm tra lại thông tin còn thiếu trước khi tạo!",
@@ -222,6 +224,15 @@ function validateCreateTour() {
 }
 
 $(document).ready(function () {
+    let error = new URLSearchParams(window.location.search).get('error')
+    if(error!==null && parseInt(error)===1) {
+        Swal.fire({
+            title: 'Tạo tour du lịch thất bại',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+        })
+    }
     // validate
     $("#createdTourForm").validate({
         rules: {
@@ -229,6 +240,10 @@ $(document).ready(function () {
                 required: true,
                 minlength: 10,
                 maxlength: 50
+            },
+            tourContent: {
+                required: true,
+                minlength: 1
             }
         },
         messages: {
@@ -236,6 +251,9 @@ $(document).ready(function () {
                 required: "Tiêu đề không được để trống",
                 minlength: "Độ dài phải từ 10 ký tự",
                 maxlength: "Độ dài không vượt quá 50 ký tự"
+            },
+            tourContent: {
+                required: "Nội dung không được để trống",
             }
         }
     });
@@ -250,12 +268,6 @@ $(document).ready(function () {
     getNoteInfo()
     $('#tourCreatedBtn').click(function () {
         if (validateCreateTour()) {
-            Swal.fire({
-                title: 'Thông báo !',
-                text: "Tạo thành công",
-                icon: 'success',
-                confirmButtonColor: '#3085d6'
-            })
             $(this).hide()
             $('#loading').show()
         }

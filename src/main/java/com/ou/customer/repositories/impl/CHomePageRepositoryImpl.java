@@ -100,6 +100,47 @@ public class CHomePageRepositoryImpl implements CHomePageRepository {
     }
 
     @Override
+    public long getTourAmount(TourQueryTypeUtil tourQueryTypeUtil, String... params) {
+        Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<TourEntity> tourEntityRoot = criteriaQuery.from(TourEntity.class);
+        if (tourQueryTypeUtil != null)
+            switch (tourQueryTypeUtil) {
+                case KEYWORD -> {
+                    Root<PostEntity> postEntityRoot = criteriaQuery.from(PostEntity.class);
+                    criteriaQuery.where(
+                            criteriaBuilder.equal(tourEntityRoot.get("tourId").as(Integer.class),
+                                    postEntityRoot.get("postId").as(Integer.class)),
+                            criteriaBuilder.like(postEntityRoot.get("postTitle").as(String.class),
+                                    String.format("%%%s%%", params[0].trim())));
+                }
+                case PRICE -> {
+                    Root<TourServingObjectEntity> tourServingObjectEntityRoot = criteriaQuery.from(TourServingObjectEntity.class);
+                    criteriaQuery.where(
+                            criteriaBuilder.equal(tourEntityRoot.get("tourId").as(Integer.class),
+                                    tourServingObjectEntityRoot.get("tourId").as(Integer.class)),
+                            criteriaBuilder.lessThanOrEqualTo(tourServingObjectEntityRoot.get("tourPrice")
+                                    .as(BigDecimal.class), BigDecimal.valueOf(Long.parseLong(params[0]))));
+                }
+                case SCHEDULE -> {
+                    Root<ScheduleEntity> scheduleEntityRoot = criteriaQuery.from(ScheduleEntity.class);
+                    criteriaQuery.where(
+                            criteriaBuilder.equal(tourEntityRoot.get("tourId").as(Integer.class),
+                                    scheduleEntityRoot.get("tourId").as(Integer.class)),
+                            criteriaBuilder.like(scheduleEntityRoot.get("scheTitle").as(String.class),
+                                    String.format("%%%s%%", params[0])));
+                }
+            }
+        criteriaQuery.multiselect(criteriaBuilder.count(tourEntityRoot.get("tourId")));
+        try {
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException noResultException) {
+            return 0;
+        }
+    }
+
+    @Override
     public Object[] getTour(String tourSlug) {
         Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();

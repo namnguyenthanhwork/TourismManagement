@@ -51,6 +51,15 @@ function validateCreatedSchedule() {
 }
 
 $(document).ready(function () {
+    let error = new URLSearchParams(window.location.search).get('error')
+    if(error!==null && parseInt(error)===1) {
+        Swal.fire({
+            title: 'Tạo lịch trình thất bại',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+        })
+    }
     // validate
     $("#scheduleCreatedForm").validate({
         rules: {
@@ -72,12 +81,6 @@ $(document).ready(function () {
     getTourInfor()
     $('#scheduleCreatedBtn').click(function () {
         if (validateCreatedSchedule()) {
-            Swal.fire({
-                title: 'Thông báo !',
-                text: "Tạo thành công",
-                icon: 'success',
-                confirmButtonColor: '#3085d6'
-            })
             $(this).hide()
             $('#loading').show()
         }
