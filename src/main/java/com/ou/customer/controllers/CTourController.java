@@ -5,10 +5,7 @@ import com.ou.common.services.*;
 import com.ou.configs.BeanFactoryConfig;
 import com.ou.customer.services.CHomePageService;
 import com.ou.pojos.*;
-import com.ou.utils.MomoUtil;
-import com.ou.utils.PageUtil;
-import com.ou.utils.TourQueryTypeUtil;
-import com.ou.utils.UserUtil;
+import com.ou.utils.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -274,7 +271,7 @@ public class CTourController {
                     bill.getBillShipDistrict(),
                     bill.getBillShipCity());
         if ("thanh-toan-momo".equals(paymentType.getPaytSlug())) {
-            String url = String.format("http://localhost:8080/TourismManagement/tour-du-lich/%s/thanh-toan", tourSlug);
+            String url = String.format("https://1939-2402-800-6311-b430-70d-9b4-1b3e-e9cb.ap.ngrok.io/TourismManagement/tour-du-lich/%s/thanh-toan", tourSlug);
             return String.format("redirect:%s&%d",
                     utilBeanFactory.getApplicationContext().getBean(MomoUtil.class)
                             .createOrder(price, orderInfo, url, url).get("payUrl"),
@@ -283,9 +280,18 @@ public class CTourController {
         createdBill.setBillIsPaid(true);
         orderInfo += String.format(" - Giá: %s", price);
         cMBillService.updateBill(createdBill);
-//        utilBeanFactory.getApplicationContext().getBean(SMSUtil.class)
-//                .sendMessage(httpServletRequest.getParameter("phoneNumber"), orderInfo);
+        utilBeanFactory.getApplicationContext().getBean(SMSUtil.class)
+                .sendMessage(httpServletRequest.getParameter("phoneNumber"), orderInfo);
         return String.format("redirect:/tour-du-lich/%s", tourSlug);
+    }
+
+    @PostMapping("/thanh-toan/cap-nhat")
+    public ResponseEntity<HttpStatus> updateBillStaff(@RequestBody Map<String, String> body) {
+        Integer billId = Integer.valueOf(body.get("billId"));
+        BillEntity bill = cMBillService.getBillAsObj(billId);
+        bill.setBillIsPaid(true);
+        boolean result = cMBillService.updateBill(bill);
+        return new ResponseEntity<>(result ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 
     //comment

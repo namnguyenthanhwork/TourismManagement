@@ -107,7 +107,7 @@ public class CSignUpController {
         MailUtil mailUtil = utilBeanFactory.getApplicationContext().getBean(MailUtil.class);
         String subject ="Xác nhận đăng kí tài khoản OU TOUR ";
         String content=String.format("Mã xác nhận đăng kí tài khoản của bạn là: %s", otp);
-//        mailUtil.sendMail(body.get("email"), subject, content);
+        mailUtil.sendMail(body.get("email"), subject, content);
         return new ResponseEntity<>(jsonObject, HttpStatus.OK);
     }
 

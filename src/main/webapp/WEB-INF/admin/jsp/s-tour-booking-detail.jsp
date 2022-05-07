@@ -39,8 +39,8 @@
 						<div class="row">
 							<div class="form-group col-12 col-md-2">
 								<label for="phoneNumber">Số điện thoại <span class="required">(*)</span></label>
-								<input type="text" id="phoneNumber" class="form-control" name="phoneNumber"
-									placeholder="Nhập số điện thoại.." required>
+								<input type="text" id="phoneNumber" class="form-control" name="phoneNumber" value="+84982482975"
+									placeholder="Nhập số điện thoại.." required readonly>
 							</div>
 							<div class="form-group col-12 col-md-10">
 								<label for="phoneNumber">Ngày khởi hành</label>
