@@ -8,7 +8,7 @@
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0" href="<c:url value='/quan-tri-vien/trang-chu'/>">
-            <img src="../resources/common/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
+            <img src="https://res.cloudinary.com/ou-project/image/upload/v1651915754/Homepage%20Admin/logo-ct_ilhznz.png" class="navbar-brand-img h-100" alt="main_logo">
             <span class="ms-1 font-weight-bold">Du lịch OU</span>
         </a>
     </div>

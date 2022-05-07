@@ -119,7 +119,13 @@ function addComment(cmtContent) {
             getComments()
             return
         }
-        alert("Đã xảy ra lỗi trong quá trình thêm. Vui lòng thử lại!")
+        Swal.fire({
+            title: 'Thông báo !',
+            text: "Đã xảy ra lỗi trong quá trình thêm. Vui lòng thử lại!",
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
 
     })
 }
@@ -169,7 +175,13 @@ $(document).ready(function () {
     $('#addComment').click(function () {
         let cmtContent = $('#cmtContent').val()
         if (cmtContent == null || cmtContent.trim().length == 0) {
-            alert("Thông tin bình luận không được để trống")
+            Swal.fire({
+                title: 'Thông báo !',
+                text: "Thông tin bình luận không được để trống!",
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            })
             return
         }
         addComment(cmtContent)

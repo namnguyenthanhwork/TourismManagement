@@ -40072,3 +40072,57 @@ a.go_top:before {
     display: block;
     width: 100%;
 }
+
+#ratingPanel {
+    display: block;
+    direction: rtl;
+}
+
+#ratingPanel:not(:checked)>label {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    color: rgba(69, 68, 68, 0.8);
+    line-height: 33px;
+    text-align: center;
+}
+
+#ratingPanel:not(:checked)>label:hover,
+#ratingPanel:not(:checked)>label:hover~label {
+    color: orange;
+}
+
+#ratingPanel>input:checked+label:hover,
+#ratingPanel>input:checked+label:hover~label,
+#ratingPanel>label:hover~input:checked~label {
+    color: orange;
+}
+
+#ratingPanel>input:checked~label {
+    color: orange;
+}
+
+.border-radius-lg {
+    border-radius: 0.75rem;
+}
+
+.shadow-lg {
+    box-shadow: 0 8px 26px -4px rgb(20 20 20 / 15%), 0 8px 9px -5px rgb(20 20 20 / 6%) !important;
+}
+
+.shadow {
+    box-shadow: 0 0.25rem 0.375rem -0.0625rem rgb(20 20 20 / 12%), 0 0.125rem 0.25rem -0.0625rem rgb(20 20 20 / 7%) !important;
+}
+
+.tourImgCover {
+    object-fit: cover;
+}
+
+hr.horizontal.dark {
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
+}
+
+.block-comment {
+    height: 500px;
+    overflow: hidden auto;
+}

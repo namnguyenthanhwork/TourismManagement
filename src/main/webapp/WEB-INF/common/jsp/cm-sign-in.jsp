@@ -47,7 +47,7 @@
                 <div class="col-md-6">
                     <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n4">
                         <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6"
-                            style="background-image:url('../resources/common/img/curved-images/curved6.jpg')"></div>
+                            style="background-image:url('https://res.cloudinary.com/ou-project/image/upload/v1651914422/Homepage%20Admin/curved6_ziqjvo.jpg')"></div>
                     </div>
                 </div>
             </div>

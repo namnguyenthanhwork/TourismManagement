@@ -21,12 +21,11 @@
     <div class="wrapCont">
         <div class="wrapper">
             <div class="tourTitle">
-                <h1 id="tourTitle"></h1>
+                <h3 id="tourTitle"></h3>
             </div>
             <div class="mod-content row">
                 <div id="vnt-main" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                    <div id="vnt-slide-thumbnail">
-                    </div>
+                    <div id="vnt-slide-thumbnail"></div>
                     <div class="boxTour" id="flag1">
                         <div class="title"><span class="fa-info-circle">Điểm nhấn hành trình</span></div>
                         <div class="content" id="tourContentDetail"></div>
@@ -39,16 +38,16 @@
                     </div>
                     <div class="boxTour" id="flag3">
                         <div class="title service-more" style="cursor:pointer"><span class="fa-paperclip">Dịch vụ bao
-                                gồm và không bao gồm</span> <span>(Xem
+                                gồm và không bao gồm (Xem
                                 Thêm)</span></div>
-                        <div class="content service-more-content ml-5">
+                        <div class="content service-more-content ml-5" style="display: none;">
                             <div class="the-content desc" id="serviceList"></div>
                         </div>
                     </div>
                     <div class="boxTour" id="flag4">
                         <div class="title note-more" style="cursor:pointer"><span class="fa-note-sticky">Ghi
                                 chú (Xem Thêm)</span></div>
-                        <div class="content note-more-content">
+                        <div class="content note-more-content" style="display: none;">
                             <div class="the-content desc ml-5" id="noteList"></div>
                         </div>
                     </div>
@@ -58,34 +57,21 @@
                             <div id="mda-table-price">
                                 <div
                                     class="mda-list-price mda-tap ative table-responsive mCustomScrollbar _mCS_1 mCS_no_scrollbar">
-                                    <div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_horizontal mCSB_inside"
-                                        style="max-height: none;" tabindex="0">
+                                    <div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_horizontal mCSB_inside">
                                         <div id="mCSB_1_container"
-                                            class="mCSB_container mCS_x_hidden mCS_no_scrollbar_x"
-                                            style="position: relative; top: 0px; left: 0px; width: 100%;" dir="ltr">
+                                            class="mCSB_container mCS_x_hidden mCS_no_scrollbar_x">
                                             <table class="table">
-                                                <thead class="responsive">
-                                                    <tr class="responsive">
-                                                        <th class="responsive">STT</th>
-                                                        <th width="85" class="responsive" style="white-space: nowrap;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th style="white-space: nowrap;">
                                                             Ngày khởi hành</th>
-                                                        <th class="responsive">Đặc điểm</th>
-                                                        <th width="90px" class="responsive">Số Chỗ</th>
+                                                        <th>Đặc điểm</th>
+                                                        <th width="90px">Số Chỗ</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody class="responsive" id="dptDetailList"></tbody>
+                                                <tbody id="dptDetailList"></tbody>
                                             </table>
-                                        </div>
-                                        <div id="mCSB_1_scrollbar_horizontal"
-                                            class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_horizontal"
-                                            style="display: none;">
-                                            <div class="mCSB_draggerContainer">
-                                                <div id="mCSB_1_dragger_horizontal" class="mCSB_dragger"
-                                                    style="position: absolute; min-width: 30px; width: 0px; left: 0px;">
-                                                    <div class="mCSB_dragger_bar"></div>
-                                                </div>
-                                                <div class="mCSB_draggerRail"></div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -102,7 +88,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="mnfixed_wrap" style="position: relative; height: 732px;">
+                    <div class="mnfixed_wrap">
                         <div class="mnfixed_self mnfixed_fixed_fixed"
                             style="width: 376.667px; z-index: 101; position: initial; top: initial; left: initial; bottom: initial;">
                             <div class="boxFix">
@@ -229,33 +215,22 @@
                                 </div>
 
                                 <div id="cusRating">
-                                    <h4>Đánh giá chất lượng tour</h4>
+                                    <h5>Đánh giá chất lượng tour</h5>
 
                                     <c:choose>
                                         <c:when test="${pageContext.request.userPrincipal.name != null}">
                                             <form>
                                                 <div class="row p-3" id="ratingPanel">
-                                                    <div class="form-group">
-                                                        <label for="5star">5 Sao</label>
-                                                        <input type="radio" id="5star" name="rate" value="5" hidden
-                                                            checked>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="4star">4 Sao</label>
-                                                        <input type="radio" id="4star" name="rate" value="4" hidden>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="3star">3 Sao</label>
-                                                        <input type="radio" id="3star" name="rate" value="3" hidden>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="2star">2 Sao</label>
-                                                        <input type="radio" id="2star" name="rate" value="2" hidden>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="1star">1 Sao</label>
-                                                        <input type="radio" id="1star" name="rate" value="1" hidden>
-                                                    </div>
+                                                    <input type="radio" id="5star" name="rate" value="5" hidden>
+                                                    <label for="5star"><span class="fa fa-star"></label>
+                                                    <input type="radio" id="4star" name="rate" value="4" hidden>
+                                                    <label for="4star"><span class="fa fa-star"></label>
+                                                    <input type="radio" id="3star" name="rate" value="3" hidden>
+                                                    <label for="3star"><span class="fa fa-star"></label>
+                                                    <input type="radio" id="2star" name="rate" value="2" hidden>
+                                                    <label for="2star"><span class="fa fa-star"></label>
+                                                    <input type="radio" id="1star" name="rate" value="1" hidden>
+                                                    <label for="1star"><span class="fa fa-star"></label>
                                                 </div>
                                             </form>
                                             <button id="confirmRatingBtn" class="btn btn-primary">Xác nhận đánh
@@ -285,7 +260,9 @@
                         </c:when>
                     </c:choose>
                 </div>
-                <div id="cusCommentDetail" class="row p-4"></div>
+                <div class="block-comment">
+                    <div id="cusCommentDetail" class="row p-4"></div>
+                </div>
             </div>
         </div>
     </div>
