@@ -91,9 +91,9 @@ function getPageAmount() {
             `
         if (pageAmount > 1) {
             let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
-                                    <a class="page-link" href="javascript:;"><</a></li>`
+                                    <a class="page-link" href="javascript:;">Trước</a></li>`
             let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
-                                    <a class="page-link" href="javascript:;">></a></li>`
+                                    <a class="page-link" href="javascript:;">Sau</a></li>`
             rows = preBtn + rows
             rows += nextBtn
         }

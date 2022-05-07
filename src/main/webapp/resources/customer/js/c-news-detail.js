@@ -149,12 +149,13 @@ function getLikeStatus() {
         let likeBtn = $('#likeBtn')
         if (likeBtn != null)
             if (data) {
-                likeBtn.removeClass('btn btn-info')
-                likeBtn.addClass('btn-primary')
-            } else {
-                likeBtn.removeClass('btn-primary')
+                likeBtn.removeClass(' btn')
                 likeBtn.addClass('btn btn-info')
-
+                likeBtn.text('Đã thích')
+            } else {
+                likeBtn.removeClass('btn btn-info')
+                likeBtn.addClass('btn')
+                likeBtn.text('Thích')
             }
     })
 }
@@ -164,8 +165,6 @@ $(document).ready(function () {
     getAllNews()
     getLikeDetail()
     getComments()
-    getLikeStatus()
-
     $('#addComment').click(function () {
         let cmtContent = $('#cmtContent').val()
         if (cmtContent == null || cmtContent.trim().length == 0) {

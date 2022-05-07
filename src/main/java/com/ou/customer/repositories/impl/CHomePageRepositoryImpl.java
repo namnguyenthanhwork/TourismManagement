@@ -13,10 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
@@ -89,6 +86,9 @@ public class CHomePageRepositoryImpl implements CHomePageRepository {
                         .getBean("predicateArray", Predicate[].class)))
                 .multiselect(postEntityRoot.get("postTitle"), postEntityRoot.get("postSlug"),
                         postEntityRoot.get("postCoverPage"), postEntityRoot.get("postId"))
+                .groupBy(postEntityRoot.get("postTitle"), postEntityRoot.get("postSlug"),
+                        postEntityRoot.get("postCoverPage"), postEntityRoot.get("postId"),
+                        tourEntityRoot.get("tourId"))
                 .orderBy(criteriaBuilder.asc(tourEntityRoot.get("tourId")));
         if (pageIndex != null) {
             PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
@@ -96,6 +96,7 @@ public class CHomePageRepositoryImpl implements CHomePageRepository {
             return session.createQuery(criteriaQuery).setFirstResult(pageUtil.getSearchIndex())
                     .setMaxResults(PageUtil.getPageSize()).getResultList();
         }
+        List<Object[]> results = session.createQuery(criteriaQuery).getResultList();
         return session.createQuery(criteriaQuery).getResultList();
     }
 
@@ -103,7 +104,7 @@ public class CHomePageRepositoryImpl implements CHomePageRepository {
     public long getTourAmount(TourQueryTypeUtil tourQueryTypeUtil, String... params) {
         Session session = Objects.requireNonNull(localSessionFactoryBean.getObject()).getCurrentSession();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery(Object.class);
         Root<TourEntity> tourEntityRoot = criteriaQuery.from(TourEntity.class);
         if (tourQueryTypeUtil != null)
             switch (tourQueryTypeUtil) {
@@ -132,10 +133,10 @@ public class CHomePageRepositoryImpl implements CHomePageRepository {
                                     String.format("%%%s%%", params[0])));
                 }
             }
-        criteriaQuery.multiselect(criteriaBuilder.count(tourEntityRoot.get("tourId")));
+        criteriaQuery.multiselect(tourEntityRoot.get("tourId")).groupBy(tourEntityRoot.get("tourId"));
         try {
-            return session.createQuery(criteriaQuery).getSingleResult();
-        } catch (NoResultException noResultException) {
+            return session.createQuery(criteriaQuery).getResultList().size();
+        } catch (Exception noResultException) {
             return 0;
         }
     }

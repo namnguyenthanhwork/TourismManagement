@@ -111,9 +111,17 @@ public class CTourController {
 
     @GetMapping("/so-trang")
     public ResponseEntity<JSONObject> getTourPageAmountCustomer(@RequestParam(required = false) Map<String, String> params) {
+        String type = params.get("loai");
+        TourQueryTypeUtil tourQueryTypeUtil = null;
+        if (type != null)
+            switch (type) {
+                case "gia" -> tourQueryTypeUtil = TourQueryTypeUtil.PRICE;
+                case "lich-trinh" -> tourQueryTypeUtil = TourQueryTypeUtil.SCHEDULE;
+                case "ten" -> tourQueryTypeUtil = TourQueryTypeUtil.KEYWORD;
+            }
         JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
         PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
-        jsonObject.put("pageAmount", pageUtil.getPageAmount(cMTourService.getTourAmount(params.get("kw"))));
+        jsonObject.put("pageAmount", pageUtil.getPageAmount(cHomePageService.getTourAmount(tourQueryTypeUtil,params.get("kw"))));
         return new ResponseEntity<>(jsonObject, HttpStatus.OK);
     }
 

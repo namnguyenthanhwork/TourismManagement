@@ -187,8 +187,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                 <h4 class="mr-2">Lọc: </h4>
                 <select id="searchType" class="search-type">
                     <option value="ten" selected>Tìm kiếm theo tên bài viết</option>
-                    <option value="gia">Tìm kiếm theo giá (<= giá cần tìm)</option> <option value="lich-trinh">Tìm kiếm
-                            theo tên lịch trình</option>
+                    <option value="gia">Tìm kiếm theo giá (<= giá cần tìm)</option>
+                    <option value="lich-trinh">Tìm kiếm theo tên lịch trình</option>
                 </select>
             </div>
             <div class="d-flex align-items-center justify-content-center mb-2">
