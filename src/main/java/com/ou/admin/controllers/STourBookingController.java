@@ -6,6 +6,7 @@ import com.ou.configs.BeanFactoryConfig;
 import com.ou.pojos.*;
 import com.ou.utils.MomoUtil;
 import com.ou.utils.PageUtil;
+import com.ou.utils.SMSUtil;
 import com.ou.utils.UserUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -213,7 +214,7 @@ public class STourBookingController {
                 account.getAccId(),
                 account.getAccLastName() + " " + account.getAccFirstName());
         if ("thanh-toan-momo".equals(paymentType.getPaytSlug())) {
-            String url = String.format("http://localhost:8080/TourismManagement/nhan-vien/dat-tour/%s", tourSlug);
+            String url = String.format("https://1939-2402-800-6311-b430-70d-9b4-1b3e-e9cb.ap.ngrok.io/TourismManagement/nhan-vien/dat-tour/%s", tourSlug);
             return String.format("redirect:%s&%d",
                     utilBeanFactory.getApplicationContext().getBean(MomoUtil.class)
                             .createOrder(price, orderInfo, url, url).get("payUrl"),
@@ -222,8 +223,8 @@ public class STourBookingController {
         createdBill.setBillIsPaid(true);
         orderInfo += String.format(" - Giá: %s", price);
         cMBillService.updateBill(createdBill);
-//        utilBeanFactory.getApplicationContext().getBean(SMSUtil.class)
-//                .sendMessage(httpServletRequest.getParameter("phoneNumber"), orderInfo);
+        utilBeanFactory.getApplicationContext().getBean(SMSUtil.class)
+                .sendMessage(httpServletRequest.getParameter("phoneNumber"), orderInfo);
         return "redirect:/nhan-vien/dat-tour";
     }
 

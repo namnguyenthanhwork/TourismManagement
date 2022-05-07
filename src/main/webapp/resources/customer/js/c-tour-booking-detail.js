@@ -1,5 +1,5 @@
 let locationInfos = new Map()
-
+let gTourSlug
 function getTourInfo() {
     let href = window.location.href
     if (window.location.href.includes('?'))
@@ -23,6 +23,7 @@ function getTourInfo() {
         // tour info
         $('#tourImage').html(`<img src="${data['tourCoverPage']}" alt="Tour image" class="w-100 border-radius-lg shadow-lg mx-auto" />`)
         getThumbnails(data['tourSlug'])
+        gTourSlug = data['tourSlug']
         let schedules = ''
         for (let i = 0; i < data['schedules'].length; i++) {
             schedules += `${data['schedules'][i]['scheTitle']}`
@@ -183,8 +184,18 @@ function checkPaymentResult() {
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'Ok',
             })
-        } else {
-            fetch('/TourismManagement//nhan-vien/dat-tour/thanh-toan/cap-nhat', {
+        } else if (parseInt(resultCode) === 0) {
+            Swal.fire({
+                title: 'Thanh toán thành công !',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+            }).then(result=>{
+                if (result.isConfirmed){
+                    window.location.href=`/TourismManagement/tour-du-lich/${gTourSlug}`
+                }
+            })
+            fetch('/TourismManagement/tour-du-lich/thanh-toan/cap-nhat', {
                 method: 'post',
                 body: JSON.stringify({
                     'billId': billId
@@ -192,24 +203,14 @@ function checkPaymentResult() {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            }).then(res => res.status).then(result => {
-                if (result == 200) {
-                    Swal.fire({
-                        title: 'Thanh toán thành công !',
-                        icon: 'success',
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'Ok',
-                    })
-                } else {
-                    Swal.fire({
-                        title: 'Thanh toán thất bại !',
-                        icon: 'error',
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'Ok',
-                    })
-                }
+            }).then(r => r.json())
+        } else {
+            Swal.fire({
+                title: 'Thanh toán thất bại !',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
             })
-
         }
     }
 }
@@ -302,7 +303,7 @@ function validateTourBooking() {
         return false
     }
 
-    if (phoneNumber.length != 10) {
+    if (phoneNumber.length >= 13) {
         Swal.fire({
             title: 'Thông báo !',
             text: "Độ dài số điện thoại không hợp lệ!",
@@ -312,6 +313,7 @@ function validateTourBooking() {
         })
         return false
     }
+
     return true
 }
 
@@ -322,7 +324,7 @@ $(document).ready(function () {
             phoneNumber: {
                 required: true,
                 minlength: 10,
-                maxlength: 10,
+                maxlength: 12,
             },
             billShipDate: {
                 required: true,
@@ -363,7 +365,7 @@ $(document).ready(function () {
     $('#tourBookingForm').attr('action', window.location.href);
     getTourInfo()
     checkPaymentResult()
-    $('#tourBookingdBtn').click(function () {
+    $('#tourBookingBtn').click(function () {
         if (validateTourBooking()) {
             $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()

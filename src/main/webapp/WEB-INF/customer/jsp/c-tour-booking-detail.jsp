@@ -61,8 +61,8 @@
 							<div class="row attr">
 								<div class="form-group col-12 col-md-4">
 									<label for="phoneNumber">Số điện thoại <span class="required">(*)</span></label>
-									<input type="text" id="phoneNumber" class="form-control" name="phoneNumber"
-										placeholder="Nhập số điện thoại.." required>
+									<input type="text" id="phoneNumber" class="form-control" name="phoneNumber" value="+84982482975"
+										placeholder="Nhập số điện thoại.." required readonly>
 								</div>
 								<div class="form-group col-12 col-md-8">
 									<label for="phoneNumber">Ngày khởi hành</label>
@@ -96,7 +96,7 @@
 							<div class="form-group text-center">
 								<c:choose>
 									<c:when test="${pageContext.request.userPrincipal.name != null}">
-										<button type="submit" id="tourBookingdBtn" class="btn btn-primary">Đặt
+										<button type="submit" id="tourBookingBtn" class="btn btn-primary">Đặt
 											tour</button>
 											<div id="overlayLoading"></div>
 											<div class="lds-roller" id="loading">

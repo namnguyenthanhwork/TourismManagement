@@ -184,8 +184,18 @@ function checkPaymentResult() {
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'Ok',
             })
-        } else {
-            fetch('/TourismManagement//nhan-vien/dat-tour/thanh-toan/cap-nhat', {
+        } else if (parseInt(resultCode) === 0) {
+            Swal.fire({
+                title: 'Thanh toán thành công !',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+            }).then(result=>{
+                if (result.isConfirmed){
+                    window.location.href='/TourismManagement/nhan-vien/dat-tour'
+                }
+            })
+            fetch('/TourismManagement/nhan-vien/dat-tour/thanh-toan/cap-nhat', {
                 method: 'post',
                 body: JSON.stringify({
                     'billId': billId
@@ -193,25 +203,16 @@ function checkPaymentResult() {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            }).then(res => res.status).then(result => {
-                if (result == 200) {
-                    Swal.fire({
-                        title: 'Thanh toán thành công !',
-                        icon: 'success',
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'Ok',
-                    })
-                } else {
-                    Swal.fire({
-                        title: 'Thanh toán thất bại !',
-                        icon: 'error',
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'Ok',
-                    })
-                }
             })
-
+        } else {
+            Swal.fire({
+                title: 'Thanh toán thất bại !',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+            })
         }
+
     }
 }
 
