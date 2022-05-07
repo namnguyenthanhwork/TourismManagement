@@ -79,6 +79,7 @@ $(document).ready(function () {
     $('#loading').hide()
     $('#serviceUpdatedForm').attr('action', window.location.href);
     $('#serviceUpdatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateUpdatedService()) {
             $(this).hide()
             $('#loading').show()

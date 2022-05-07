@@ -190,6 +190,7 @@ $(document).ready(function () {
     $('#accountUpdateForm').attr('action', window.location.href);
     getRoleInfo()
     $('#accountUpdateBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateUpdateAccount()) {
             $(this).hide()
             $('#loading').show()

@@ -99,6 +99,7 @@ $(document).ready(function () {
     $('#loading').hide()
     getSalePercentInfo()
     $('#saleCreatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateCreatedSale()) {
             $(this).hide()
             $('#loading').show()

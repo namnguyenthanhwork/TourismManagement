@@ -98,6 +98,7 @@ $(document).ready(function () {
     $('#departureDateUpdatedForm').attr('action', window.location.href);
     getFeatureInfo()
     $('#departureDateUpdatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateUpdatedDepartureDate()) {
             $(this).hide()
             $('#loading').show()

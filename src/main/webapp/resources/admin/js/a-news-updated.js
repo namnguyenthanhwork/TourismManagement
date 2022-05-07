@@ -83,6 +83,7 @@ $(document).ready(function () {
     $('#loading').hide()
     $('#newsUpdatedForm').attr('action', window.location.href);
     $('#newsUpdatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateUpdateNews()) {
             $(this).hide()
             $('#loading').show()

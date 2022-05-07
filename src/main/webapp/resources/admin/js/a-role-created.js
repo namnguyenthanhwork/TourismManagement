@@ -54,6 +54,7 @@ $(document).ready(function () {
 
     $('#loading').hide()
     $('#roleCreatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateCreateRole()) {
             $(this).hide()
             $('#loading').show()

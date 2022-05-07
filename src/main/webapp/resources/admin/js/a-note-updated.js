@@ -80,6 +80,7 @@ $(document).ready(function () {
     $('#loading').hide()
     $('#noteUpdatedForm').attr('action', window.location.href)
     $('#noteUpdatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateUpdatedNote()) {
             $(this).hide()
             $('#loading').show()

@@ -54,6 +54,7 @@ $(document).ready(function () {
 
     $('#loading').hide()
     $('#transportCreatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateCreatedTransport()) {
             $(this).hide()
             $('#loading').show()

@@ -267,6 +267,7 @@ $(document).ready(function () {
     getTransportInfo()
     getNoteInfo()
     $('#tourCreatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateCreateTour()) {
             $(this).hide()
             $('#loading').show()

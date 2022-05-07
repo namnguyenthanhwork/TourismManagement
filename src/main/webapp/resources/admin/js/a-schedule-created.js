@@ -80,6 +80,7 @@ $(document).ready(function () {
     $('#loading').hide()
     getTourInfor()
     $('#scheduleCreatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateCreatedSchedule()) {
             $(this).hide()
             $('#loading').show()

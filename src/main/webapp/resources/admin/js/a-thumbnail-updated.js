@@ -63,6 +63,7 @@ $(document).ready(function () {
     $('#thumbnailUpdatedForm').attr('action', window.location.href);
     getTourInfo()
     $('#thumbnailUpdatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         $(this).hide()
         $('#loading').show()
     }) 

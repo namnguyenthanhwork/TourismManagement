@@ -79,6 +79,7 @@ $(document).ready(function () {
     $('#servingObjectUpdatedForm').attr('action', window.location.href);
     getServingObjectInfo()
     $('#servingObjectUpdatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateUpdatedServiceObject()) {
             $(this).hide()
             $('#loading').show()

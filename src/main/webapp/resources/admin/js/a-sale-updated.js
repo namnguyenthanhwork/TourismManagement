@@ -128,6 +128,7 @@ $(document).ready(function () {
     getSalePercentInfo()
 
     $('#saleUpdatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateUpdatedSale()) {
             $(this).hide()
             $('#loading').show()

@@ -53,6 +53,7 @@ $(document).ready(function () {
     });
     $('#loading').hide()
     $('#servingObjectCreatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateCreatedServiceObject()) {
             $(this).hide()
             $('#loading').show()
