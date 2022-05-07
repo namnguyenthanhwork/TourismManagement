@@ -1,5 +1,5 @@
 let gTourInfo = null;
-
+let gEditor
 function getTourInfo(editor) {
     let href = window.location.href
     if (href.includes('?'))
@@ -283,7 +283,8 @@ function getNoteInfo() {
 
 function validateUpdateTour() {
     let tourTitle = $('#tourTitle').val()
-    if (tourTitle == '') {
+    let tourContent = gEditor.getData()
+    if (tourTitle === '' || tourContent==='') {
         Swal.fire({
             title: 'Thông báo !',
             text: "Vui lòng kiểm tra lại thông tin còn thiếu trước khi cập nhật!",
@@ -297,6 +298,15 @@ function validateUpdateTour() {
 }
 
 $(document).ready(function () {
+    let error = new URLSearchParams(window.location.search).get('error')
+    if(error!==null && parseInt(error)===1) {
+        Swal.fire({
+            title: 'Cập nhật tour du lịch thất bại',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+        })
+    }
     // validate
     $("#tourUpdatedForm").validate({
         rules: {
@@ -304,6 +314,10 @@ $(document).ready(function () {
                 required: true,
                 minlength: 10,
                 maxlength: 50
+            },
+            tourContent: {
+                required: true,
+                minlength: 1
             }
         },
         messages: {
@@ -311,6 +325,9 @@ $(document).ready(function () {
                 required: "Tiêu đề không được để trống",
                 minlength: "Độ dài phải từ 10 ký tự",
                 maxlength: "Độ dài không vượt quá 50 ký tự"
+            },
+            tourContent: {
+                required: "Nội dung không được để trống",
             }
         }
     });
@@ -318,12 +335,6 @@ $(document).ready(function () {
     $('#tourUpdatedForm').attr('action', window.location.href);
     $('#tourUpdatedBtn').click(function () {
         if (validateUpdateTour()) {
-            Swal.fire({
-                title: 'Thông báo !',
-                text: "Cập nhật thành công",
-                icon: 'success',
-                confirmButtonColor: '#3085d6'
-            })
             $(this).hide()
             $('#loading').show()
         }

@@ -210,8 +210,8 @@ public class CMTourServiceImpl implements CMTourService {
     }
 
     @Override
-    public long getTourAmount() {
-        return cMTourRepository.getTourAmount();
+    public long getTourAmount(String ... params) {
+        return cMTourRepository.getTourAmount(params);
     }
 
     @Override

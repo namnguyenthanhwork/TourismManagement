@@ -14,6 +14,11 @@
 					required>
 			</div>
 			<div class="form-group">
+				<label for="newsDescription">Mô tả <span class="required">(*)</span></label>
+				<textarea type="text" class="form-control" id="newsDescription" name="newsDescription" placeholder="Nhập mô tả..."
+				          cols="150" rows="3" required></textarea>
+			</div>
+			<div class="form-group">
 				<label for="newsCoverPage">Ảnh bìa</label>
 				<input type="file" name="newsCoverPage" class="form-control" id="newsCoverPage">
 			</div>
@@ -31,7 +36,10 @@
 		</form>
 		<script src="<c:url value = '/resources/ckeditor/build/ckeditor.js' />"></script>
 		<script>
-			ClassicEditor.create(document.querySelector('#editor')).then(editor => getNewsInfo(editor))
+			ClassicEditor.create(document.querySelector('#editor')).then(editor => {
+                gEditor= editor
+                getNewsInfo(editor)
+            })
 		</script>
 	</div>
 </div>

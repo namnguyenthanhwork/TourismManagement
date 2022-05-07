@@ -100,7 +100,6 @@ public class CNewsController {
 
     @GetMapping("/{newsSlug}/trang-thai-thich")
     public ResponseEntity<Boolean> getNewsLikeStatus(@PathVariable String newsSlug) {
-        JSONObject jsonObject = cMNewsService.getNewsLikeAmount(newsSlug);
         AccountEntity account = cMAccountService.getAccountAsObj(UserUtil.getCurrentUsername());
         PostEntity post = cMPostService.getPostAsObj(newsSlug);
         NewsLikeEntity newsLike = cMNewsLikeService.getNewsLike(post.getPostId(), account.getAccId());

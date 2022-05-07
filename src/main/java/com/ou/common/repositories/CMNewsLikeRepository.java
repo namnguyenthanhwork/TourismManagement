@@ -1,9 +1,7 @@
 package com.ou.common.repositories;
 
 
-
 import com.ou.pojos.NewsLikeEntity;
-import com.ou.pojos.TourRatingEntity;
 
 import java.util.List;
 

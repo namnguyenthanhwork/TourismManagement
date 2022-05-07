@@ -59,8 +59,8 @@ public class CMAccountServiceImpl implements CMAccountService {
     }
 
     @Override
-    public long getAccountAmount() {
-        return cMAccountRepository.getAccountAmount();
+    public long getAccountAmount(String... params) {
+        return cMAccountRepository.getAccountAmount(params);
     }
 
     @Override

@@ -69,7 +69,7 @@ public class AServingObjectController {
         boolean createdResult = cMServingObjectService.createServingObject(servingObjectEntity);
         if (createdResult)
             return "redirect:/quan-tri-vien/doi-tuong-phuc-vu";
-        return "redirect:/quan-tri-vien/doi-tuong-phuc-vu/tao-moi";
+        return "redirect:/quan-tri-vien/doi-tuong-phuc-vu/tao-moi?error=1";
     }
 
     // update
@@ -93,12 +93,12 @@ public class AServingObjectController {
         httpServletRequest.setCharacterEncoding("UTF-8");
         ServingObjectEntity servingObject = cMServingObjectService.getServingObjectAsObj(svoSlug);
         if (servingObject == null)
-            return String.format("redirect:/quan-tri-vien/doi-tuong-phuc-vu/%s", svoSlug);
+            return String.format("redirect:/quan-tri-vien/doi-tuong-phuc-vu/%s?error=1", svoSlug);
         servingObject.setSvoName(httpServletRequest.getParameter("svoName"));
         boolean updateResult = cMServingObjectService.updateServingObject(servingObject);
         if (updateResult)
             return "redirect:/quan-tri-vien/doi-tuong-phuc-vu";
-        return String.format("redirect:/quan-tri-vien/doi-tuong-phuc-vu/%s", svoSlug);
+        return String.format("redirect:/quan-tri-vien/doi-tuong-phuc-vu/%s?error=1", svoSlug);
     }
 
     // delete

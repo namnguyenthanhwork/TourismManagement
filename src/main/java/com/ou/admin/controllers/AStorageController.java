@@ -68,7 +68,7 @@ public class AStorageController {
         boolean createdResult = cMStorageService.createStorage(storageEntity);
         if (createdResult)
             return "redirect:/quan-tri-vien/kho-chua";
-        return "redirect:/quan-tri-vien/kho-chua/tao-moi";
+        return "redirect:/quan-tri-vien/kho-chua/tao-moi?error=1";
     }
 
     // update
@@ -92,12 +92,12 @@ public class AStorageController {
         httpServletRequest.setCharacterEncoding("UTF-8");
         StorageEntity storage = cMStorageService.getStorageAsObj(storSlug);
         if (storage == null)
-            return String.format("redirect:/quan-tri-vien/kho-chua/%s",storSlug);
+            return String.format("redirect:/quan-tri-vien/kho-chua/%s?error=1",storSlug);
         storage.setStorName(httpServletRequest.getParameter("storName"));
         boolean updateResult = cMStorageService.updateStorage(storage);
         if (updateResult)
             return "redirect:/quan-tri-vien/kho-chua";
-        return String.format("redirect:/quan-tri-vien/kho-chua/%s",storSlug);
+        return String.format("redirect:/quan-tri-vien/kho-chua/%s?error=1",storSlug);
     }
 
     // delete

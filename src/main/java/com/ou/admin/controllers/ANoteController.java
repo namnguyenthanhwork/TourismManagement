@@ -69,7 +69,7 @@ public class ANoteController {
         boolean createdResult = cMNoteService.createNote(noteEntity);
         if (createdResult)
             return "redirect:/quan-tri-vien/ghi-chu";
-        return "redirect:/quan-tri-vien/ghi-chu/tao-moi";
+        return "redirect:/quan-tri-vien/ghi-chu/tao-moi?error=1";
     }
 
     // update
@@ -93,13 +93,13 @@ public class ANoteController {
         httpServletRequest.setCharacterEncoding("UTF-8");
         NoteEntity note = cMNoteService.getNoteAsObj(noteSlug);
         if (note == null)
-            return String.format("redirect:/quan-tri-vien/ghi-chu/%s", noteSlug);
+            return String.format("redirect:/quan-tri-vien/ghi-chu/%s?error=1", noteSlug);
         note.setNoteTitle(httpServletRequest.getParameter("noteTitle"));
         note.setNoteContent(httpServletRequest.getParameter("noteContent"));
         boolean updateResult = cMNoteService.updateNote(note);
         if (updateResult)
             return "redirect:/quan-tri-vien/ghi-chu";
-        return String.format("redirect:/quan-tri-vien/ghi-chu/%s", noteSlug);
+        return String.format("redirect:/quan-tri-vien/ghi-chu/%s?error=1", noteSlug);
     }
 
     // delete

@@ -67,7 +67,7 @@ public class ARoleController {
         boolean createdResult = cMRoleService.createRole(roleEntity);
         if (createdResult)
             return "redirect:/quan-tri-vien/vai-tro";
-        return "redirect:/quan-tri-vien/vai-tro/tao-moi";
+        return "redirect:/quan-tri-vien/vai-tro/tao-moi?error=1";
     }
 
     // update
@@ -91,12 +91,12 @@ public class ARoleController {
         httpServletRequest.setCharacterEncoding("UTF-8");
         RoleEntity role = cMRoleService.getRoleAsObj(roleSlug);
         if (role == null)
-            return String.format("redirect:/quan-tri-vien/vai-tro/%s", roleSlug);
+            return String.format("redirect:/quan-tri-vien/vai-tro/%s?error=1", roleSlug);
         role.setRoleName(httpServletRequest.getParameter("roleName"));
         boolean updateResult=cMRoleService.updateRole(role);
         if (updateResult)
             return "redirect:/quan-tri-vien/vai-tro";
-        return String.format("redirect:/quan-tri-vien/vai-tro/%s", roleSlug);
+        return String.format("redirect:/quan-tri-vien/vai-tro/%s?error=1", roleSlug);
     }
 
     // delete

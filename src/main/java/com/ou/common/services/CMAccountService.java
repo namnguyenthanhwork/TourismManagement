@@ -8,7 +8,7 @@ public interface CMAccountService {
     JSONArray getAccounts(Integer pageIndex,String ... params);
 
     AccountEntity getAccountAsObj(String username);
-    long getAccountAmount();
+    long getAccountAmount(String... params);
 
     JSONObject getAccountAsJsonObj(String username);
 

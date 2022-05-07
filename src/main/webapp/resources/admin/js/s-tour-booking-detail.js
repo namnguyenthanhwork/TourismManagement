@@ -54,7 +54,10 @@ function getTourInfo() {
             `
             servingObjectsContent += `
                 <td class="align-middle text-center">
-                    <span class="text-secondary text-sm">${data['servingObjects'][i]['tourPrice'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</span>
+                    <span class="text-secondary text-sm">${data['servingObjects'][i]['tourPrice'].toLocaleString('it-IT', {
+                style: 'currency',
+                currency: 'VND'
+            })}</span>
                 </td>
             `
         }
@@ -82,7 +85,7 @@ function getTourInfo() {
                 <div class="form-group">
                     <label for="${data['servingObjects'][i]['svoSlug']}">${data['servingObjects'][i]['svoName']}:</label>
                     <input type="number" id="${data['servingObjects'][i]['svoSlug']}"name="${data['servingObjects'][i]['svoSlug']}"
-                           placeholder="Nhập số lượng.." class="form-control">
+                           placeholder="Nhập số lượng.." class="form-control" value="${i === 0 ? 1 : 0}">
                 </div>
             `
         }
@@ -93,10 +96,11 @@ function getTourInfo() {
         for (let i = 0; i < data['departureDates'].length; i++) {
             let dptId = data['departureDates'][i]['dptId']
             let dptDate = new Date(data['departureDates'][i]['dptDate']).toLocaleDateString()
+            let emptySlot = data['departureDates'][i]['tourEmptySlot']
             departureDates += `
                  <div class="form-group col-12 col-md-3">
-                   <label for="${dptId}">Ngày: ${dptDate}</label>
-                    <input type="radio" id="${dptId}" name="dptId" value="${dptId}">
+                   <label for="${dptId}">Ngày: ${dptDate} (Còn: <span class='required'>${emptySlot}</span>  vé)</label>
+                    <input type="radio" id="${dptId}" name="dptId" value="${dptId}" ${i === 0 ? 'checked' : ''}>
                </div>
             `
         }
@@ -136,8 +140,9 @@ function getPaymentTypes(tourId) {
         for (let i = 0; i < data.length; i++)
             paymentTypes += `
                <div class="form-group col-12 col-md-6">
-                   <label for="${data[i]['paytSlug']}"><span class="required">Phương thức ${i}:</span> ${data[i]['paytName']}</label>
-                    <input type="radio" id="${data[i]['paytSlug']}" name="paytSlug" value="${data[i]['paytSlug']}">
+                   <label for="${data[i]['paytSlug']}"><span class="required">Phương thức ${i+1}:</span> ${data[i]['paytName']}</label>
+                    <input type="radio" id="${data[i]['paytSlug']}" name="paytSlug" value="${data[i]['paytSlug']}"
+                     ${i===0?'checked':''}>
                </div>
             `
         $('#paymentTourBooking').html(paymentTypes)

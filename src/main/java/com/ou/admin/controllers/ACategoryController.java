@@ -76,7 +76,7 @@ public class ACategoryController {
         boolean createdResult = cMCategoryService.createCategory(category);
         if (createdResult)
             return "redirect:/quan-tri-vien/loai-tour";
-        return "redirect:/quan-tri-vien/loai-tour/tao-moi";
+        return "redirect:/quan-tri-vien/loai-tour/tao-moi?error=1";
     }
 
     // update
@@ -101,13 +101,13 @@ public class ACategoryController {
         CategoryEntity category = cMCategoryService.getCategoryAsObj(catSlug);
         StorageEntity storage = cMStorageService.getStorageAsObj(httpServletRequest.getParameter("storSlug"));
         if (category == null)
-            return String.format("redirect:/quan-tri-vien/loai-tour/%s", catSlug);
+            return String.format("redirect:/quan-tri-vien/loai-tour/%s?error=1", catSlug);
         category.setCatName(httpServletRequest.getParameter("catName"));
         category.setStorId(storage.getStorId());
         boolean updateResult = cMCategoryService.updateCategory(category);
         if (updateResult)
             return "redirect:/quan-tri-vien/loai-tour";
-        return String.format("redirect:/quan-tri-vien/loai-tour/%s", catSlug);
+        return String.format("redirect:/quan-tri-vien/loai-tour/%s?error=1", catSlug);
     }
 
     // delete

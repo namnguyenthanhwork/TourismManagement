@@ -8,6 +8,7 @@ function searchBillInfo(billId) {
             'Content-Type': 'application/json'
         }
     }).then(res => res.json()).then(data => {
+
         if (jQuery.isEmptyObject(data)) {
             $('#billDetail').hide()
             Swal.fire({
@@ -20,7 +21,6 @@ function searchBillInfo(billId) {
             return
         }
         $('#billDetail').show()
-        console.info(data)
         let accInfo = `
         <p class="text-sm text-justify p-0 my-2"><soan class="font-weight-bolder">Mã tài khoản:</soan> ${data['accId']}</p>
         <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Tên tài khoản:</span> ${data['accUsername']}</p>
@@ -44,8 +44,14 @@ function searchBillInfo(billId) {
 
         let billInfo = `
         <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Mã hóa đơn:</span> ${data['billId']}</p>
-        <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Tổng tiền giảm giá:</span> ${data['billTotalSaleMoney'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</p>
-        <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Tổng tiền:</span> ${data['billTotalMoney'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</p>
+        <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Tổng tiền giảm giá:</span> ${data['billTotalSaleMoney'].toLocaleString('it-IT', {
+            style: 'currency',
+            currency: 'VND'
+        })}</p>
+        <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Tổng tiền:</span> ${data['billTotalMoney'].toLocaleString('it-IT', {
+            style: 'currency',
+            currency: 'VND'
+        })}</p>
         <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Ngày khởi hành:</span> ${billDepartureDate}</p>
         <div>
             <h5 class="font-weight-bolder mt-4">Địa điểm giao hàng</h5>
@@ -69,7 +75,10 @@ function searchBillInfo(billId) {
             tourPrices += `
             <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Đối tượng phục vụ:</span> ${data['tourPrices'][i]['svoName']}</p>
             <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Số lượng đặt</span>: ${data['tourPrices'][i]['tourAmount']}</p>
-            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Giá tour / đối tượng:</span> ${data['tourPrices'][i]['tourPrice'].toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</p>
+            <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Giá tour / đối tượng:</span> ${data['tourPrices'][i]['tourPrice'].toLocaleString('it-IT', {
+                style: 'currency',
+                currency: 'VND'
+            })}</p>
             <p>----------------</p>
             `
         $('#accountInfo').html(accInfo)
@@ -77,7 +86,7 @@ function searchBillInfo(billId) {
         $('#tourInfo').html(tourInfo)
         $('#billInfo').html(billInfo)
         $('#billPriceInfo').html(tourPrices)
-        $('#billDetail').html($('#billDetail').html() +
+        $('#btnArea').html(
             (!data['billIsPaid'] ?
                 `<button onclick="pay(${data['billId']})" class="btn btn-primary mt-4 ml-1">Thanh toán</button>` :
                 `<button onclick="location.reload()" class="btn btn-primary mt-4 ml-1">Trở về</button>`))

@@ -70,7 +70,7 @@ public class AServiceController {
         boolean createdResult = cMServiceService.createService(serviceEntity);
         if (createdResult)
             return "redirect:/quan-tri-vien/dich-vu";
-        return "redirect:/quan-tri-vien/dich-vu/tao-moi";
+        return "redirect:/quan-tri-vien/dich-vu/tao-moi?error=1";
     }
 
     // update
@@ -94,13 +94,13 @@ public class AServiceController {
         httpServletRequest.setCharacterEncoding("UTF-8");
         ServiceEntity service = cMServiceService.getServiceAsObj(servSlug);
         if (service == null)
-            return String.format("redirect:/quan-tri-vien/dich-vu/%s", servSlug);
+            return String.format("redirect:/quan-tri-vien/dich-vu/%s?error=1", servSlug);
         service.setServTitle(httpServletRequest.getParameter("servTitle"));
         service.setServContent(httpServletRequest.getParameter("servContent"));
         boolean updateResult = cMServiceService.updateService(service);
         if (updateResult)
             return "redirect:/quan-tri-vien/dich-vu";
-        return String.format("redirect:/quan-tri-vien/dich-vu/%s", servSlug);
+        return String.format("redirect:/quan-tri-vien/dich-vu/%s?error=1", servSlug);
     }
 
     // delete

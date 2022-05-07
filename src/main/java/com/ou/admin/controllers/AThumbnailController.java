@@ -92,7 +92,7 @@ public class AThumbnailController {
         boolean createdResult = cMThumbnailService.createThumbnail(thumbnail);
         if (createdResult)
             return "redirect:/quan-tri-vien/hinh-thu-nho";
-        return "redirect:/quan-tri-vien/hinh-thu-nho/tao-moi";
+        return "redirect:/quan-tri-vien/hinh-thu-nho/tao-moi?error=1";
     }
 
     // update
@@ -118,7 +118,7 @@ public class AThumbnailController {
         ThumbnailEntity thumbnail = cMThumbnailService.getThumbnailAsObj(thumId);
         TourEntity tour = cMTourService.getTourAsObj(httpServletRequest.getParameter("tourSlug"));
         if (thumbnail == null)
-            return String.format("redirect:/quan-tri-vien/hinh-thu-nho/%d", thumId);
+            return String.format("redirect:/quan-tri-vien/hinh-thu-nho/%d?error=1", thumId);
         thumbnail.setTourId(tour.getTourId());
         if (thumImage!=null && !thumImage.isEmpty()) {
             try {
@@ -139,7 +139,7 @@ public class AThumbnailController {
         boolean updateResult = cMThumbnailService.updateThumbnail(thumbnail);
         if (updateResult)
             return "redirect:/quan-tri-vien/hinh-thu-nho";
-        return String.format("redirect:/quan-tri-vien/hinh-thu-nho/%d", thumId);
+        return String.format("redirect:/quan-tri-vien/hinh-thu-nho/%d?error=1", thumId);
     }
 
     // delete

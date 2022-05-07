@@ -88,7 +88,7 @@ public class ASaleConroller {
         boolean createdResult = cMSaleService.createSale(sale);
         if (createdResult)
             return "redirect:/quan-tri-vien/giam-gia";
-        return "redirect:/quan-tri-vien/giam-gia/tao-moi";
+        return "redirect:/quan-tri-vien/giam-gia/tao-moi?error=1";
     }
 
     // update
@@ -114,7 +114,7 @@ public class ASaleConroller {
         SalePercentEntity salePercent = cMSalePercentService.getSalePercentAsObj(
                 Integer.valueOf(httpServletRequest.getParameter("sperId")));
         if (sale == null)
-            return String.format("redirect:/quan-tri-vien/giam-gia/%d", saleId);
+            return String.format("redirect:/quan-tri-vien/giam-gia/%d?error=1", saleId);
         Timestamp saleFromDate = utilBeanFactory.getApplicationContext().getBean("emptyTimeStamp", Timestamp.class);
         Timestamp saleToDate = utilBeanFactory.getApplicationContext().getBean("emptyTimeStamp", Timestamp.class);
         saleFromDate.setTime(utilBeanFactory.getApplicationContext().getBean(SimpleDateFormat.class).parse(httpServletRequest
@@ -127,7 +127,7 @@ public class ASaleConroller {
         boolean updateResult = cMSaleService.updateSale(sale);
         if (updateResult)
             return "redirect:/quan-tri-vien/giam-gia";
-        return String.format("redirect:/quan-tri-vien/giam-gia/%d", saleId);
+        return String.format("redirect:/quan-tri-vien/giam-gia/%d?error=1", saleId);
     }
 
     // delete

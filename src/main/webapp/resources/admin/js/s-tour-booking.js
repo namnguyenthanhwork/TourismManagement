@@ -6,20 +6,19 @@ function getTourInfo(pageIndex = null, kw = null) {
         path += `?kw=${kw}`
     if (pageIndex != null)
         path += `${path.includes('?') ? '&' : '?'}trang=${pageIndex}`
-    fetch(path)
-        .then(res => {
-            if (res.status != 200)
-                return res.status
-            return res.json()
-        }).then(data => {
-            let rows = ''
-            for (let i = 0; i < data.length; i++) {
-                let saleFromDate = data[i]['saleFromDate'] == null ? "Không có giảm giá" : new Date(data[i]['saleFromDate'])
-                    .toISOString().split('T')[0]
-                let saleToDate = data[i]['saleToDate'] == null ? "Không có giảm giá" : new Date(data[i]['saleToDate'])
-                    .toISOString().split('T')[0]
+    fetch(path).then(res => {
+        if (res.status != 200)
+            return res.status
+        return res.json()
+    }).then(data => {
+        let rows = ''
+        for (let i = 0; i < data.length; i++) {
+            let saleFromDate = data[i]['saleFromDate'] == null ? "Không có giảm giá" : new Date(data[i]['saleFromDate'])
+                .toISOString().split('T')[0]
+            let saleToDate = data[i]['saleToDate'] == null ? "Không có giảm giá" : new Date(data[i]['saleToDate'])
+                .toISOString().split('T')[0]
 
-                rows += `
+            rows += `
                  <tr>
                     <td class="text-center">
                         <a href="/TourismManagement/nhan-vien/dat-tour/${data[i]['tourSlug']}" 
@@ -53,35 +52,37 @@ function getTourInfo(pageIndex = null, kw = null) {
                     </td>
                 </tr>
             `
-                $('#tourInfo').html(rows)
-            }
-        })
+        }
+        $('#tourInfo').html(rows)
+    })
 }
 
-function getPageAmount() {
-    fetch('/TourismManagement/nhan-vien/dat-tour/so-trang')
+function getPageAmount(kw=null) {
+    let path = '/TourismManagement/nhan-vien/dat-tour/so-trang'
+    if (kw !== null)
+        path += `?kw=${kw}`
+    fetch(path)
         .then(res => res.json()).then(data => {
-            let pageAmount = data['pageAmount']
-            if (pageAmount == 1)
-                return
-            let rows = ''
-            for (let i = 1; i <= pageAmount; i++)
-                rows += `
+        let pageAmount = data['pageAmount']
+        let rows = ''
+        for (let i = 1; i <= pageAmount; i++)
+            rows += `
                  <li class="page-item" onclick="changePage(${i}, ${pageAmount})"><a class="page-link" href="javascript:;">${i}</a></li>
             `
-            if (pageAmount > 1) {
-                let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
-            <a class="page-link" href="javascript:;"><</a></li>`
-                let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
-        <a class="page-link" href="javascript:;">></a></li>`
-                rows = preBtn + rows
-                rows += nextBtn
-            }
-            $('#pagination').html(rows)
-            $(`#pagination li:nth-child(${pageAmount > 1 ? 2 : 1})`).addClass('active')
-            if (currentPageIndex == 1)
-                $('#preBtn').hide()
-        })
+        if (pageAmount > 1) {
+            let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
+                                <a class="page-link" href="javascript:;"><</a></li>`
+            let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
+                                <a class="page-link" href="javascript:;">></a></li>`
+            rows = preBtn + rows
+            rows += nextBtn
+        }
+        $('#pagination').html(pageAmount !== 1 ? rows : '')
+        if (pageAmount !== 1)
+            $(`#pagination li:nth-child(2)`).addClass('active')
+        if (currentPageIndex === 1)
+            $('#preBtn').hide()
+    })
 }
 
 function getPreviousPage(pageAmount) {
@@ -144,6 +145,7 @@ $(document).ready(function () {
     getPageAmount()
     $('#search').keyup(function () {
         getTourInfo(currentPageIndex, $(this).val().length > 0 ? $(this).val().trim() : null)
+        getPageAmount($(this).val().length > 0 ? $(this).val().trim() : null)
     })
 
 })

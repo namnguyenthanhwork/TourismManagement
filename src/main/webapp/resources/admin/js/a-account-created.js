@@ -60,6 +60,17 @@ function validateCreateAccount() {
 }
 
 $(document).ready(function () {
+
+    let error = new URLSearchParams(window.location.search).get('error')
+    if(error!==null && parseInt(error)===1) {
+        Swal.fire({
+            title: 'Tạo tài khoản thất bại',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+        })
+    }
+
     // validate
     $("#formCreateAccount").validate({
         rules: {
@@ -146,14 +157,10 @@ $(document).ready(function () {
     getRoleInfo()
     $('#accountCreatedBtn').click(function () {
         if (validateCreateAccount()) {
-            Swal.fire({
-                title: 'Thông báo !',
-                text: "Tạo thành công",
-                icon: 'success',
-                confirmButtonColor: '#3085d6'
-            })
             $(this).hide()
             $('#loading').show()
         }
     })
+
+
 })

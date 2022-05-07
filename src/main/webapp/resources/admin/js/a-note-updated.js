@@ -51,6 +51,15 @@ function validateUpdatedNote() {
 
 
 $(document).ready(function () {
+    let error = new URLSearchParams(window.location.search).get('error')
+    if(error!==null && parseInt(error)===1) {
+        Swal.fire({
+            title: 'Cập nhật  ghi chú thất bại',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+        })
+    }
     // validate
     $("#noteUpdatedForm").validate({
         rules: {
@@ -72,12 +81,6 @@ $(document).ready(function () {
     $('#noteUpdatedForm').attr('action', window.location.href)
     $('#noteUpdatedBtn').click(function () {
         if (validateUpdatedNote()) {
-            Swal.fire({
-                title: 'Thông báo !',
-                text: "Cập nhật thành công",
-                icon: 'success',
-                confirmButtonColor: '#3085d6'
-            })
             $(this).hide()
             $('#loading').show()
         }

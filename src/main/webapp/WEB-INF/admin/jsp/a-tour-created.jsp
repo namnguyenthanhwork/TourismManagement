@@ -92,7 +92,7 @@
 		</form>
 		<script src="<c:url value = '/resources/ckeditor/build/ckeditor.js' />"></script>
 		<script>
-			ClassicEditor.create(document.querySelector('#editor'))
+			ClassicEditor.create(document.querySelector('#editor')).then(editor=>gEditor=editor)
 		</script>
 	</div>
 </div>

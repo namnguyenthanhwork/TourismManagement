@@ -155,10 +155,10 @@ public class ATourController {
         return new ResponseEntity<>(tours, tours.size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
     @GetMapping("/so-trang")
-    public ResponseEntity<JSONObject> getTourPageAmount(){
+    public ResponseEntity<JSONObject> getTourPageAmount(@RequestParam(required = false) Map<String, String> params){
         JSONObject jsonObject = utilBeanFactory.getApplicationContext().getBean(JSONObject.class);
         PageUtil pageUtil = utilBeanFactory.getApplicationContext().getBean(PageUtil.class);
-        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMTourService.getTourAmount()));
+        jsonObject.put("pageAmount",pageUtil.getPageAmount(cMTourService.getTourAmount(params.get("kw"))));
         return new ResponseEntity<>(jsonObject, HttpStatus.OK);
     }
     // create
@@ -205,11 +205,11 @@ public class ATourController {
 
             boolean createdResult = cMTourService.createTour(tourEntity);
             if (!createdResult)
-                return "redirect:/quan-tri-vien/tour-du-lich/tao-moi";
+                return "redirect:/quan-tri-vien/tour-du-lich/tao-moi?error=1";
             setAdditionTourInformation(httpServletRequest, addedPost.getPostId());
             return "redirect:/quan-tri-vien/tour-du-lich";
         }
-        return "redirect:/quan-tri-vien/tour-du-lich/tao-moi";
+        return "redirect:/quan-tri-vien/tour-du-lich/tao-moi?error=1";
 
     }
 
@@ -237,7 +237,7 @@ public class ATourController {
         PostEntity post = cMPostService.getPostAsObj(tourSlug);
         CategoryEntity category = cMCategoryService.getCategoryAsObj(httpServletRequest.getParameter("catSlug"));
         if (tour == null)
-            return String.format("redirect:/quan-tri-vien/tour-du-lich/%s", tourSlug);
+            return String.format("redirect:/quan-tri-vien/tour-du-lich/%s?error=1", tourSlug);
         post.setPostTitle(httpServletRequest.getParameter("tourTitle"));
         post.setPostContent(httpServletRequest.getParameter("tourContent"));
         if (tourCoverPage != null && !tourCoverPage.isEmpty()) {
@@ -263,7 +263,7 @@ public class ATourController {
                 tour.setSaleId(saleId);
             boolean updatedResult = cMTourService.updateTour(tour);
             if (!updatedResult)
-                return String.format("redirect:/quan-tri-vien/tour-du-lich/%s", tourSlug);
+                return String.format("redirect:/quan-tri-vien/tour-du-lich/%s?error=1", tourSlug);
             cMTourServiceService.getTourServiceByTour(post.getPostSlug()).forEach(tourServiceEntity ->
                     cMTourServiceService.deleteTourService(tourServiceEntity));
             cMTourNoteService.getTourNoteByTour(post.getPostSlug()).forEach(tourNoteEntity ->
@@ -277,7 +277,7 @@ public class ATourController {
             setAdditionTourInformation(httpServletRequest, tour.getTourId());
             return "redirect:/quan-tri-vien/tour-du-lich";
         }
-        return String.format("redirect:/quan-tri-vien/tour-du-lich/%s", tourSlug);
+        return String.format("redirect:/quan-tri-vien/tour-du-lich/%s?error=1", tourSlug);
 
     }
 

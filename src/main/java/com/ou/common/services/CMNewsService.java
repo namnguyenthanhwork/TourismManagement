@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 
 public interface CMNewsService {
     JSONArray getNews(Integer pageIndex, String ... params);
-    long getNewsAmount();
+    long getNewsAmount(String... params);
 
     NewsEntity getNewsAsObj(String newsSlug);
 

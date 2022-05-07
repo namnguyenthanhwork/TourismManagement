@@ -25,6 +25,15 @@ function validateCreatedService() {
 }
 
 $(document).ready(function () {
+    let error = new URLSearchParams(window.location.search).get('error')
+    if(error!==null && parseInt(error)===1) {
+        Swal.fire({
+            title: 'Tạo dịch vụ thất bại',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+        })
+    }
     // validate
     $("#serviceCreatedForm").validate({
         rules: {
@@ -45,12 +54,6 @@ $(document).ready(function () {
     $('#loading').hide()
     $('#serviceCreatedBtn').click(function () {
         if (validateCreatedService()) {
-            Swal.fire({
-                title: 'Thông báo !',
-                text: "Tạo thành công",
-                icon: 'success',
-                confirmButtonColor: '#3085d6'
-            })
             $(this).hide()
             $('#loading').show()
         }

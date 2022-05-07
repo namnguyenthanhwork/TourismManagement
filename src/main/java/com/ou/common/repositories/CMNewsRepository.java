@@ -8,7 +8,7 @@ import java.util.List;
 public interface CMNewsRepository {
     List<Object[]> getNewsList(Integer pageIndex, String... params);
 
-    long getNewsAmount();
+    long getNewsAmount(String ... params);
     NewsEntity getNews(String newsSlug);
 
 

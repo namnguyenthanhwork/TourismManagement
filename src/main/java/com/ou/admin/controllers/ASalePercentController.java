@@ -70,7 +70,7 @@ public class ASalePercentController {
         boolean createdResult = cMSalePercentService.createSalePercent(salePercentEntity);
         if (createdResult)
             return "redirect:/quan-tri-vien/phan-tram-giam-gia";
-        return "redirect:/quan-tri-vien/phan-tram-giam-gia/tao-moi";
+        return "redirect:/quan-tri-vien/phan-tram-giam-gia/tao-moi?error=1";
     }
 
     // update
@@ -95,12 +95,12 @@ public class ASalePercentController {
         httpServletRequest.setCharacterEncoding("UTF-8");
         SalePercentEntity salePercent = cMSalePercentService.getSalePercentAsObj(sperId);
         if (salePercent == null)
-            return String.format("redirect:/quan-tri-vien/phan-tram-giam-gia/%d", sperId);
+            return String.format("redirect:/quan-tri-vien/phan-tram-giam-gia/%d?error=1", sperId);
         salePercent.setSperPercent(Integer.valueOf(httpServletRequest.getParameter("sperPercent")));
         boolean updateResult = cMSalePercentService.updateSalePercent(salePercent);
         if (updateResult)
             return "redirect:/quan-tri-vien/phan-tram-giam-gia";
-        return String.format("redirect:/quan-tri-vien/phan-tram-giam-gia/%d", sperId);
+        return String.format("redirect:/quan-tri-vien/phan-tram-giam-gia/%d?error=1", sperId);
     }
 
     // delete

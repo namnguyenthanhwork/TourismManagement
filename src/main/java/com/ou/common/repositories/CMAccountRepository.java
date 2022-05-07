@@ -10,7 +10,7 @@ public interface CMAccountRepository {
     AccountEntity getAccount(String username);
 
     AccountEntity getAccount(Integer accId);
-    long getAccountAmount();
+    long getAccountAmount(String...params);
 
     boolean createAccount(AccountEntity accountEntity);
 

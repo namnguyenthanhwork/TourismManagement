@@ -74,7 +74,7 @@
 											class="form-control" placeholder="Nhập ngày sinh..." required>
 									</div>
 									<div class="col-12 col-sm-6 mt-3 mt-sm-0">
-										<label for="accAvatar">Upload hình</label>
+										<label for="accAvatar">Ảnh đại diện</label>
 										<input type="file" name="accAvatar" class="form-control" id="accAvatar">
 									</div>
 								</div>
@@ -83,7 +83,8 @@
 										Xác nhận tạo tài khoản
 									</h5>
 									<div class="form-group" id="sendOTPArea">
-										<label for="cusEmail">Nhập email của bạn để nhận mã OTP</label>
+										<label for="cusEmail">Nhập email của bạn để nhận mã OTP <span
+												class="required">(*)</span></label>
 										<input type="email" id="cusEmail" class="form-control"
 											placeholder="Nhập email ..." required>
 										<button class="btn bg-gradient-info w-100 mt-4 mb-0" id="otpSendBtn"
