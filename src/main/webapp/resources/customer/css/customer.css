@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
+
 .smartsoft {
     bottom: 50px;
     left: 0;
@@ -8915,7 +8917,7 @@ html[xmlns] .flexslider .slides {
     border: 4px solid #fff;
     position: relative;
     zoom: 1;
-   border-radius: 4px;
+    border-radius: 4px;
 }
 
 .flexslider .slides {
@@ -9285,7 +9287,7 @@ a:hover {
     border: 1px solid #ccc
 }
 
-@media screen  {
+@media screen {
 
     #mda-arrival .mda-arrival-remove:hover,
     .mda-autocomplete-remove:hover,
@@ -17670,6 +17672,11 @@ a:hover {
         position: absolute;
         bottom: 0;
         left: 180px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        bottom: 0;
+        width: 150px;
         text-align: center;
         background-color: rgba(0, 0, 0, .5);
         font-weight: 700;
@@ -17772,10 +17779,9 @@ a:hover {
     }
 
     .mda-item-type-16 .mda-img-box-info .mda-name a {
-        font-size: 16px;
+        font-size: 15px;
         line-height: 24px;
         display: block;
-        height: 48px;
         overflow: hidden
     }
 
@@ -17871,12 +17877,11 @@ a:hover {
     .mda-item-type-16 .mda-img-box-info .mda-price.mda-distcoun {
         display: block;
         text-align: left;
-        height: 45px
     }
 
     .mda-item-type-16 .mda-img-box-info .mda-price.mda-distcoun .mda-dis {
         color: #e30051;
-        font-size: 18px;
+        font-size: 15px;
         line-height: 26px;
         font-weight: 700;
         height: 26px
@@ -24489,8 +24494,8 @@ img {
 }
 
 hr {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     border: 0;
     border-top: 1px solid #eee
 }
@@ -25999,7 +26004,7 @@ th {
 .table>thead>tr>th {
     padding: 8px;
     line-height: 1.42857143;
-    vertical-align: top;
+    text-align: center;
     border-top: 1px solid #ddd
 }
 
@@ -26317,7 +26322,7 @@ output {
 
 .form-control {
     width: 100%;
-    height: 34px;
+    height: 40px;
     padding: 6px 12px;
     background-color: #fff;
     background-image: none;
@@ -28720,7 +28725,7 @@ fieldset[disabled] .navbar-inverse .btn-link:hover {
 }
 
 .pagination>li {
-    display: inline
+    display: inline-block
 }
 
 .pagination>li>a,
@@ -34177,7 +34182,6 @@ h3,
 h4,
 h5,
 h6 {
-    font-size: 100%;
     font-weight: 700
 }
 
@@ -34233,41 +34237,6 @@ input {
     color: #000;
     padding: 5px 2px;
     width: 103px
-}
-
-button.btn {
-    padding: 0 10px;
-    height: 24px;
-    border: 1px solid #d4d4d4;
-    background: #fefefe;
-    background-image: -moz-linear-gradient(top, #fefefe, #ebebeb);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#ebebeb));
-    filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#fefefe, endColorStr=#ebebeb);
-    -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(startColorStr=#fefefe, endColorStr=#ebebeb)";
-    border-radius: 3px;
-    white-space: nowrap;
-    vertical-align: middle;
-    cursor: pointer;
-    overflow: visible
-}
-
-button.btn span {
-    display: inline-block;
-    vertical-align: middle;
-    color: #656565;
-    font-size: 13px
-}
-
-button.btn:focus,
-button.btn:hover {
-    border-color: #d4d4d4;
-    background: #ebebeb;
-    background-image: -moz-linear-gradient(top, #ebebeb, #fefefe);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#ebebeb), to(#fefefe));
-    filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#ebebeb, endColorStr=#fefefe);
-    -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(startColorStr=#ebebeb, endColorStr=#fefefe)";
-    outline: 0;
-    box-shadow: 0 0 3px #999
 }
 
 .btn-default {
@@ -35280,8 +35249,10 @@ a:visited {
 
 body,
 html {
-    font-family: Muli, sans-serif;
+    font-family: "OpenSan", sans-serif;
     font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
     line-height: 22px;
     color: #333
 }
@@ -35406,9 +35377,6 @@ div#vnt-slide .img img {
 
 select {
     padding-right: 25px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
     background-size: 10px 5px;
     background-position: right 7px center;
     background-repeat: no-repeat
@@ -35708,9 +35676,9 @@ select {
 }
 
 .menuTop>ul>li>a {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
-    font-weight: 700;
+    font-weight: 600;
     color: #555;
     display: block;
     text-transform: uppercase;
@@ -38892,7 +38860,7 @@ a.go_top:before {
 
 #slideTourCat a img {
     margin: 0 auto;
-    height: 35px;
+    height: 30px;
 }
 
 #slideTourCat a .txt {
@@ -38969,6 +38937,11 @@ a.go_top:before {
     transform: translate(-50%, -50%);
     font-size: 12px;
     line-height: 20px
+}
+
+.slick-prev:before,
+.slick-next:before {
+    color: #000
 }
 
 #slideLastTour .slick-prev:before {
@@ -39122,7 +39095,8 @@ a.go_top:before {
 }
 
 #vnt-slide-thumbnail .item img {
-    width: 100%
+    width: 100%;
+    border-radius: 7px;
 }
 
 #vnt-slide-thumbnail {
@@ -39266,8 +39240,8 @@ a.go_top:before {
 }
 
 .boxPrice .price .red {
-    font-size: 25px;
-    line-height: 33px
+    font-size: 23px;
+    line-height: 25px;
 }
 
 .boxPrice .price .nor {
@@ -39776,7 +39750,7 @@ a.go_top:before {
 
 .groupTourHome,
 .lasttourHome {
-    margin-bottom: 35px
+    margin-bottom: 20px
 }
 
 #slideGroupTour .slick-list {
@@ -40059,34 +40033,42 @@ a.go_top:before {
     }
 }
 
-/* Rating Star Widgets Style */
-.rating-stars ul {
-    list-style-type: none;
-    padding: 0;
-
-    -moz-user-select: none;
-    -webkit-user-select: none;
+.icon-search {
+    position: absolute;
+    right: 10px;
+    top: 14px;
 }
 
-.rating-stars ul>li.star {
-    display: inline-block;
-
+#search {
+    padding: 0.5rem 1.5rem 0.5rem 1rem;
 }
 
-/* Idle State of the stars */
-.rating-stars ul>li.star>i.fa {
-    font-size: 2.5em;
-    /* Change the size of the stars */
-    color: #ccc;
-    /* Color on idle state */
+.search-type {
+    padding: 10px;
+    border-radius: 7px;
 }
 
-/* Hover state of the stars */
-.rating-stars ul>li.star.hover>i.fa {
-    color: #FFCC36;
+.comment-time {
+    font-size: 9px;
+    background: #c5e2ff;
+    padding: 0px 9px;
+    border-radius: 4px;
 }
 
-/* Selected state of the stars */
-.rating-stars ul>li.star.selected>i.fa {
-    color: #FF912C;
+.block-cmt-content {
+    background: #f2f5f8;
+    margin: 10px 0 10px 40px;
+    border-radius: 5px;
+}
+
+
+.horizontal-border {
+    border-top: 1px solid rgba(0, 0, 0, .15);
+}
+
+#cmtContent {
+    border-radius: 5px;
+    padding: 10px;
+    display: block;
+    width: 100%;
 }

@@ -9,7 +9,7 @@
 				<div class="navation">
 					<ul itemscope="" itemtype="https://schema.org/BreadcrumbList">
 						<li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem"><a
-								itemprop="item" title="Trang chủ" href="<c:url value="/"/>"><span itemprop="name">Trang
+								itemprop="item" title="Trang chủ" href="<c:url value='/'/>"><span itemprop="name">Trang
                                     chủ</span></a>
 							<meta itemprop="position" content="1">
 						</li>

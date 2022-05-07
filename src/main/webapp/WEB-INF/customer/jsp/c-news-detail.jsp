@@ -7,21 +7,11 @@
         <div id="vnt-navation" class="breadcrumb">
             <div class="wrapper">
                 <div class="navation">
-                    <ul itemscope="" itemtype="https://schema.org/BreadcrumbList">
-                        <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem"><a
-                                itemprop="item" title="Trang chủ" href="/"><span itemprop="name">Trang chủ</span></a>
-                            <meta itemprop="position" content="1">
+                    <ul>
+                        <li><a title="Trang chủ" href="<c:url value='/' />"><span>Trang
+                                    chủ</span></a>
                         </li>
-                        <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem"><a
-                                itemprop="item" href="/tin-tuc"><span itemprop="name">Tin tức</span></a>
-                            <meta itemprop="position" content="2">
-                        </li>
-                        <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem"><a
-                                itemprop="item"
-                                href="https://dulichviet.com.vn/tin-tuc/tham-quan-du-lich-nhat-ban-mua-he-vua-tiet-kiem-vua-soi-dong"><span
-                                    itemprop="name">Tham quan du lịch Nhật Bản mùa hè vừa tiết kiệm vừa sôi
-                                    động</span></a>
-                            <meta itemprop="position" content="4">
+                        <li><a href="/tin-tuc" title="Tin tức"><span>Tin tức</span></a>
                         </li>
                     </ul>
                 </div>
@@ -35,44 +25,42 @@
                 <h1 itemprop="name" class="mda-archive-title" id="newsTitle"></h1>
 
                 <div class="mda-archive-content" itemprop="description">
-                    <p><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;" id="newsDescrip  tion"></span></span></p>
+                    <p><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;"
+                                id="newsDescrip  tion"></span></span></p>
                 </div>
             </div>
             <div class="the-content desc" id="newsContent">
             </div>
-
-            <div>
-                <i class="fa-solid fa-thumbs-up" ></i><span id="likeAmount"></span>
+            <div class="mb-4">
+                <span class="mr-2">Lượt thích</span><i class="fa-solid fa-thumbs-up"></i><span id="likeAmount"
+                    class="ml-1"></span>
                 <c:choose>
                     <c:when test="${pageContext.request.userPrincipal.name != null}">
-                        <button type="button" class="btn" id="likeBtn">Thích</button>
+                        <button type="button" class="btn btn-success ml-3" id="likeBtn">
+                            Thích <i class="fa-solid fa-thumbs-up"></i></button>
                     </c:when>
                 </c:choose>
             </div>
-
-            <div class="mod-content row">
-                <h1>Bình luận khách hàng</h1>
-                <div id="cusCommentInput" class="row">
+            <div class="mod-content horizontal-border">
+                <h3 class="mt-3">Bình luận khách hàng</h3>
+                <div id="cusCommentInput" class="row m-2">
                     <c:choose>
                         <c:when test="${pageContext.request.userPrincipal.name != null}">
-                            <textarea rows="3" cols="140" placeholder="Nội dung..." id="cmtContent"></textarea>
-                            <button id="addComment">Thêm bình luận mới</button>
+                            <textarea rows="2" cols="140" placeholder="Nhập nội dung..." id="cmtContent"
+                                class="col-12 mt-3"></textarea>
+                            <button id="addComment" class="btn btn-primary mt-3">Thêm bình luận mới</button>
                         </c:when>
                         <c:when test="${pageContext.request.userPrincipal.name == null}">
-                            <p>Bạn phải đăng nhập để có thể bình luận</p>
+                            <p class="col-12 text-center text-danger">Bạn phải đăng nhập để có thể bình luận</p>
                         </c:when>
                     </c:choose>
                 </div>
-                <h1 >Thông tin các bình luận của khách hàng</h1>
-                <div id="cusCommentDetail" class="row">
-                </div>
             </div>
-
-            <div class="clear"></div>
+            <div id="cusCommentDetail" class="row p-4"></div>
             <div class="box_mid">
                 <div class="mid-title">
                     <div class="titleL">
-                        <h2>TIN TỨC LIÊN QUAN</h2>
+                        <h3>Tin tức liên quan</h3>
                     </div>
                     <div class="titleR"></div>
                 </div>
