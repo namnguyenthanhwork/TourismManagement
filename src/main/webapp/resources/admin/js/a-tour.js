@@ -186,6 +186,7 @@ $(document).ready(function () {
     getTourInfo(currentPageIndex)
     getPageAmount()
     $('#search').keyup(function () {
+        currentPageIndex=1
         getTourInfo(currentPageIndex, $(this).val().length > 0 ? $(this).val().trim() : null)
         getPageAmount($(this).val().length > 0 ? $(this).val().trim() : null)
     })

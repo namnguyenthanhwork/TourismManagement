@@ -99,7 +99,7 @@ function getTourInfo() {
             let emptySlot = data['departureDates'][i]['tourEmptySlot']
             departureDates += `
                  <div class="form-group col-12 col-md-3">
-                   <label for="${dptId}">Ngày: ${dptDate} (Còn: <span class='required'>${emptySlot}</span>  vé)</label>
+                   <label for="${dptId}">Ngày: ${dptDate} (Còn: <span class='text-danger'>${emptySlot} vé</span>)</label>
                     <input type="radio" id="${dptId}" name="dptId" value="${dptId}" ${i === 0 ? 'checked' : ''}>
                </div>
             `
