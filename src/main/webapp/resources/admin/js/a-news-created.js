@@ -57,6 +57,7 @@ $(document).ready(function () {
 
     $('#loading').hide()
     $('#newsCreatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateCreateNews()) {
             $(this).hide()
             $('#loading').show()

@@ -156,6 +156,7 @@ $(document).ready(function () {
     $('#loading').hide()
     getRoleInfo()
     $('#accountCreatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateCreateAccount()) {
             $(this).hide()
             $('#loading').show()

@@ -54,6 +54,7 @@ $(document).ready(function () {
     });
     $('#loading').hide()
     $('#salePercentCreatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateCreatedSalePercent()) {
             $(this).hide()
             $('#loading').show()

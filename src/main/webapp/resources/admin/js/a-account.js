@@ -86,7 +86,7 @@ function deleteAccount(accUsername) {
             }).then(res => {
                 return res.status
             }).then(data => {
-                if (data !==209) {
+                if (data ===409) {
                     Swal.fire(
                         'Xoá thất bại!',
                         'Vui lòng kiểm tra lại.',
@@ -200,6 +200,7 @@ $(document).ready(function () {
     getAccountInfo(currentPageIndex)
     getPageAmount()
     $('#search').keyup(function () {
+        currentPageIndex=1
         getAccountInfo(currentPageIndex, $(this).val().length > 0 ? $(this).val().trim() : null)
         getPageAmount($(this).val().length > 0 ? $(this).val().trim() : null)
     })

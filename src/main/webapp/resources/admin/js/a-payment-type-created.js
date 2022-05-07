@@ -53,6 +53,7 @@ $(document).ready(function () {
     });
     $('#loading').hide()
     $('#paymentTypeCreatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateCreatedPaymentType()) {
             $(this).hide()
             $('#loading').show()

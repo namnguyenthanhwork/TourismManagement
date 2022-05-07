@@ -81,6 +81,7 @@ $(document).ready(function () {
     $('#storageUpdatedForm').attr('action', window.location.href);
     getStorageInfo()
     $('#storageUpdatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateUpdatedStorage()) {
             $(this).hide()
             $('#loading').show()

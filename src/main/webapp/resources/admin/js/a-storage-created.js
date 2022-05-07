@@ -53,6 +53,7 @@ $(document).ready(function () {
     });
     $('#loading').hide()
     $('#storageCreatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateCreatedStorage()) {
             $(this).hide()
             $('#loading').show()

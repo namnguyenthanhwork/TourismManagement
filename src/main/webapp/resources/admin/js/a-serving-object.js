@@ -54,7 +54,7 @@ function deleteServingObject(svoSlug) {
             }).then(res => {
                 return res.status
             }).then(data => {
-                if (data == 409) {
+                if (data === 409) {
                     Swal.fire(
                         'Xoá thất bại!',
                         'Vui lòng kiểm tra lại.',

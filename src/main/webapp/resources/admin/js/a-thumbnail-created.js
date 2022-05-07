@@ -67,6 +67,7 @@ $(document).ready(function () {
     $('#loading').hide()
     getTourInfo()
     $('#thumbnailCreatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateCreatedNote()) {
             $(this).hide()
             $('#loading').show()

@@ -53,6 +53,7 @@ $(document).ready(function () {
     });
     $('#loading').hide()
     $('#featureCreatedBtn').click(function () {
+        $('body').css("opacity", "50%")
         if (validateCreatedFeature()) {
             $(this).hide()
             $('#loading').show()
