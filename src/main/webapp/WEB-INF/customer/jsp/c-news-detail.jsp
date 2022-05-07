@@ -26,22 +26,23 @@
 
                 <div class="mda-archive-content" itemprop="description">
                     <p><span style="font-size:16px;"><span style="font-family:Arial,Helvetica,sans-serif;"
-                                id="newsDescrip  tion"></span></span></p>
+                                id="newsDescription"></span></span></p>
                 </div>
             </div>
             <div class="the-content desc" id="newsContent">
             </div>
             <div class="mb-4">
                 <span class="mr-2">Lượt thích</span><i class="fa-solid fa-thumbs-up"></i><span id="likeAmount"
-                    class="ml-1"></span>
+                    class="ml-1 text-danger"></span>
                 <c:choose>
                     <c:when test="${pageContext.request.userPrincipal.name != null}">
-                        <button type="button" class="btn btn-success ml-3" id="likeBtn">
-                            Thích <i class="fa-solid fa-thumbs-up"></i></button>
+                        <button type="button" class="ml-3" id="likeBtn">
+                            Thích <i class="fa-solid fa-thumbs-up" onload="getLikeStatus()"></i></button>
+
                     </c:when>
                 </c:choose>
             </div>
-            <div class="mod-content horizontal-border">
+            <div class="mod-content horizontal-border" >
                 <h3 class="mt-3">Bình luận khách hàng</h3>
                 <div id="cusCommentInput" class="row m-2">
                     <c:choose>

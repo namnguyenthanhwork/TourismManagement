@@ -6,8 +6,7 @@ function getTours(pageIndex = null, type = null, kw = null) {
         path += `?loai=${type}&kw=${kw}`
     if (pageIndex != null)
         path += `${path.includes('?') ? '&' : '?'}trang=${pageIndex}`
-    fetch(path)
-        .then(res => res.json()).then(data => {
+    fetch(path).then(res => res.json()).then(data => {
             let tours = ''
             for (let i = 0; i < data.length; i++) {
                 let emptySlot = data[i]['tourEmptySlot']
@@ -70,35 +69,34 @@ function getTours(pageIndex = null, type = null, kw = null) {
         })
 }
 
-function getPageAmount() {
-    fetch('/TourismManagement/tour-du-lich/so-trang')
-        .then(res => res.json()).then(data => {
-            let pageAmount = data['pageAmount']
-            if (pageAmount == 1)
-                return
-            let rows = ''
-            for (let i = 1; i <= pageAmount; i++)
-                rows += `
+function getPageAmount(searchType =null, kw=null) {
+    let path = '/TourismManagement/tour-du-lich/so-trang'
+    if (searchType != null && kw != null)
+        path += `?loai=${searchType}&kw=${kw}`
+    fetch(path).then(res => res.json()).then(data => {
+        let pageAmount = data['pageAmount']
+        let rows = ''
+        for (let i = 1; i <= pageAmount; i++)
+            rows += `
                  <li class="page-item" onclick="changePage(${i}, ${pageAmount})"><a class="page-link" href="javascript:;">${i}</a></li>
             `
-            if (pageAmount > 1) {
-                let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
+        if (pageAmount > 1) {
+            let preBtn = ` <li class="page-item" onclick="getPreviousPage(${pageAmount})" id="preBtn">
                                     <a class="page-link" href="javascript:;">Trước</a></li>`
-                let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
+            let nextBtn = ` <li class="page-item" onclick="getNextPage(${pageAmount})" id="nextBtn">
                                 <a class="page-link" href="javascript:;">Sau</a></li>`
-                rows = preBtn + rows
-                rows += nextBtn
-            }
-            $('#pagination').html(rows)
-            $(`#pagination li:nth-child(${pageAmount > 1 ? 2 : 1})`).addClass('active')
-            if (currentPageIndex == 1)
-                $('#preBtn').hide()
-        })
+            rows = preBtn + rows
+            rows += nextBtn
+        }
+        $('#pagination').html(pageAmount !== 1 ? rows : '')
+        if (pageAmount !== 1)
+            $(`#pagination li:nth-child(2)`).addClass('active')
+        if (currentPageIndex === 1)
+            $('#preBtn').hide()
+    })
 }
 
 function getPreviousPage(pageAmount) {
-    $('#search').val('')
-
     if (currentPageIndex > 1) {
         $(`#pagination li:nth-child(${currentPageIndex + 1})`).removeClass('active')
         currentPageIndex--;
@@ -115,7 +113,6 @@ function getPreviousPage(pageAmount) {
 
 function changePage(pageIndex, pageAmount) {
 
-    $('#search').val('')
     $(`#pagination li:nth-child(${currentPageIndex + 1})`).removeClass('active')
     currentPageIndex = pageIndex
     $(`#pagination li:nth-child(${currentPageIndex + 1})`).addClass('active')
@@ -137,7 +134,7 @@ function changePage(pageIndex, pageAmount) {
 }
 
 function getNextPage(pageAmount) {
-    $('#search').val('')
+
     if (currentPageIndex < pageAmount) {
         $(`#pagination li:nth-child(${currentPageIndex + 1})`).removeClass('active')
         currentPageIndex++;
@@ -154,13 +151,19 @@ function getNextPage(pageAmount) {
 
 $(document).ready(function () {
     getTours(currentPageIndex)
-    getPageAmount()
+   getPageAmount()
     $('#search').keyup(function () {
+        currentPageIndex=1
         let type = $('#searchType').val()
         let kw = $(this).val().length > 0 ? $(this).val().trim() : null
         getTours(currentPageIndex, type, kw)
+        getPageAmount( type,kw)
     })
     $('#searchType').change(function () {
+        $('#search').val('')
+        currentPageIndex=1
+        getTours(currentPageIndex)
+        getPageAmount()
         switch ($('#searchType').val()) {
             case "ten":
                 $("#search").prop("type", "text");
@@ -172,6 +175,6 @@ $(document).ready(function () {
                 $("#search").prop("type", "text");
                 break
         }
-        $('#search').val('')
+
     })
 })
