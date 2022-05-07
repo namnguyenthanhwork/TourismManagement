@@ -35,9 +35,9 @@ function searchBillInfo(billId) {
         <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Mã hình thức thanh toán:</span> ${data['paytId']}</p>
         <p class="text-sm text-justify p-0 my-2"><span class="font-weight-bolder">Tên hình thức thanh toán:</span> ${data['paytName']}</p>
         `
-        let billDepartureDate = new Date(data['billDepartureDate']).toLocaleDateString()
+        let billDepartureDate = new Date(data['billDepartureDate']).toISOString().split('T')[0]
         let billIsPaid = data['billIsPaid'] ? "Đã thanh toán" : "Chưa thanh toán"
-        let billShipDate = new Date(data['billShipDate']).toLocaleDateString()
+        let billShipDate = new Date(data['billShipDate']).toISOString().split('T')[0]
         let billShipCity = data['billShipCity'] === null ? "Không có" : data['billShipCity']
         let billShipDistrict = data['billShipDistrict'] === null ? "Không có" : data['billShipDistrict']
         let billShipAddress = data['billShipAddress'] === null ? "Không có" : data['billShipAddress']

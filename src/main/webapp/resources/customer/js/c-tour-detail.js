@@ -128,11 +128,11 @@ function getTourInfo() {
         let dptDetailList = ''
         for (let i = 0; i < data['departureDates'].length; i++)
             dptDetailList += `
-                <tr class="responsive">
+                <tr>
                     <td class="responsive sttt">${i+1}</td>
-                    <td class="responsive" align="right">${new Date(data['departureDates'][i]['dptDate']).toISOString().split('T')[0]}</td>
+                    <td align="right">${new Date(data['departureDates'][i]['dptDate']).toISOString().split('T')[0]}</td>
                     <td class="responsive dd ">${data['departureDates'][i]['feaName']}</td>
-                    <td class="responsive" align="right"><span>${data['departureDates'][i]['tourAmount']}</span>
+                    <td align="right"><span>${data['departureDates'][i]['tourAmount']}</span>
                     </td>
                 </tr>
             `

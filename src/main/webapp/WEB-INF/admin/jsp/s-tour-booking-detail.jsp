@@ -15,11 +15,13 @@
 				</div>
 				<div class="row justify-content-center mt-3">
 					<div class="col-10"></div>
-					<p class="text-sm text-justify required">Các khoản phí phát sinh (nếu có) như: phụ thu dành cho khách nước
+					<p class="text-sm text-justify required">Các khoản phí phát sinh (nếu có) như: phụ thu dành cho
+						khách nước
 						ngoài, việt kiều; phụ thu phòng đơn; phụ thu chênh lệch giá tour… Nhân viên Du Lịch Việt sẽ gọi
 						điện thoại tư vấn cho quý khách ngay sau khi có phiếu xác nhận booking. (Trong giờ hành chính)
 					</p>
-					<p class="text-sm text-justify required">Trường hợp quý khách không đồng ý các khoản phát sinh, phiếu xác
+					<p class="text-sm text-justify required">Trường hợp quý khách không đồng ý các khoản phát sinh,
+						phiếu xác
 						nhận booking của quý khách sẽ không có hiệu lực.</p>
 				</div>
 				<hr class="horizontal dark my-3">
@@ -35,12 +37,12 @@
 					<form id="tourBookingForm" method="post">
 						<h5 class="ms-3">Thông tin đặt tour</h5>
 						<div class="row">
-							<div class="form-group col-12 col-md-4">
+							<div class="form-group col-12 col-md-2">
 								<label for="phoneNumber">Số điện thoại <span class="required">(*)</span></label>
 								<input type="text" id="phoneNumber" class="form-control" name="phoneNumber"
-									placeholder="Nhập số điện thoại.." value="+84982482975" disabled>
+									placeholder="Nhập số điện thoại.." required>
 							</div>
-							<div class="form-group col-12 col-md-8">
+							<div class="form-group col-12 col-md-10">
 								<label for="phoneNumber">Ngày khởi hành</label>
 								<div id="dptTourBooking"
 									class="d-flex flex-wrap align-items-center justify-content-center"></div>

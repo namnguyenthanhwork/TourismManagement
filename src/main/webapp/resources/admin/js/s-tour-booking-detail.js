@@ -85,7 +85,7 @@ function getTourInfo() {
                 <div class="form-group">
                     <label for="${data['servingObjects'][i]['svoSlug']}">${data['servingObjects'][i]['svoName']}:</label>
                     <input type="number" id="${data['servingObjects'][i]['svoSlug']}"name="${data['servingObjects'][i]['svoSlug']}"
-                           placeholder="Nhập số lượng.." class="form-control" value="${i === 0 ? 1 : 0}">
+                           placeholder="Nhập số lượng..." class="form-control" value="${i === 0 ? 1 : 0}">
                 </div>
             `
         }
@@ -95,7 +95,7 @@ function getTourInfo() {
         let departureDates = ''
         for (let i = 0; i < data['departureDates'].length; i++) {
             let dptId = data['departureDates'][i]['dptId']
-            let dptDate = new Date(data['departureDates'][i]['dptDate']).toLocaleDateString()
+            let dptDate = new Date(data['departureDates'][i]['dptDate']).toISOString().split('T')[0]
             let emptySlot = data['departureDates'][i]['tourEmptySlot']
             departureDates += `
                  <div class="form-group col-12 col-md-3">

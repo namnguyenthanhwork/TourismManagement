@@ -18,9 +18,11 @@
 
 .boxTour .title span:before {
     position: absolute;
+    
     color: #ed0080;
     top: 0;
     left: 0
+    
 }
 
 .listDay {

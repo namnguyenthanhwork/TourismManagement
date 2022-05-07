@@ -56,7 +56,9 @@
                     </c:choose>
                 </div>
             </div>
-            <div id="cusCommentDetail" class="row p-4"></div>
+            <div class="block-comment">
+                <div id="cusCommentDetail" class="row p-4"></div>
+            </div>
             <div class="box_mid">
                 <div class="mid-title">
                     <div class="titleL">
