@@ -80,8 +80,8 @@ $(document).ready(function () {
     $('#loading').hide()
     getTourInfor()
     $('#scheduleCreatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateCreatedSchedule()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

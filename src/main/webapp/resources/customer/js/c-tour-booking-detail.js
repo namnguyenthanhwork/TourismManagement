@@ -365,12 +365,7 @@ $(document).ready(function () {
     checkPaymentResult()
     $('#tourBookingdBtn').click(function () {
         if (validateTourBooking()) {
-            Swal.fire({
-                title: 'Thông báo!',
-                text: "Đặt tour thành công!",
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-            })
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }
@@ -380,6 +375,5 @@ $(document).ready(function () {
             setLocations()
         else
             $('#billShip').html('')
-
     })
 })

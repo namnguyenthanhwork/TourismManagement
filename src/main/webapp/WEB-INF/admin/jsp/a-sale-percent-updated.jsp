@@ -14,7 +14,14 @@
             </div>
             <div class="form-group">
                 <button type="submit" id="salePercentUpdatedBtn" class="btn btn-primary">Cập nhật</button>
-                <div class="lds-ripple" id="loading">
+                <div id="overlayLoading"></div>
+                <div class="lds-roller" id="loading">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
                     <div></div>
                     <div></div>
                 </div>

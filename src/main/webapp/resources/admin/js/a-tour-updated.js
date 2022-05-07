@@ -334,8 +334,8 @@ $(document).ready(function () {
     $('#loading').hide()
     $('#tourUpdatedForm').attr('action', window.location.href);
     $('#tourUpdatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateUpdateTour()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

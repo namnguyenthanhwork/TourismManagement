@@ -80,8 +80,8 @@ $(document).ready(function () {
     $('#loading').hide()
     $('#noteUpdatedForm').attr('action', window.location.href)
     $('#noteUpdatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateUpdatedNote()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

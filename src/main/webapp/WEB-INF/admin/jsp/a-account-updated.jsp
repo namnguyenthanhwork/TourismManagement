@@ -63,7 +63,14 @@
             <div class="button-row d-flex mt-4">
                 <button id="accountUpdateBtn" type="submit" class="btn bg-gradient-dark ms-auto mb-0 js-btn-next"
                     type="button" title="Cập nhật">Cập nhật</button>
-                <div class="lds-ripple" id="loading">
+                <div id="overlayLoading"></div>
+                <div class="lds-roller" id="loading">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
                     <div></div>
                     <div></div>
                 </div>

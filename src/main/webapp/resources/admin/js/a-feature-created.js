@@ -53,8 +53,8 @@ $(document).ready(function () {
     });
     $('#loading').hide()
     $('#featureCreatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateCreatedFeature()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

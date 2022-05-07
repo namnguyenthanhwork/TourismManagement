@@ -53,8 +53,8 @@ $(document).ready(function () {
     });
     $('#loading').hide()
     $('#noteCreatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateCreatedNote()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

@@ -81,8 +81,8 @@ $(document).ready(function () {
     $('#featureUpdatedForm').attr('action', window.location.href);
     getFeatureInfo()
     $('#featureUpdatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateUpdatedFeature()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

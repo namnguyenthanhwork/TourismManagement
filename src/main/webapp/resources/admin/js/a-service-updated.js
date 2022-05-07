@@ -79,8 +79,8 @@ $(document).ready(function () {
     $('#loading').hide()
     $('#serviceUpdatedForm').attr('action', window.location.href);
     $('#serviceUpdatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateUpdatedService()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

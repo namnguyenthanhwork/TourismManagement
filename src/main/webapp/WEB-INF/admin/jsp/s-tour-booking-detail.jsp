@@ -58,7 +58,14 @@
 						</div>
 						<div class="form-group">
 							<button type="submit" id="tourBookingdBtn" class="btn btn-primary">Đặt tour</button>
-							<div class="lds-ripple" id="loading">
+							<div id="overlayLoading"></div>
+							<div class="lds-roller" id="loading">
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
 								<div></div>
 								<div></div>
 							</div>

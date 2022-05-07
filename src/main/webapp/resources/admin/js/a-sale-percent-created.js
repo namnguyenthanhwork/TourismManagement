@@ -54,8 +54,8 @@ $(document).ready(function () {
     });
     $('#loading').hide()
     $('#salePercentCreatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateCreatedSalePercent()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

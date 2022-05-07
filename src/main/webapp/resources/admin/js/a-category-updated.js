@@ -108,8 +108,8 @@ $(document).ready(function () {
     $('#categoryUpdatedForm').attr('action', window.location.href);
     getStorageInfo()
     $('#categoryUpdatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateUpdatedCategory()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

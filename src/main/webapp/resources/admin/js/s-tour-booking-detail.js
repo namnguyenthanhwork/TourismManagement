@@ -222,7 +222,7 @@ $(document).ready(function () {
     getTourInfo()
     checkPaymentResult()
     $('#tourBookingdBtn').click(function () {
-        alert("Xác nhận đặt tour?")
+        $('#overlayLoading').addClass('overlay-loading')
         $(this).hide()
         $('#loading').show()
     })

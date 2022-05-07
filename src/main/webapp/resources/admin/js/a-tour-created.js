@@ -267,8 +267,8 @@ $(document).ready(function () {
     getTransportInfo()
     getNoteInfo()
     $('#tourCreatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateCreateTour()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

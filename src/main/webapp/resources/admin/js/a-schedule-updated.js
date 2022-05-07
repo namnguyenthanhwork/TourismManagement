@@ -107,8 +107,8 @@ $(document).ready(function () {
     $('#loading').hide()
     $('#scheduleUpdatedForm').attr('action', window.location.href);
     $('#scheduleUpdatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateUpdatedSchedule()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

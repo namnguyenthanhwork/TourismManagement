@@ -14,10 +14,17 @@
 			</div>
 			<div>
 				<button id="paymentTypeCreatedBtn" type="submit" class="btn btn-primary">Tạo mới</button>
-				<div class="lds-ripple" id="loading">
-					<div></div>
-					<div></div>
-				</div>
+				<div id="overlayLoading"></div>
+                <div class="lds-roller" id="loading">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
 			</div>
 		</form>
 	</div>

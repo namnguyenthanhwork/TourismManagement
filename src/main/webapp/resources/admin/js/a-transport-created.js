@@ -54,8 +54,8 @@ $(document).ready(function () {
 
     $('#loading').hide()
     $('#transportCreatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateCreatedTransport()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

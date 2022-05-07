@@ -53,8 +53,8 @@ $(document).ready(function () {
     });
     $('#loading').hide()
     $('#servingObjectCreatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateCreatedServiceObject()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

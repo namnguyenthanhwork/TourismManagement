@@ -98,8 +98,8 @@ $(document).ready(function () {
     $('#departureDateUpdatedForm').attr('action', window.location.href);
     getFeatureInfo()
     $('#departureDateUpdatedBtn').click(function () {
-        $('body').css("opacity", "50%")
         if (validateUpdatedDepartureDate()) {
+            $('#overlayLoading').addClass('overlay-loading')
             $(this).hide()
             $('#loading').show()
         }

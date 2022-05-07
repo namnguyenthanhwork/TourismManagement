@@ -76,7 +76,14 @@
 			</div>
 			<div class="form-group">
 				<button id="tourUpdatedBtn" type="submit" class="btn btn-primary">Cập nhật</button>
-				<div class="lds-ripple" id="loading">
+				<div id="overlayLoading"></div>
+				<div class="lds-roller" id="loading">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
 					<div></div>
 					<div></div>
 				</div>
@@ -85,9 +92,9 @@
 		<script src="<c:url value = '/resources/ckeditor/build/ckeditor.js' />"></script>
 		<script>
 			ClassicEditor.create(document.querySelector('#editor')).then(editor => {
-                gEditor = editor
-                getTourInfo(editor)
-            })
+				gEditor = editor
+				getTourInfo(editor)
+			})
 		</script>
 	</div>
 </div>
