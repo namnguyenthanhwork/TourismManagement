@@ -175,6 +175,7 @@ $(document).ready(function () {
     getNewsInfo(currentPageIndex)
     getPageAmount()
     $('#search').keyup(function () {
+        currentPageIndex=1
         getNewsInfo(currentPageIndex, $(this).val().length > 0 ? $(this).val().trim() : null)
         getPageAmount($(this).val().length > 0 ? $(this).val().trim() : null)
     })
