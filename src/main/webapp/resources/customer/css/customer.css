@@ -40126,3 +40126,8 @@ hr.horizontal.dark {
     height: 500px;
     overflow: hidden auto;
 }
+
+.required,
+.error {
+    color: red
+}

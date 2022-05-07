@@ -256,25 +256,25 @@ function setCities() {
 
 function setLocations() {
     let htmlLocation = `
-        <div class="form-group">
-                    <label for="billShipDate">Ngày nhận hàng (*)</label>
-                    <input type="date" id="billShipDate" name="billShipDate">
+                <div class="form-group d-flex flex-wrap mt-3">
+                    <label class="col-12 col-sm-4" for="billShipDate">Ngày nhận hàng <span class="required">(*)</span></label>
+                    <input type="date" id="billShipDate"class="form-control col-12 col-sm-7" name="billShipDate" required>
                 </div>
-                <div class="form-group">
-                    <label for="billShipCity">Thành phố (*)</label>
-                    <select id="billShipCity" name="billShipCity">
+                <div class="form-group d-flex flex-wrap">
+                    <label class="col-12 col-sm-4" for="billShipCity">Thành phố <span class="required">(*)</span></label>
+                    <select id="billShipCity" class="form-control col-12 col-sm-7" name="billShipCity" required>
                     
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="billShipDistrict">Quận huyện (*)</label>
-                    <select  id="billShipDistrict" name="billShipDistrict">
+                <div class="form-group d-flex flex-wrap">
+                    <label class="col-12 col-sm-4" for="billShipDistrict">Quận huyện <span class="required">(*)</span></label>
+                    <select  id="billShipDistrict"class="form-control col-12 col-sm-7"  name="billShipDistrict" required>
                     
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="billShipAddress">Địa chỉ (*)</label>
-                    <input type="text" id="billShipAddress" name="billShipAddress">
+                <div class="form-group d-flex flex-wrap">
+                    <label class="col-12 col-sm-4" for="billShipAddress">Địa chỉ <span class="required">(*)</span></label>
+                    <input type="text" id="billShipAddress"class="form-control col-12 col-sm-7" name="billShipAddress" required>
                 </div>
     `
     $('#billShip').html(htmlLocation)
@@ -286,7 +286,68 @@ function setLocations() {
     })
 }
 
+function validateTourBooking() {
+    let phoneNumber = $('#phoneNumber').val()
+    let billShipDate = $('#billShipDate').val()
+    let billShipAddress = $('#billShipAddress').val()
+
+    if (phoneNumber == '' || billShipAddress == '' || billShipDate == '') {
+        Swal.fire({
+            title: 'Thông báo !',
+            text: "Vui lòng kiểm tra lại thông tin còn thiếu trước khi gửi!",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
+        return false
+    }
+
+    if (phoneNumber.length != 10) {
+        Swal.fire({
+            title: 'Thông báo !',
+            text: "Độ dài số điện thoại không hợp lệ!",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
+        return false
+    }
+    return true
+}
+
 $(document).ready(function () {
+    // validate
+    $("#tourBookingForm").validate({
+        rules: {
+            phoneNumber: {
+                required: true,
+                minlength: 10,
+                maxlength: 10,
+            },
+            billShipDate: {
+                required: true,
+                date: true
+            },
+            billShipAddress: {
+                required: true
+            }
+        },
+        messages: {
+            phoneNumber: {
+                required: "Số điện thoại không được để trống",
+                minlength: "Số máy quý khách vừa nhập là số không có thực",
+                maxlength: "Vui lòng nhập đúng 10 ký tự"
+            },
+            billShipAddress: {
+                required: "Vui lòng nhập địa chỉ"
+            },
+            billShipDate: {
+                required: 'Ngày nhận hàng không được để trống',
+                date: 'Vui lòng nhập ngày nhận hàng'
+            }
+        }
+    });
+
 
     if (new URLSearchParams(window.location.search).get("error") == 1)
         Swal.fire({
@@ -303,9 +364,16 @@ $(document).ready(function () {
     getTourInfo()
     checkPaymentResult()
     $('#tourBookingdBtn').click(function () {
-        alert("Xác nhận đặt tour?")
-        $(this).hide()
-        $('#loading').show()
+        if (validateTourBooking()) {
+            Swal.fire({
+                title: 'Thông báo!',
+                text: "Đặt tour thành công!",
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+            })
+            $(this).hide()
+            $('#loading').show()
+        }
     })
     $("input[type=radio][name='shipAddress']").change(function () {
         if ($("input[name='shipAddress']:checked").val() === 'ship2')
