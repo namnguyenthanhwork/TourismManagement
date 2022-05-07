@@ -33,7 +33,8 @@
 					</div>
 				</div>
 				<div class="row mt-3">
-					<p class="text-justify text-danger">Các khoản phí phát sinh (nếu có) như: phụ thu dành cho khách nước ngoài,
+					<p class="text-justify text-danger">Các khoản phí phát sinh (nếu có) như: phụ thu dành cho khách
+						nước ngoài,
 						việt kiều;
 						phụ thu
 						phòng
@@ -41,7 +42,8 @@
 						cho quý
 						khách
 						ngay sau khi có phiếu xác nhận booking. (Trong giờ hành chính)</p>
-					<p class="text-justify text-danger">Trường hợp quý khách không đồng ý các khoản phát sinh, phiếu xác nhận
+					<p class="text-justify text-danger">Trường hợp quý khách không đồng ý các khoản phát sinh, phiếu xác
+						nhận
 						booking của quý
 						khách
 						sẽ
@@ -88,7 +90,7 @@
 										<label for="ship2">Khác</label>
 										<input type="radio" id="ship2" name="shipAddress" value="ship2">
 									</div>
-									<div id="billShip"></div>
+									<div id="billShip" class="col-12"></div>
 								</div>
 							</div>
 							<div class="form-group text-center">
