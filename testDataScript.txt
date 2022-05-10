@@ -1,0 +1,587 @@
+DROP DATABASE IF EXISTS TourismManagement;
+CREATE DATABASE TourismManagement;
+ALTER DATABASE TourismManagement CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE TourismManagement;
+
+CREATE TABLE Role(
+	role_id INT AUTO_INCREMENT NOT NULL,
+    role_name VARCHAR(30) NOT NULL UNIQUE,
+    role_slug VARCHAR(30) NOT NULL UNIQUE,
+    PRIMARY KEY (role_id)
+);
+
+CREATE TABLE Account(
+	acc_id INT AUTO_INCREMENT NOT NULL,
+    acc_username VARCHAR(10) NOT NULL UNIQUE,	
+    acc_password VARCHAR(100) NOT NULL,
+    acc_first_name NVARCHAR(50) NOT NULL,
+    acc_last_name NVARCHAR(100) NOT NULL,
+    acc_sex TINYINT(1) DEFAULT 1,
+    acc_id_card VARCHAR(12) NOT NULL UNIQUE,
+    acc_phone_number VARCHAR(10) NOT NULL UNIQUE,
+    acc_date_of_birth DATETIME NOT NULL,
+	acc_joined_date DATETIME DEFAULT NOW(),
+    acc_avatar VARCHAR(255) NOT NULL,
+    acc_last_access DATETIME DEFAULT NOW(),
+    PRIMARY KEY(acc_id),
+    
+	role_id INT
+);
+
+CREATE TABLE Post(
+	post_id INT AUTO_INCREMENT NOT NULL,
+    post_title NVARCHAR(100) NOT NULL UNIQUE, 
+    post_slug VARCHAR(100) NOT NULL UNIQUE,
+    post_content LONGTEXT NOT NULL,
+    post_cover_page VARCHAR(255) NOT NULL,
+	PRIMARY KEY(post_id),
+    
+	acc_id INT NOT NULL
+);
+
+CREATE TABLE News (
+	news_id INT NOT NULL,
+    news_created_date DATETIME NOT NULL DEFAULT NOW(),
+    news_like_amount INT DEFAULT 0,
+    news_description LONGTEXT NOT NULL, 
+    PRIMARY KEY (news_id)
+);
+
+CREATE TABLE PaymentType(
+	payt_id INT AUTO_INCREMENT NOT NULL,
+    payt_name NVARCHAR(100) NOT NULL UNIQUE,
+    payt_slug VARCHAR(100) NOT NULL UNIQUE,
+    PRIMARY KEY (payt_id)
+);
+
+CREATE TABLE SalePercent(
+	sper_id INT AUTO_INCREMENT NOT NULL,
+    sper_percent INT DEFAULT 0 UNIQUE,
+	PRIMARY KEY (sper_id)
+);
+
+CREATE TABLE Sale(
+	sale_id INT AUTO_INCREMENT NOT NULL,
+    sale_from_date DATETIME NOT NULL,
+    sale_to_date DATETIME NOT NULL,
+    PRIMARY KEY (sale_id),
+    
+    sper_id INT 
+);
+
+CREATE TABLE Storage (
+	stor_id INT AUTO_INCREMENT NOT NULL,
+    stor_name NVARCHAR(100) NOT NULL UNIQUE,
+    stor_slug VARCHAR(100) NOT NULL UNIQUE,
+    PRIMARY KEY (stor_id)
+);
+
+CREATE TABLE Category (
+	cat_id INT AUTO_INCREMENT NOT NULL,
+    cat_name NVARCHAR(100) NOT NULL UNIQUE,
+    cat_slug VARCHAR(100) NOT NULL UNIQUE,
+    PRIMARY KEY (cat_id),
+    
+    stor_id INT 
+);
+
+CREATE TABLE Tour(
+	tour_id INT AUTO_INCREMENT NOT NULL,
+	tour_average_rating INT DEFAULT 0,
+    PRIMARY KEY (tour_id),
+    
+    sale_id INT,
+    cat_id INT 
+);
+
+
+CREATE TABLE Bill(
+	bill_id INT AUTO_INCREMENT NOT NULL,
+    bill_created_date DATETIME DEFAULT NOW(),
+    bill_total_money DECIMAL DEFAULT 0.0,
+    bill_total_sale_money DECIMAL DEFAULT 0.0,
+    bill_ship_date DATETIME DEFAULT NULL,
+    bill_ship_address NVARCHAR(100) DEFAULT NULL,
+    bill_ship_district NVARCHAR(50) DEFAULT NULL,
+    bill_ship_city NVARCHAR(50) DEFAULT NULL,
+    bill_is_paid BOOLEAN DEFAULT FALSE,
+    bill_departure_date DATETIME NOT NULL,
+    PRIMARY KEY(bill_id),
+    
+    acc_id INT ,
+    payt_id INT 
+);
+
+CREATE TABLE Transport(
+	tran_id INT AUTO_INCREMENT NOT NULL,
+    tran_name NVARCHAR(100) NOT NULL UNIQUE,
+    tran_slug VARCHAR(100) NOT NULL UNIQUE,
+    PRIMARY KEY (tran_id)
+);
+
+CREATE TABLE Thumbnail(
+	thum_id INT AUTO_INCREMENT NOT NULL,
+    thum_image VARCHAR(255) NOT NULL,
+    PRIMARY KEY (thum_id),
+    
+    tour_id INT
+);
+
+CREATE TABLE Feature (
+	fea_id INT AUTO_INCREMENT NOT NULL,
+    fea_name NVARCHAR(50) NOT NULL UNIQUE,
+    fea_slug VARCHAR(50) NOT NULL UNIQUE,
+    PRIMARY KEY (fea_id)
+);
+
+CREATE TABLE DepartureDate(
+	dpt_id INT AUTO_INCREMENT NOT NULL,
+    dpt_date DATETIME NOT NULL,
+	PRIMARY KEY (dpt_id),
+    
+    fea_id INT 
+);
+
+CREATE TABLE ServingObject(
+	svo_id INT AUTO_INCREMENT NOT NULL,
+    svo_name NVARCHAR(50) NOT NULL UNIQUE,
+    svo_slug VARCHAR(50) NOT NULL UNIQUE,
+    PRIMARY KEY(svo_id)
+);
+
+CREATE TABLE Note (
+	note_id INT AUTO_INCREMENT NOT NULL, 
+    note_title NVARCHAR(150) NOT NULL UNIQUE,
+    note_slug VARCHAR(150) NOT NULL UNIQUE,
+    note_content LONGTEXT NOT NULL,
+    PRIMARY KEY (note_id)
+);
+
+CREATE TABLE Schedule (
+	sche_id INT AUTO_INCREMENT NOT NULL,
+    sche_title NVARCHAR(150) NOT NULL,
+    sche_slug VARCHAR(150) NOT NULL,
+    sche_content LONGTEXT NOT NULL,
+    PRIMARY KEY (sche_id),
+    
+    tour_id INT 
+);
+
+CREATE TABLE Service (
+	serv_id INT AUTO_INCREMENT NOT NULL,
+    serv_title NVARCHAR(150) NOT NULL,
+    serv_slug VARCHAR(150) NOT NULL,
+    serv_content LONGTEXT NOT NULL,
+    PRIMARY KEY (serv_id)
+);
+
+CREATE TABLE PostComment (
+	cmt_id INT AUTO_INCREMENT NOT NULL,
+    cmt_created_date DATETIME NOT NULL DEFAULT NOW(),
+    cmt_content LONGTEXT NOT NULL,
+	PRIMARY KEY (cmt_id),
+    
+	acc_id INT NOT NULL,
+    post_id INT NOT NULL
+); 
+
+CREATE TABLE NewsLike (
+	news_id INT NOT NULL,
+    acc_id INT NOT NULL,
+    like_status BOOLEAN DEFAULT TRUE,
+    PRIMARY KEY (news_id, acc_id)
+);
+
+CREATE TABLE TourRating(
+	tour_id INT NOT NULL,
+    acc_id INT NOT NULL,
+    rate_amount INT DEFAULT 0,
+    PRIMARY KEY (tour_id, acc_id)
+);
+
+CREATE TABLE TourTransport(
+	tour_id INT NOT NULL,
+    tran_id INT NOT NULL,
+    PRIMARY KEY (tour_id, tran_id)
+);
+
+CREATE TABLE TourDepartureDate (
+	tour_id INT NOT NULL,
+    dpt_id INT NOT NULL,
+    tour_amount INT DEFAULT 1,
+    tour_sell_amount INT DEFAULT 0,
+    PRIMARY KEY (tour_id, dpt_id)
+);
+
+CREATE TABLE TourServingObject(
+	tsvo_id INT NOT NULL AUTO_INCREMENT,
+	tour_id INT NOT NULL,
+    svo_id INT NOT NULL,
+    tour_price DECIMAL DEFAULT 0,
+    PRIMARY KEY (tsvo_id)
+);
+
+CREATE TABLE BillTourServingObject(
+	bill_id INT NOT NULL,
+    tsvo_id INT NOT NULL,
+    tour_amount INT NOT NULL DEFAULT 1,
+    PRIMARY KEY(bill_id, tsvo_id)
+);
+
+CREATE TABLE TourNote (
+	tour_id INT NOT NULL,
+    note_id INT NOT NULL,
+    PRIMARY KEY (tour_id, note_id)
+);
+
+CREATE TABLE TourService (
+	tour_id INT NOT NULL,
+    serv_id INT NOT NULL,
+    PRIMARY KEY (tour_id, serv_id)
+);
+
+ALTER TABLE Account 
+ADD CONSTRAINT FK_Account_Role 
+FOREIGN KEY (role_id)
+REFERENCES Role (role_id)
+ON DELETE CASCADE; -- change
+
+ALTER TABLE Post
+ADD CONSTRAINT FK_Post_Account
+FOREIGN KEY (acc_id)
+REFERENCES Account (acc_id)
+ON DELETE CASCADE; -- add 
+
+ALTER TABLE News 
+ADD CONSTRAINT FK_News_Post
+FOREIGN KEY (news_id)
+REFERENCES Post (post_id)
+ON DELETE CASCADE;
+
+ALTER TABLE Bill
+ADD CONSTRAINT FK_Bill_Account
+FOREIGN KEY (acc_id)
+REFERENCES Account (acc_id)
+ON DELETE CASCADE, -- change
+ADD CONSTRAINT FK_BILL_PaymentType
+FOREIGN KEY (payt_id)
+REFERENCES PaymentType (payt_id)
+ON DELETE CASCADE; -- change
+
+ALTER TABLE Sale
+ADD CONSTRAINT FK_Sale_SalePercent
+FOREIGN KEY (sper_id)
+REFERENCES SalePercent (sper_id)
+ON DELETE CASCADE; -- change
+
+ALTER TABLE Category 
+ADD CONSTRAINT FK_Category_Storage
+FOREIGN KEY (stor_id)
+REFERENCES Storage (stor_id)
+ON DELETE CASCADE; -- change
+
+ALTER TABLE Tour 
+ADD CONSTRAINT FK_Tour_Post 
+FOREIGN KEY (tour_id)
+REFERENCES Post (post_id)
+ON DELETE CASCADE,
+ADD CONSTRAINT FK_Tour_Sale
+FOREIGN KEY (sale_id)
+REFERENCES Sale (sale_id)
+ON DELETE CASCADE, --  change
+ADD CONSTRAINT FK_Tour_Category
+FOREIGN KEY (cat_id)
+REFERENCES Category (cat_id)
+ON DELETE CASCADE; -- change
+
+ALTER TABLE Thumbnail
+ADD CONSTRAINT FK_Thumbnail_Tour
+FOREIGN KEY (tour_id)
+REFERENCES Tour (tour_id)
+ON DELETE CASCADE; -- change
+
+ALTER TABLE DepartureDate
+ADD CONSTRAINT FK_DepartureDate_Feature
+FOREIGN KEY (fea_id)
+REFERENCES Feature (fea_id)
+ON DELETE CASCADE; -- change
+
+ALTER TABLE Schedule
+ADD CONSTRAINT FK_Schedule_Tour
+FOREIGN KEY (tour_id)
+REFERENCES Tour (tour_id)
+ON DELETE CASCADE; -- change
+
+ALTER TABLE PostComment
+ADD CONSTRAINT FK_PostComment_Account
+FOREIGN KEY (acc_id)
+REFERENCES Account (acc_id)
+ON DELETE CASCADE,
+ADD CONSTRAINT FK_PostComment_Post
+FOREIGN KEY (post_id)
+REFERENCES Post (post_id)
+ON DELETE CASCADE;
+
+ALTER TABLE NewsLike
+ADD CONSTRAINT FK_NewsLike_News 
+FOREIGN KEY (news_id)
+REFERENCES News (news_id)
+ON DELETE CASCADE,
+ADD CONSTRAINT FK_NewsLike_Account
+FOREIGN KEY (acc_id)
+REFERENCES Account (acc_id)
+ON DELETE CASCADE;
+
+ALTER TABLE TourRating
+ADD CONSTRAINT FK_TourRating_Account
+FOREIGN KEY (acc_id)
+REFERENCES Account (acc_id)
+ON DELETE CASCADE,
+ADD CONSTRAINT FK_TourRating_Tour
+FOREIGN KEY (tour_id)
+REFERENCES Tour (tour_id)
+ON DELETE CASCADE;
+
+ALTER TABLE TourTransport
+ADD CONSTRAINT FK_TourTransport_Transport
+FOREIGN KEY (tran_id)
+REFERENCES Transport (tran_id)
+ON DELETE CASCADE,
+ADD CONSTRAINT FK_TourTransport_Tour
+FOREIGN KEY (tour_id)
+REFERENCES Tour (tour_id)
+ON DELETE CASCADE;
+
+ALTER TABLE TourDepartureDate
+ADD CONSTRAINT FK_TourDepartureDate_DepartureDate
+FOREIGN KEY (dpt_id)
+REFERENCES DepartureDate (dpt_id)
+ON DELETE CASCADE,
+ADD CONSTRAINT FK_TourDepartureDate_Tour
+FOREIGN KEY (tour_id)
+REFERENCES Tour (tour_id)
+ON DELETE CASCADE;
+
+ALTER TABLE TourServingObject
+ADD CONSTRAINT FK_TourServingObject_ServingObject
+FOREIGN KEY (svo_id)
+REFERENCES ServingObject (svo_id)
+ON DELETE CASCADE,
+ADD CONSTRAINT FK_TourServingObject_Tour
+FOREIGN KEY (tour_id)
+REFERENCES Tour (tour_id)
+ON DELETE CASCADE;
+
+ALTER TABLE BillTourServingObject
+ADD CONSTRAINT FK_BillTourServingObject_Bill
+FOREIGN KEY (bill_id)
+REFERENCES Bill (bill_id)
+ON DELETE CASCADE,
+ADD CONSTRAINT FK_BillTourServingObject_TourServingObject
+FOREIGN KEY (tsvo_id)
+REFERENCES TourServingObject (tsvo_id)
+ON DELETE CASCADE;
+
+ALTER TABLE TourNote
+ADD CONSTRAINT FK_TourNote_Note
+FOREIGN KEY (note_id)
+REFERENCES Note (note_id)
+ON DELETE CASCADE,
+ADD CONSTRAINT FK_TourNote_Tour
+FOREIGN KEY (tour_id)
+REFERENCES Tour (tour_id)
+ON DELETE CASCADE;
+
+ALTER TABLE TourService
+ADD CONSTRAINT FK_TourService_Service
+FOREIGN KEY (serv_id)
+REFERENCES Service (serv_id)
+ON DELETE CASCADE,
+ADD CONSTRAINT FK_TourService_Tour
+FOREIGN KEY (tour_id)
+REFERENCES Tour (tour_id)
+ON DELETE CASCADE;
+
+INSERT INTO Role (role_name, role_slug) VALUES 
+(N'Quản trị viên', 'quan-tri-vien'),
+(N'Nhân viên', 'nhan-vien'),
+(N'Khách hàng', 'khach-hang');
+
+INSERT INTO Account (acc_username, acc_password, acc_first_name, acc_last_name, acc_id_card, acc_phone_number, acc_date_of_birth, acc_joined_date, acc_avatar, role_id) VALUES
+('username1', '$2a$12$1dHd0ZGdkvI0chMWs2P.a.FdAfGSW/u3MHdFezey4BAUwr.DWOLi2', N'Tên người dùng 1', N'Họ người dùng 1', '001235247784', '0123456789','2018-12-16 23:19:20', '2018-12-16 23:19:20', 'https://res.cloudinary.com/ou-project/image/upload/v1650636461/account/defaultAvatar_bmgisb.png', 1),
+('username2', '$2a$12$1dHd0ZGdkvI0chMWs2P.a.FdAfGSW/u3MHdFezey4BAUwr.DWOLi2', N'Tên người dùng 2', N'Họ người dùng 2', '001235247785', '0123456788','2018-12-16 23:19:20', '2018-12-16 23:19:20', 'https://res.cloudinary.com/ou-project/image/upload/v1650636461/account/defaultAvatar_bmgisb.png', 2),
+('username3', '$2a$12$1dHd0ZGdkvI0chMWs2P.a.FdAfGSW/u3MHdFezey4BAUwr.DWOLi2', N'Tên người dùng 3', N'Họ người dùng 3', '001235247786', '0123456787','2018-12-16 23:19:20', '2018-12-16 23:19:20', 'https://res.cloudinary.com/ou-project/image/upload/v1650636461/account/defaultAvatar_bmgisb.png', 3),
+('username4', '$2a$12$1dHd0ZGdkvI0chMWs2P.a.FdAfGSW/u3MHdFezey4BAUwr.DWOLi2', N'Tên người dùng 4', N'Họ người dùng 4', '001235247787', '0123456786','2018-12-16 23:19:20', '2018-12-16 23:19:20', 'https://res.cloudinary.com/ou-project/image/upload/v1650636461/account/defaultAvatar_bmgisb.png', 3);
+
+INSERT INTO Post (post_title, post_slug, post_content, post_cover_page, acc_id) VALUES
+(N'Tiêu đề bài viết 1', 'tieu-de-bai-viet-1', N'Nội dung bài viết 1', 'https://res.cloudinary.com/ou-project/image/upload/v1650725574/news/default_sh0tqg.jpg', 1),
+(N'Tiêu đề bài viết 2', 'tieu-de-bai-viet-2', N'Nội dung bài viết 2', 'https://res.cloudinary.com/ou-project/image/upload/v1650725574/news/default_sh0tqg.jpg', 1),
+(N'Tiêu đề bài viết 3', 'tieu-de-bai-viet-3', N'Nội dung bài viết 3', 'https://res.cloudinary.com/ou-project/image/upload/v1650725598/tour/default_axvqoc.jpg', 1),
+(N'Tiêu đề bài viết 4', 'tieu-de-bai-viet-4', N'Nội dung bài viết 4','https://res.cloudinary.com/ou-project/image/upload/v1650725598/tour/default_axvqoc.jpg', 1),
+(N'Tiêu đề bài viết 5', 'tieu-de-bai-viet-5', N'Nội dung bài viết 5', 'https://res.cloudinary.com/ou-project/image/upload/v1650725598/tour/default_axvqoc.jpg', 1);
+
+INSERT INTO News (news_id, news_like_amount, news_description) VALUES
+(1, 10, N'Mô tả tin tức thứ 1'),
+(2, 20, N'Mô tả tin tức thứ 2');
+
+INSERT INTO PaymentType (payt_name, payt_slug) VALUES 
+(N'Thanh toán Momo', 'thanh-toan-momo'),
+(N'Thanh toán thường', 'thanh-toan-thuong');
+
+INSERT INTO SalePercent (sper_percent) VALUES 
+(5),
+(10),
+(15);
+
+INSERT INTO Sale (sale_from_date, sale_to_date, sper_id) VALUES
+('2022-04-01 23:19:20', '2022-04-02 23:19:20', 1),
+('2022-04-03 23:19:20', '2022-04-04 23:19:20', 2);
+
+INSERT INTO Storage (stor_name, stor_slug) VALUES 
+(N'Kho chứa 1', 'kho-chua-1'),
+(N'Kho chứa 2', 'kho-chua-2');
+
+INSERT INTO Category (cat_name, cat_slug, stor_id) VALUES 
+(N'Loại hàng 1', 'loai-hang-1', 1),
+(N'Loại hàng 2', 'loai-hang-2', 1),
+(N'Loại hàng 3', 'loai-hang-3', 2),
+(N'Loại hàng 4', 'loai-hang-4', 2);
+
+INSERT INTO Tour (tour_id, tour_average_rating, sale_id, cat_id) VALUES 
+(3, 2, 1, 1),
+(4, 5, 2, 2),
+(5, 4, 1, 3);
+
+INSERT INTO Bill (bill_total_money, bill_total_sale_money, acc_id, payt_id, bill_is_paid, bill_created_date, bill_departure_date) VALUES 
+(150000, 15000, 2,  1, TRUE, '2021-04-01 23:19:20', '2022-04-02 23:19:20'),
+(200000, 20000, 2, 1, FALSE, '2022-06-01 23:19:20', '2022-04-03 23:19:20'),
+(300000, 30000, 3, 2, TRUE, '2020-08-01 23:19:20', '2022-04-04 23:19:20'),
+(400000, 15000, 3, 2, TRUE, '2022-10-01 23:19:20', '2022-04-05 23:19:20'),
+(500000, 4000, 4, 2, TRUE, '2019-1-01 23:19:20', '2022-04-02 23:19:20');
+
+INSERT INTO Transport (tran_name, tran_slug) VALUES 
+(N'Phương tiện thứ 1', 'phuong-tien-thu-1'),
+(N'Phương tiện thứ 2', 'phuong-tien-thu-2');
+
+INSERT INTO Thumbnail (thum_image, tour_id) VALUES
+('https://res.cloudinary.com/ou-project/image/upload/v1650725562/tourThumbnail/default_agwzpr.jpg', 3),
+('https://res.cloudinary.com/ou-project/image/upload/v1650725562/tourThumbnail/default_agwzpr.jpg', 3),
+('https://res.cloudinary.com/ou-project/image/upload/v1650725562/tourThumbnail/default_agwzpr.jpg', 3),
+('https://res.cloudinary.com/ou-project/image/upload/v1650725562/tourThumbnail/default_agwzpr.jpg', 4),
+('https://res.cloudinary.com/ou-project/image/upload/v1650725562/tourThumbnail/default_agwzpr.jpg', 4),
+('https://res.cloudinary.com/ou-project/image/upload/v1650725562/tourThumbnail/default_agwzpr.jpg', 5);
+
+INSERT INTO Feature (fea_name, fea_slug) VALUES 
+(N'Đặc điểm thứ 1', 'dac-diem-thu-1'),
+(N'Đặc điểm thứ 2', 'dac-diem-thu-2');
+
+INSERT INTO DepartureDate (dpt_date, fea_id) VALUES
+('2023-04-02 23:19:20', 1),
+('2023-04-03 23:19:20', 1),
+('2023-04-04 23:19:20', 2),
+('2023-04-05 23:19:20', 2);
+
+INSERT INTO ServingObject (svo_name, svo_slug) VALUES
+(N'Đối tượng phục vụ 1', 'doi-tuong-phuc-vu-1'),
+(N'Đối tượng phục vụ 2', 'doi-tuong-phuc-vu-2');
+
+INSERT INTO Note (note_title, note_slug, note_content) VALUES 
+(N'Tiêu đề ghi chú 1', 'tieu-de-ghi-chu-1', N'Nội dung ghi chú 1'), 
+(N'Tiêu đề ghi chú 2', 'tieu-de-ghi-chu-2', N'Nội dung ghi chú 2'), 
+(N'Tiêu đề ghi chú 3', 'tieu-de-ghi-chu-3', N'Nội dung ghi chú 3');
+
+INSERT INTO Schedule (sche_title, sche_slug, sche_content, tour_id) VALUES
+(N'Tiêu đề lịch trình 1', 'tieu-de-lich-trinh-1', N'Nội dung lịch trình 1', 3),
+(N'Tiêu đề lịch trình 2', 'tieu-de-lich-trinh-2', N'Nội dung lịch trình 2', 3),
+(N'Tiêu đề lịch trình 3', 'tieu-de-lich-trinh-3', N'Nội dung lịch trình 3', 3),
+(N'Tiêu đề lịch trình 4', 'tieu-de-lich-trinh-4', N'Nội dung lịch trình 1', 4),
+(N'Tiêu đề lịch trình 5', 'tieu-de-lich-trinh-5', N'Nội dung lịch trình 2', 4),
+(N'Tiêu đề lịch trình 6', 'tieu-de-lich-trinh-6', N'Nội dung lịch trình 3', 4),
+(N'Tiêu đề lịch trình 7', 'tieu-de-lich-trinh-7', N'Nội dung lịch trình 1', 5),
+(N'Tiêu đề lịch trình 8', 'tieu-de-lich-trinh-8', N'Nội dung lịch trình 2', 5),
+(N'Tiêu đề lịch trình 9', 'tieu-de-lich-trinh-9', N'Nội dung lịch trình 3', 5);
+
+INSERT INTO Service (serv_title, serv_slug, serv_content) VALUES 
+(N'Tiêu đề dịch vụ 1', 'tieu-de-dich-vu-1', 'Nội dung dịch vụ 1'),
+(N'Tiêu đề dịch vụ 2', 'tieu-de-dich-vu-2', 'Nội dung dịch vụ 2');
+
+INSERT INTO PostComment (cmt_content, acc_id, post_id) VALUES 
+(N'Nội dung comment thứ 1', 3, 1),
+(N'Nội dung comment thứ 2', 3, 2),
+(N'Nội dung comment thứ 3', 3, 3),
+(N'Nội dung comment thứ 4', 3, 4),
+(N'Nội dung comment thứ 5', 3, 5),
+(N'Nội dung comment thứ 6', 4, 1),
+(N'Nội dung comment thứ 7', 4, 2),
+(N'Nội dung comment thứ 8', 4, 3),
+(N'Nội dung comment thứ 9', 4, 4),
+(N'Nội dung comment thứ 10', 4, 5);
+
+INSERT INTO NewsLike (news_id, acc_id) VALUES 
+(1,3),
+(2,3),
+(1,4);
+
+INSERT INTO TourRating (tour_id, acc_id, rate_amount) VALUES 
+(3,3,3),
+(4,3,5),
+(3,4, 2),
+(5, 4, 4);
+
+INSERT INTO TourTransport(tour_id, tran_id) VALUES 
+(3, 1),
+(3, 2),
+(4, 1),
+(4, 2),
+(5, 2);
+
+INSERT INTO TourDepartureDate (tour_id, dpt_id, tour_amount, tour_sell_amount) VALUES 
+(3, 1, 10 ,1),
+(3, 2, 5,2),
+(3, 3, 7, 3),
+(3, 4, 4, 1),
+(4, 1, 8, 2),
+(4, 2, 20, 3),
+(4, 3, 15, 1),
+(5, 1, 22, 2),
+(5, 2, 6, 3);
+
+INSERT INTO TourServingObject (tour_id, svo_id, tour_price) VALUES
+(3, 1, 100000),
+(3, 2, 200000),
+(4, 1, 300000),
+(4, 2, 400000),
+(5, 2, 500000);
+
+INSERT INTO BillTourServingObject (bill_id, tsvo_id, tour_amount) VALUES
+(1, 1, 3),
+(1, 2, 2),
+(2, 3, 3),
+(3, 4, 5),
+(3, 5, 2),
+(3, 1, 1),
+(4, 1, 5),
+(4, 2, 1),
+(4, 3, 2),
+(4, 4, 4),
+(5, 5, 6),
+(5, 1, 1);
+
+INSERT INTO TourNote (tour_id, note_id) VALUES 
+(3,1),
+(3,2),
+(3,3),
+(4,1),
+(4,2),
+(5,3);
+
+INSERT INTO TourService (tour_id, serv_id) VALUES 
+(3,1),
+(3,2),
+(4,1),
+(4,2),
+(5,1);
+
+
+
+
